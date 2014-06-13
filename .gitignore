@@ -4,3 +4,14 @@
 */cache/*
 */cache/!index.html
 */cache/!.htaccess
+
+# copied from default codeigniter .gitignore
+.DS_Store
+
+application/cache/*
+!application/cache/index.html
+!application/cache/.htaccess
+
+application/logs/*
+!application/logs/index.html
+!application/logs/.htaccess
