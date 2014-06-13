@@ -182,3 +182,15 @@
 			<div class="btn btn-default btn-xs post-tags">Tags for post</div>
 		</div>
 	</div>
+	<ul class="paginator">
+		<li><a href="#">Back</a></li>
+		<li class="selected"><a href="#">1</a></li>
+		<li><a href="#">2</a></li>
+		<li><a href="#">3</a></li>
+		<li class="pag-space"><a href="#">...</a></li>
+		<li><a href="#">15</a></li>
+		<li><a href="#">Next</a></li>
+	</ul>
+</div>
+<div class="tab-pane fade row" id="articles"></div>
+<div class="tab-pane fade row" id="tracking"></div>

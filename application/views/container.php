@@ -10,8 +10,8 @@
 		});
 	}
 	
-	$(function(){
-		var tab_content;
+// 	$(function(){
+	function ajax_menu2(){
 		$.ajax({
 			url: 'tab_articles',
 			cache: false,
@@ -20,7 +20,15 @@
 			}
 		});
 		
-	});
+		$.ajax({
+			url: 'tab_tracking',
+			cache: false,
+			success: function(html){
+				$('#tracking').html(html);
+			}
+		});
+	}	
+// 	});
 	
 </script>
 
@@ -85,7 +93,7 @@
             </ul>
         </div>
         <div class="col-lg-10 col-md-10 col-sm-9 right-col">
-                <ul id="three-tabs" class="nav nav-tabs">
+                <ul id="three-tabs" class="nav nav-tabs" onclick="ajax_menu2()">
                     <li class="active"><a href="#community" data-toggle="tab">Community</a></li>
                     <li class=""><a href="#articles" data-toggle="tab">Articles</a></li>
                     <li class=""><a href="#tracking" data-toggle="tab">Tracking</a></li>
