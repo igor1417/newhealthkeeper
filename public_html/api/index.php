@@ -3,9 +3,8 @@ define("MOBILE_REQUEST", true);
 require_once('../../engine/starter/config.php');
 require_once ('Mobile_api.php');
 
-$path_string = str_replace('/mobile_api/index.php/', '', $_SERVER['REQUEST_URI']);
+$path_string = str_replace('/api/index.php/', '', $_SERVER['PHP_SELF']);
 $path_array = explode('/', $path_string);
-
 
 if (count($path_array) !== 2) {
     error404();
@@ -15,6 +14,7 @@ if (count($path_array) !== 2) {
     $file_name = $class_name.'.php';
     if (file_exists($file_name)) {
         require_once($file_name);
+	$_POST = $_GET;
         $controller_object = new $class_name();
         if (method_exists($controller_object, $action_name)) {
             $controller_object->$action_name();
@@ -25,7 +25,6 @@ if (count($path_array) !== 2) {
     } else {
         error404();
     }
-    
 }
 
 function error404($error = '') {
