@@ -27,4 +27,17 @@ class postController extends Mobile_api {
     public function getPostComments() {
         $this->answer = $this->_post->getAllPostComments($this->getReqParam('post_id'), $this->getReqParam('timestamp', true, 0));
     }
+    
+    public function addPost() {
+        $title = $this->getReqParam('title', false);
+        $content = $this->getReqParam('content', false);
+
+        $this->answer = $this->_post->addNewNoTopic($content, $title);
+    }
+    
+    public function addComment() {
+        $comment = $this->getReqParam('comment', false);
+        $post_id = $this->getReqParam('post_id');
+        $this->answer = $this->_post->addComment($post_id, $comment);
+    }
 }

@@ -11,12 +11,10 @@ class Post{
 
     }
 
-    private function updateSearchTable($function,$array){
-
+    private function updateSearchTable($function, $array) {
         require_once(ENGINE_PATH.'class/search.class.php');
-        $searchClass=new Search();
+        $searchClass = new Search();
         return $searchClass->{$function}($array);
-
     }
 
     public function goBlackList($id){
@@ -387,29 +385,28 @@ class Post{
 
     }
 
-    public function findNewsTopic($id_post,$title,$description,$forceFollow=false){
-        $string=$this->cleanStringToAutoTag($title." ".$description);
+    public function findNewsTopic($id_post, $title, $description, $forceFollow = false) {
+        $string = $this->cleanStringToAutoTag($title.' '.$description);
 
-        $sql="select * from topic left join topic_syn on id_topic=id_topic_ts where '$string' REGEXP CONCAT('[[:<:]]',name_topic,'[[:>:]]') OR '$string' REGEXP CONCAT('[[:<:]]',name_ts,'[[:>:]]') group by id_topic";
-        $res=$this->config_Class->query($sql,array());
+        $sql = "select * from topic left join topic_syn on id_topic=id_topic_ts where '$string' REGEXP CONCAT('[[:<:]]',name_topic,'[[:>:]]') OR '$string' REGEXP CONCAT('[[:<:]]',name_ts,'[[:>:]]') group by id_topic";
+        $res = $this->config_Class->query($sql,array());
 
-        if($res["result"]){
-            if($forceFollow){
+        if ($res['result']) {
+            if ($forceFollow) {
                 require_once(ENGINE_PATH.'class/topic.class.php');
-                $topicClass=new Topic();
+                $topicClass = new Topic();
             }
-            foreach($res as $key=>$value){
-                if(is_int($key)){
-                    $this->addRelation($id_post,$value["id_topic"]);
-                    if($forceFollow){
-                        $topicClass->follow($value["id_topic"]);
+            foreach ($res as $key => $value) {
+                if (is_int($key)) {
+                    $this->addRelation($id_post,$value['id_topic']);
+                    if ($forceFollow) {
+                        $topicClass->follow($value['id_topic']);
                     }
                 }
             }
         }
 
         return true;
-
     }
 
     public function getPostWithMyVotes($id){
@@ -834,6 +831,14 @@ class Post{
             VALUES (:id_post,:text,:id_profile, now())";
         $res = $this->config_Class->query($sql,array(":id_post"=>$id,":text"=>$text,":id_profile"=>USER_ID));
 
+        $last_insert_comment_id = 0;
+        if (defined('MOBILE_REQUEST') && MOBILE_REQUEST) {
+            $last_insert_array = $this->config_Class->query('select LAST_INSERT_ID() as last_id');
+            if ($last_insert_array['result'] && $last_insert_array[0]['last_id'] > 0) {
+                $last_insert_comment_id = $last_insert_array[0]['last_id'];
+            }
+        }
+
         if(!$res){
             return false;
         }
@@ -863,7 +868,9 @@ class Post{
 
         }
 
-
+        if ($last_insert_comment_id > 0) {
+            return $this->getCommentById($last_insert_comment_id);
+        }
 
         return true;
 
@@ -1128,22 +1135,16 @@ class Post{
 
 
 
-    public function addRelation($id_post,$id_topic){
-
-        $sql="select * from post_relation where id_post_pr=:id_post and id_topic_pr=:id_topic";
-        $res = $this->config_Class->query($sql,array(":id_post"=>$id_post,":id_topic"=>$id_topic));
-
-        if($res["result"]){
-
+    public function addRelation($id_post, $id_topic) {
+        $sql = 'select * from post_relation where id_post_pr=:id_post and id_topic_pr=:id_topic';
+        $res = $this->config_Class->query($sql, array(':id_post'=>$id_post, ':id_topic'=>$id_topic));
+        if ($res['result']) {
             return true;
-
-        }else{
-
-            $sql="insert into post_relation (id_post_pr,id_topic_pr) values (:id_post,:id_topic)";
-            return $this->config_Class->query($sql,array(":id_post"=>$id_post,":id_topic"=>$id_topic));
+        } else {
+            $sql = 'insert into post_relation (id_post_pr,id_topic_pr) values (:id_post,:id_topic)';
+            $res = $this->config_Class->query($sql, array(':id_post'=>$id_post, ':id_topic'=>$id_topic));
+            return $res;
         }
-
-
     }
 
     public function addAbout($id_post,$id_profile){
@@ -1165,53 +1166,48 @@ class Post{
 
     }
 
-    public function addNew($id,$text){
-        $text=$this->config_Class->escapeOddChars($text);
+    public function addNew($id, $text) {
+        $text = $this->config_Class->escapeOddChars($text);
+        $text = $this->config_Class->processPostText($text);
 
-        $text=$this->config_Class->processPostText($text);
+        $sql = 'insert into post (text_post,id_profile_post,date_post) VALUES (:text,:user,now())';
+        $res = $this->config_Class->query($sql,array(':user'=>USER_ID, ':text'=>$text));
 
-        $sql="insert into post (text_post,id_profile_post,date_post) VALUES (:text,:user,now())";
-        $res = $this->config_Class->query($sql,array(":user"=>USER_ID,":text"=>$text));
+        if ($res) {
+            $sql = 'select * from post where id_profile_post=:user order by id_post desc limit 1';
+            $res = $this->config_Class->query($sql, array(':user'=>USER_ID));
 
-        if($res){
-
-            $sql="select * from post where id_profile_post=:user order by id_post desc limit 1";
-            $res = $this->config_Class->query($sql,array(":user"=>USER_ID));
-
-            if($res["result"]){
-               $this->addRelation($res[0]["id_post"],$id);
-               $this->findNewsTopic($res[0]["id_post"],'',$text);
-               $this->updateSearchTable('newPost',$res);
+            if ($res['result']) {
+               $this->addRelation($res[0]['id_post'], $id);
+               $this->findNewsTopic($res[0]['id_post'], '', $text);
+               $this->updateSearchTable('newPost', $res);
                return $res;
-            }else{
+            } else {
                 return false;
             }
-
-
-        }else{
+        } else {
             return false;
         }
-
     }
 
-    public function addNewNoTopic($text){
-        $text=$this->config_Class->escapeOddChars($text);
+    public function addNewNoTopic($text, $title) {
+        $text = $this->config_Class->escapeOddChars($text);
+        $text = $this->config_Class->processPostText($text);
+        $title = $this->config_Class->escapeOddChars($title);
+        $title = $this->config_Class->processPostText($title);
 
-        $text=$this->config_Class->processPostText($text);
+        $sql = 'insert into post (text_post,id_profile_post,date_post,title_post) VALUES (:text,:user,now(),:title)';
+        $res = $this->config_Class->query($sql,array(':user'=>USER_ID, ':text'=>$text, ':title'=>$title));
 
-        $sql="insert into post (text_post,id_profile_post,date_post) VALUES (:text,:user,now())";
-        $res = $this->config_Class->query($sql,array(":user"=>USER_ID,":text"=>$text));
+        if ($res) {
+            $sql = "select * from post where id_profile_post=:user order by id_post desc limit 1";
+            $res = $this->config_Class->query($sql,array(':user'=>USER_ID));
 
-        if($res){
-
-            $sql="select * from post where id_profile_post=:user order by id_post desc limit 1";
-            $res = $this->config_Class->query($sql,array(":user"=>USER_ID));
-
-            if($res["result"]){
-               $this->findNewsTopic($res[0]["id_post"],'',$text, true);
-               $this->updateSearchTable('newPost',$res);
+            if ($res['result']) {
+               $this->findNewsTopic($res[0]['id_post'], '', $text, true);
+               $this->updateSearchTable('newPost', $res);
                return $res;
-            }else{
+            } else {
                 return false;
             }
 
