@@ -26,14 +26,20 @@ class Mobile_api {
         if (is_array($answer)) {
             if (count($answer) == 0) {
                 $answer['result'] = self::RESPONSE_STATUS_ERROR;
-                $answer['error'] = 'This request doesn`t work correct or has development status.';
+                $answer['error'] = 'Invalid request.';
             } else {
                 if (array_key_exists('result', $answer)) {
                     if ($answer['result'] === 0) {
                         $answer['result'] = self::RESPONSE_STATUS_ERROR;
+                        if (!array_key_exists('error', $answer)) {
+                            $answer['error'] = 'There is an error in response to the request or an empty response.';
+                        }
                     } elseif (is_int($answer['result'])) {
                         $answer['result'] = self::RESPONSE_STATUS_SUCCESS;
                     }
+                } else {
+                    $answer['result'] = self::RESPONSE_STATUS_ERROR;
+                    $answer['error'] = 'There is an error in response to the request.';
                 }
             }
         }

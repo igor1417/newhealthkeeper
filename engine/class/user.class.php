@@ -34,50 +34,48 @@ class User{
         return $this->config_Class->query($sql,array(":v"=>$v,":id"=>USER_ID));
     }
 
-    public function requestPassword($id){
+    public function requestPassword($id) {
 
         require_once(ENGINE_PATH.'class/profile.class.php');
-        $profileClass=new Profile();
+        $profileClass = new Profile();
 
-        $resProfile=$profileClass->getByIdComplete($id);
-        if(!$resProfile["result"]){
+        $resProfile = $profileClass->getByIdComplete($id);
+        if (!$resProfile['result']) {
             return false;
         }
-        if($resProfile[0]["forgot_token_user"]!="" && $resProfile[0]["forgot_date_diff"]<600){
-            return "time";
+        if ($resProfile[0]['forgot_token_user'] != '' && $resProfile[0]['forgot_date_diff'] < 600) {
+            return 'time';
         }
 
-        $token=sha1(microtime(true).mt_rand(10000,90000));
-        $sql="update user set forgot_token_user=:token, forgot_date_user=now() where id_user=:id";
-        $res = $this->config_Class->query($sql,array(":token"=>$token,":id"=>$id));
+        $token = sha1(microtime(true).mt_rand(10000, 90000));
+        $sql = 'update user set forgot_token_user=:token, forgot_date_user=now() where id_user=:id';
+        $res = $this->config_Class->query($sql, array(':token'=>$token, ':id'=>$id));
 
-        if($res){
-
-            require_once(ENGINE_PATH."starter/mail.php");
+        if ($res) {
+            require_once(ENGINE_PATH.'starter/mail.php');
 
             $mail->AddReplyTo($fromEmail, $fromEmailName);
 
-            $mail->Subject    = "HealthKeep - New password request";
+            $mail->Subject = 'HealthKeep - New password request';
 
-            //$mail->AltBody    = "To view the message, please use an HTML compatible email viewer!"; // optional, comment out and test
-            $msg="Hello ".$this->config_Class->name($resProfile)."<br /><br />We are sending you this email because a password request was made for your <a href=\"".WEB_URL."\">HealthKeep</a> account.<br ><br />If it was not you that made this request, please ignore this email.<br /><br />If you want to set a new password please visit: ".WEB_URL."pw.php?url=".$resProfile[0]["username_profile"]."&token=".$token."<br /><br />";
+            //$mail->AltBody    = 'To view the message, please use an HTML compatible email viewer!'; // optional, comment out and test
+            $msg = 'Hello '.$this->config_Class->name($resProfile)."<br /><br />We are sending you this email because a password request was made for your <a href=\"".WEB_URL."\">HealthKeep</a> account.<br ><br />If it was not you that made this request, please ignore this email.<br /><br />If you want to set a new password please visit: ".WEB_URL."pw.php?url=".$resProfile[0]["username_profile"]."&token=".$token."<br /><br />";
             $mail->MsgHTML($msg);
 
-            $name=$this->config_Class->name($resProfile);
-            $email=$resProfile[0]["email_user"];
+            $name = $this->config_Class->name($resProfile);
+            $email = $resProfile[0]['email_user'];
 
-            if(!filter_var( $email, FILTER_VALIDATE_EMAIL )){
+            if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
                 return false;
             }
 
             $mail->AddAddress($email, $name);
 
-            if(!$mail->Send()) {
+            if (!$mail->Send()) {
               return false;
             } else {
-              return "ok";
+              return 'ok';
             }
-
         }
     }
 
@@ -269,49 +267,46 @@ class User{
         $res=$this->config_Class->query($sql,array(":id"=>USER_ID));
     }
 
-    public function addNew($username,$email,$password,$gender){
+    public function addNew($username, $email, $password, $gender){
 
-        $res = $this->addCommonStart($email,$password);
+        $res = $this->addCommonStart($email, $password);
 
-        if(!$res["result"]){
+        if (!$res['result']) {
             return $res;
         }
 
         require_once(ENGINE_PATH.'class/profile.class.php');
-        $profileClass=new Profile();
-        $res=$profileClass->addNew($username,$gender);
+        $profileClass = new Profile();
+        $res=$profileClass->addNew($username, $gender);
 
-        if(!$res["result"]){
+        if (!$res['result']) {
             return $res;
         }
 
-        $resEnd=$this->addCommonEnd($res,$email,$password);
+        $resEnd = $this->addCommonEnd($res, $email, $password);
 
         return $resEnd;
-
     }
 
-    public function addNewSocial($social_id, $field_name){
+    public function addNewSocial($social_id, $field_name, $gender) {
 
         require_once(ENGINE_PATH.'class/profile.class.php');
         $profileClass=new Profile();
-                $username = $social_id;
-                $gender = 'm';
-        $resProfile = $profileClass->addNew($username,$gender);
+        $username = $social_id;
+        $resProfile = $profileClass->addNew($username, $gender);
 
-        if(!$resProfile["result"]){
+        if (!$resProfile['result']) {
             return $resProfile;
         }
-        $sql="INSERT INTO `user`
+        $sql = "INSERT INTO `user`
             (`id_user`, `".$field_name."`, `email_user`, last_login_user)
             VALUES (:id, :social_id, :email, now())";
-        $res = $this->config_Class->query($sql,array(":id"=>$resProfile[0]["id_profile"], ":social_id"=>$social_id, "email" => $social_id));
-        if(!$res){
-            return array("result"=>false,"error"=>"Something really odd happened. Please try again or contact us!");
-                } 
+        $res = $this->config_Class->query($sql,array(':id'=>$resProfile[0]['id_profile'], ':social_id'=>$social_id, 'email'=>$social_id));
+        if (!$res) {
+            return array('result' => false, 'error' => 'Something really odd happened. Please try again or contact us!');
+        }
 
-                return array("result" => true, "user_id" => $resProfile[0]["id_profile"], "new" => true);
-
+        return array('result'=>true, 'user_id'=>$resProfile[0]['id_profile']);
     }
 
     public function addNewDoc($name,$email,$password,$phone,$npi){
@@ -377,35 +372,35 @@ class User{
 
     }
 
-    public function doLogin($email,$password){
+    public function doLogin($email, $password) {
 
-        if(!filter_var( $email, FILTER_VALIDATE_EMAIL )){
-            return array("result"=>false,"error"=>"email");
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            return array('result'=>false, 'error'=>'Parameter email is not valid.');
         }
 
-        if(strlen($password)<5){
-            return array("result"=>false,"error"=>"password");
+        if (strlen($password) < 5) {
+            return array('result'=>false, 'error'=>'Parameter password is not valid.');
         }
 
-        $res=$this->getByEmail($email);
+        $res = $this->getByEmail($email);
 
-        if(!$res["result"]){
-            return array("result"=>false,"error"=>"email");
+        if (!$res['result']) {
+            return array('result'=>false, 'error'=>'There is no such email.');
         }
 
-        $password=$this->doPassword($password);
+        $password = $this->doPassword($password);
 
-        $sql="select * from user where email_user=:email and password_user=:password limit 1";
-        $res=$this->config_Class->query($sql,array(":email"=>$email,":password"=>$password));
+        $sql = 'select * from user where email_user=:email and password_user=:password limit 1';
+        $res = $this->config_Class->query($sql, array(':email'=>$email, ':password'=>$password));
 
-        if(!$res["result"]){
-            return array("result"=>false,"error"=>"password");
+        if (!$res['result']) {
+            return array('result'=>false, 'error'=>'The password is wrong.');
         }
 
-        $this->realDoLogin($res[0]["id_user"]);
-        $this->userLogAndRemember($res[0]["id_user"]);
+        $this->realDoLogin($res[0]['id_user']);
+        $this->userLogAndRemember($res[0]['id_user']);
 
-        return array("result"=>true, "user_id"=>$res[0]["id_user"]);
+        return array('result'=>true, 'user_id'=>$res[0]['id_user']);
     }
 
     private function realDoLogin($id){

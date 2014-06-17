@@ -21,7 +21,7 @@ class userController extends Mobile_api {
     }
 
     public function registration() {
-        $ar_email = explode('@', $this->getReqParam('email'));
+        $ar_email = explode('@', $this->getReqParam('email', false));
         $username = $ar_email[0];
         $gender = 'm';
         $this->answer = $this->_user->addNew($username, $this->getReqParam('email', false), $this->getReqParam('password', false), $gender);
@@ -34,9 +34,13 @@ class userController extends Mobile_api {
     public function socialAuth() {
         $social_id = $this->getReqParam('social_id');
         $social_type = $this->getReqParam('social_type');
-        if (strlen($social_id) < 10 || !$this->validateSocialType($social_type)) {
+        $gender = 'm';
+        if (strlen($social_id) < 10) {
             $this->answer['result'] = Mobile_api::RESPONSE_STATUS_ERROR;
-            $this->answer['error'] = 'Wrong parameter values.';
+            $this->answer['error'] = 'Wrong social_id parameter value.';
+        } elseif (!$this->validateSocialType($social_type)) {
+            $this->answer['result'] = Mobile_api::RESPONSE_STATUS_ERROR;
+            $this->answer['error'] = 'Wrong social_type parameter value.';
         } else {
             $field_name = $this->_social_types[$social_type];
             $sql = 'select * from user where '.$field_name.'=:social_id limit 1';
@@ -46,7 +50,7 @@ class userController extends Mobile_api {
                 $this->answer['user_id'] = $res[0]['id_user'];
                 $this->answer['new'] = false;
             } else {
-                $this->answer = $this->_user->addNewSocial($social_id,$field_name);
+                $this->answer = $this->_user->addNewSocial($social_id, $field_name, $gender);
             }
          }
     }
@@ -66,10 +70,10 @@ class userController extends Mobile_api {
             $this->answer['result'] = Mobile_api::RESPONSE_STATUS_SUCCESS;
         } elseif ($result == 'time') {
             $this->answer['result'] = Mobile_api::RESPONSE_STATUS_ERROR;
-            $this->answer['error'] = 'try 10 minutes later';
+            $this->answer['error'] = 'Try 10 minutes later, please.';
         } else {
             $this->answer['result'] = Mobile_api::RESPONSE_STATUS_ERROR;
-            $this->answer['error'] = $result;
+            $this->answer['error'] = 'Error password recovery.';
         }
     }
 }
