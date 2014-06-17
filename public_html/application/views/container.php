@@ -132,7 +132,7 @@
                         <div class="post-content">
                             <div class="col-md-3 flex-vertical">
                                 <div class="col-40">
-                                    <img src="img/<?php echo !empty($item['image_profile']) ? $item['image_profile'] : 'ava1.jpg'; ?>" class="img-rounded avatar center-block">
+                                    <img src="img/profile/tb/<?php echo !empty($item['image_profile']) ? $item['image_profile'] : 'ava1.jpg'; ?>" class="img-rounded avatar center-block">
                                     <div class="info-placeholder">
                                         <div class="like">
                                             <span><?php echo $item['social_rank_post']; ?></span>
