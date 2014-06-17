@@ -1,8 +1,7 @@
 .idea/
 
 engine/starter/local.php
-engine/logs/log.txt
-engine/logs/log_go404.txt
+engine/logs/
 public_html/.htaccess
 public_html/img/
 engine/starter/analyticstracking.php
