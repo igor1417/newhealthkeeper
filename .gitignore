@@ -4,6 +4,7 @@ engine/starter/local.php
 engine/logs/log.txt
 engine/logs/log_go404.txt
 public_html/.htaccess
+public_html/img/
 engine/starter/analyticstracking.php
 engine/uploads/
 engine/starter/mixpaneltracking.php
