@@ -11,6 +11,10 @@ class userController extends Mobile_api {
       , 2 => 'twitter_id'
       , 3 => 'google_id'
     );
+    protected $_gender = array(
+        1 => 'm'
+      , 2 => 'f'
+    );
     private $_user;
     
     public function __construct($request = array()) {
@@ -23,7 +27,8 @@ class userController extends Mobile_api {
     public function registration() {
         $ar_email = explode('@', $this->getReqParam('email', false));
         $username = $ar_email[0];
-        $gender = 'm';
+        $gender = $this->getReqParam('gender', false);
+        $gender = $this->rangeValidator($gender, 'gender');
         $this->answer = $this->_user->addNew($username, $this->getReqParam('email', false), $this->getReqParam('password', false), $gender);
     }
     
@@ -32,9 +37,10 @@ class userController extends Mobile_api {
     }
     
     public function socialAuth() {
-        $social_id = $this->getReqParam('social_id');
+        $social_id = $this->getReqParam('social_id', false);
         $social_type = $this->getReqParam('social_type');
-        $gender = 'm';
+        $gender = $this->getReqParam('gender', false);
+        $gender = $this->rangeValidator($gender, 'gender');
         if (strlen($social_id) < 10) {
             $this->answer['result'] = Mobile_api::RESPONSE_STATUS_ERROR;
             $this->answer['error'] = 'Wrong social_id parameter value.';
