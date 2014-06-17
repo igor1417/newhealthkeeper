@@ -16,15 +16,15 @@ if (count($path_array) !== 2) {
         require_once($file_name);
         switch($_SERVER['REQUEST_METHOD']) {
             case 'GET':
-                $_POST = $_GET;
+                $the_request = $_GET;
             break;
             case 'POST':
-                $_POST = $_POST;
+                $the_request = $_POST;
             break;
             default:
-                $_POST = array();
+                $the_request = array();
         }
-        $controller_object = new $class_name();
+        $controller_object = new $class_name($the_request);
         if (method_exists($controller_object, $action_name)) {
             $controller_object->$action_name();
             $controller_object->jsonOut();

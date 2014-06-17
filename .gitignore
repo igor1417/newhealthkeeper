@@ -1,3 +1,5 @@
+.idea/
+
 engine/starter/local.php
 engine/logs/log.txt
 engine/logs/log_go404.txt

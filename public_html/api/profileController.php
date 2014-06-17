@@ -4,22 +4,19 @@
  *
  * @author Игорь
  */
-class profileController extends Mobile_api{
+class profileController extends Mobile_api {
+
+    private $_profile;
     
-    private $profile_Class;
-    
-    public function __construct() {
-        parent::__construct();
-        $this->checkUserID();
+    public function __construct($request = array()) {
+        parent::__construct($request);
+        $this->getReqParam('user_id');
         
-        require_once(ENGINE_PATH."class/profile.class.php");
-        $this->profile_Class = new Profile();
+        require_once(ENGINE_PATH.'class/profile.class.php');
+        $this->_profile = new Profile();
     }
     
     public function getProfile() {
-        $this->answer = $this->profile_Class->getById($this->user_id);
+        $this->answer = $this->_profile->getById($this->getReqParam('user_id'));
     }
-    
-    
-
 }

@@ -4,49 +4,49 @@
  *
  * @author Игорь
  */
-class userController extends Mobile_api{
+class userController extends Mobile_api {
     
-    private $_social_types = array(1 => 'facebook_id', 2 => 'twitter_id', 3 => 'google_id');
-    private $user_Class;
+    private $_social_types = array(
+        1 => 'facebook_id'
+      , 2 => 'twitter_id'
+      , 3 => 'google_id'
+    );
+    private $_user;
     
-    public function __construct() {
-        parent::__construct();
+    public function __construct($request = array()) {
+        parent::__construct($request);
         
-        require_once(ENGINE_PATH."class/user.class.php");
-        $this->user_Class = new User();
+        require_once(ENGINE_PATH.'class/user.class.php');
+        $this->_user = new User();
     }
 
     public function registration() {
-        $email = trim($_POST['email']);
-        $password = $_POST['password'];
-        $ar_email = explode('@',$email);
+        $ar_email = explode('@', $this->getReqParam('email'));
         $username = $ar_email[0];
         $gender = 'm';
-        $this->answer = $this->user_Class->addNew($username,$email,$password,$gender);
+        $this->answer = $this->_user->addNew($username, $this->getReqParam('email', false), $this->getReqParam('password', false), $gender);
     }
     
     public function login() {
-        $email = trim($_POST['email']);
-        $password = $_POST['password'];
-        $this->answer = $this->user_Class->doLogin($email,$password);
+        $this->answer = $this->_user->doLogin($this->getReqParam('email', false), $this->getReqParam('password', false));
     }
     
     public function socialAuth() {
-        $social_id = trim($_POST['social_id']);
-        $social_type = (int)$_POST['social_type'];
+        $social_id = $this->getReqParam('social_id');
+        $social_type = $this->getReqParam('social_type');
         if (strlen($social_id) < 10 || !$this->validateSocialType($social_type)) {
             $this->answer['result'] = Mobile_api::RESPONSE_STATUS_ERROR;
             $this->answer['error'] = 'Wrong parameter values.';
         } else {
             $field_name = $this->_social_types[$social_type];
-            $sql = "select * from user where ".$field_name."=:social_id limit 1";
-            $res = $this->config_Class->query($sql, array(":social_id" => $social_id));
+            $sql = 'select * from user where '.$field_name.'=:social_id limit 1';
+            $res = $this->config->query($sql, array(':social_id' => $social_id));
             if ($res['result']) {
                 $this->answer['result'] = Mobile_api::RESPONSE_STATUS_SUCCESS;
                 $this->answer['user_id'] = $res[0]['id_user'];
                 $this->answer['new'] = false;
             } else {
-                $this->answer = $this->user_Class->addNewSocial($social_id,$field_name);
+                $this->answer = $this->_user->addNewSocial($social_id,$field_name);
             }
          }
     }
@@ -61,7 +61,7 @@ class userController extends Mobile_api{
     }
     
     public function forgotPassword() {
-        $result = $this->user_Class->requestPassword($this->user_id);
+        $result = $this->_user->requestPassword($this->getReqParam('user_id'));
         if ($result == 'ok') {
             $this->answer['result'] = Mobile_api::RESPONSE_STATUS_SUCCESS;
         } elseif ($result == 'time') {
@@ -72,5 +72,4 @@ class userController extends Mobile_api{
             $this->answer['error'] = $result;
         }
     }
-    
 }
