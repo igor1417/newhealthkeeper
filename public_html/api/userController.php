@@ -65,15 +65,22 @@ class userController extends Mobile_api {
     }
     
     public function forgotPassword() {
-        $result = $this->_user->requestPassword($this->getReqParam('user_id'));
-        if ($result == 'ok') {
-            $this->answer['result'] = Mobile_api::RESPONSE_STATUS_SUCCESS;
-        } elseif ($result == 'time') {
-            $this->answer['result'] = Mobile_api::RESPONSE_STATUS_ERROR;
-            $this->answer['error'] = 'Try 10 minutes later, please.';
+        $user_result = $this->_user->getByEmail($this->getReqParam('email', false));
+        if ($user_result['result']) {
+            $result = $this->_user->requestPassword($user_result[0]['id_user']);
+            if ($result == 'ok') {
+                $this->answer['result'] = Mobile_api::RESPONSE_STATUS_SUCCESS;
+            } elseif ($result == 'time') {
+                $this->answer['result'] = Mobile_api::RESPONSE_STATUS_ERROR;
+                $this->answer['error'] = 'Try 10 minutes later, please.';
+            } else {
+                $this->answer['result'] = Mobile_api::RESPONSE_STATUS_ERROR;
+                $this->answer['error'] = 'Error password recovery.';
+            }
         } else {
             $this->answer['result'] = Mobile_api::RESPONSE_STATUS_ERROR;
-            $this->answer['error'] = 'Error password recovery.';
+            $this->answer['error'] = 'User with this email doesn`t exist.';
         }
+         
     }
 }
