@@ -14,7 +14,16 @@ if (count($path_array) !== 2) {
     $file_name = $class_name.'.php';
     if (file_exists($file_name)) {
         require_once($file_name);
-	$_POST = $_GET;
+        switch($_SERVER['REQUEST_METHOD']) {
+            case 'GET':
+                $_POST = $_GET;
+            break;
+            case 'POST':
+                $_POST = $_POST;
+            break;
+            default:
+                $_POST = array();
+        }
         $controller_object = new $class_name();
         if (method_exists($controller_object, $action_name)) {
             $controller_object->$action_name();
