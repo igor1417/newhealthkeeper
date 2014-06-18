@@ -2,9 +2,8 @@
 
 class My_profile extends CI_Controller {
 
-	public function index()
-	{
-		$this->load->view('my_profile');
-	}
-	
+    public function index() {
+        $this->load->view('my_profile');
+    }
+
 }

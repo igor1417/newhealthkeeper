@@ -2,9 +2,8 @@
 
 class My_doctors extends CI_Controller {
 
-	public function index()
-	{
-		$this->load->view('my_doctors');
-	}
-	
+    public function index() {
+        $this->load->view('my_doctors');
+    }
+
 }

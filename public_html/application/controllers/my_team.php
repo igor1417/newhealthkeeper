@@ -2,9 +2,8 @@
 
 class My_team extends CI_Controller {
 
-	public function index()
-	{
-		$this->load->view('my_team');
-	}
-	
+    public function index() {
+        $this->load->view('my_team');
+    }
+
 }

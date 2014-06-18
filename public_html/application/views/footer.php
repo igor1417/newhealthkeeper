@@ -1,6 +1,6 @@
 
-		<footer><span>© 2014 HealthKeep. All rights reserved.</span></footer>
+        <footer><span>© 2014 HealthKeep. All rights reserved.</span></footer>
 
-	</body>
+    </body>
 
 </html>

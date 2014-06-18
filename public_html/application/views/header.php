@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="utf-8">
-	
+    <meta charset="utf-8">
+
     <title>Healthkeep - Main</title>
     <meta name="viewport" content="initial-scale = 1, user-scalable = no">
     <link rel="stylesheet" href="resourses/css/bootstrap.css">
@@ -10,7 +10,7 @@
     <script src="resourses/js/jquery-2.1.0.js"></script>
     <script src="resourses/js/bootstrap.js"></script>
     <script src="resourses/js/hk-main.js"></script>
-    
+
 </head>
 <body>
 

@@ -2,9 +2,8 @@
 
 class My_diary extends CI_Controller {
 
-	public function index()
-	{
-		$this->load->view('my_diary');
-	}
-	
+    public function index() {
+        $this->load->view('my_diary');
+    }
+
 }

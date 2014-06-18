@@ -2,9 +2,8 @@
 
 class Tab_tracking extends CI_Controller {
 
-	public function index()
-	{
-		$this->load->view('tab_tracking');
-	}
-	
+    public function index() {
+        $this->load->view('tab_tracking');
+    }
+
 }
