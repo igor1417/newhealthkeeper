@@ -32,14 +32,15 @@ class postController extends Mobile_api {
     public function addPost() {
         $title = $this->getReqParam('title', false);
         $content = $this->getReqParam('content', false);
+        $image = $this->checkImage('image', true);
 
-        $this->answer = $this->_post->addNewNoTopic($content, $title);
+        $this->answer = $this->_post->addNewNoTopic($content, $title, $image);
     }
     
     public function addComment() {
         $comment = $this->getReqParam('comment', false);
         $post_id = $this->getReqParam('post_id');
-        $this->answer = $this->_post->addComment($post_id, $comment);
+        $this->answer = $this->_post->addComment($post_id, $comment, 'image');
     }
     
     public function postLike() {

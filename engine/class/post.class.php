@@ -819,7 +819,7 @@ class Post{
         return $this->config_Class->query($sql,array(":id"=>$id));
     }
 
-    public function addComment($id,$text){
+    public function addComment($id, $text, $img = ""){
         $text=$this->config_Class->escapeOddChars($text);
         $text=$this->config_Class->processPostText($text);
 
@@ -833,16 +833,20 @@ class Post{
             VALUES (:id_post,:text,:id_profile, now())";
         $res = $this->config_Class->query($sql,array(":id_post"=>$id,":text"=>$text,":id_profile"=>USER_ID));
 
-        $last_insert_comment_id = 0;
-        if (defined('MOBILE_REQUEST') && MOBILE_REQUEST) {
-            $last_insert_array = $this->config_Class->query('select LAST_INSERT_ID() as last_id');
-            if ($last_insert_array['result'] && $last_insert_array[0]['last_id'] > 0) {
-                $last_insert_comment_id = $last_insert_array[0]['last_id'];
-            }
-        }
+        $last_insert_comment_id = $this->getLastInsertID();
 
         if(!$res){
             return false;
+        }
+        if($img!="" && isset($_FILES[$img])){
+            $imgPath=PUBLIC_HTML_PATH."img/post/";
+            $image=$this->config_Class->uploadImage($img, $imgPath);
+            if($image["image"]!=""){
+                $image=$image["image"];
+            }else{
+                $image="";
+            }
+            $this->config_Class->query("update post_comment set image_pc='$image' where id_pc=$last_insert_comment_id");
         }
 
         $resUpdate=$this->updateCommentCount($id);
@@ -870,7 +874,7 @@ class Post{
 
         }
 
-        if ($last_insert_comment_id > 0) {
+        if (defined('MOBILE_REQUEST') && MOBILE_REQUEST) {
             return $this->getCommentById($last_insert_comment_id);
         }
 
@@ -1131,9 +1135,17 @@ class Post{
         } 
         return $subquery;
     }
+    
+    private function getLastInsertID() {
+        $last_insert_array = $this->config_Class->query('select LAST_INSERT_ID() as last_id');
+        if ($last_insert_array['result'] && $last_insert_array[0]['last_id'] > 0) {
+            return $last_insert_array[0]['last_id'];
+        } else {
+            return 0;
+        }
+    }
 
-
-
+    
     public function addRelation($id_post, $id_topic) {
         $sql = 'select * from post_relation where id_post_pr=:id_post and id_topic_pr=:id_topic';
         $res = $this->config_Class->query($sql, array(':id_post'=>$id_post, ':id_topic'=>$id_topic));
@@ -1189,7 +1201,7 @@ class Post{
         }
     }
 
-    public function addNewNoTopic($text, $title) {
+    public function addNewNoTopic($text, $title, $img = "") {
         $text = $this->config_Class->escapeOddChars($text);
         $text = $this->config_Class->processPostText($text);
         $title = $this->config_Class->escapeOddChars($title);
@@ -1197,8 +1209,18 @@ class Post{
 
         $sql = 'insert into post (text_post,id_profile_post,date_post,title_post) VALUES (:text,:user,now(),:title)';
         $res = $this->config_Class->query($sql,array(':user'=>USER_ID, ':text'=>$text, ':title'=>$title));
-
+        
         if ($res) {
+            if($img!="" && isset($_FILES[$img])){
+                $imgPath=PUBLIC_HTML_PATH."img/post/";
+                $image=$this->config_Class->uploadImage($img, $imgPath);
+                if($image["image"]!=""){
+                    $image=$image["image"];
+                }else{
+                    $image="";
+                }
+                $this->saveImage($image,$this->getLastInsertID());
+            }
             $sql = "select * from post where id_profile_post=:user order by id_post desc limit 1";
             $res = $this->config_Class->query($sql,array(':user'=>USER_ID));
 
@@ -1209,8 +1231,6 @@ class Post{
             } else {
                 return false;
             }
-
-
         }else{
             return false;
         }

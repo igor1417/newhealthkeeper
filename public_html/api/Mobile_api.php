@@ -84,4 +84,14 @@ class Mobile_api {
         $this->answer['error'] = 'Parameter '.$parameter_name.' should be in range ('.implode(', ', $range_array).')';
         $this->jsonOut();
     }
+    
+    protected function checkImage($param_name) {
+        if (!array_key_exists($param_name, $_FILES)) {
+            $this->answer['result'] = Mobile_api::RESPONSE_STATUS_ERROR;
+            $this->answer['error'] = 'Mobile_api::RESPONSE_STATUS_ERROR';
+            $this->jsonOut();
+        } else {
+            return $param_name;
+        }
+    }
 }
