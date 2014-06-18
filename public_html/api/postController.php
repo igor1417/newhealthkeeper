@@ -7,6 +7,7 @@
 class postController extends Mobile_api {
 
     private $_post;
+    private $_default_vote = 1; //Add one point to total amount post points.
 
     public function __construct($request = array()) {
         parent::__construct($request);
@@ -39,5 +40,25 @@ class postController extends Mobile_api {
         $comment = $this->getReqParam('comment', false);
         $post_id = $this->getReqParam('post_id');
         $this->answer = $this->_post->addComment($post_id, $comment);
+    }
+    
+    public function postLike() {
+        $answer = $this->_post->addVote($this->getReqParam('post_id'), $this->_default_vote);
+        $this->afterLike($answer);
+    }
+    
+    public function commentLike() {
+        $answer = $this->_post->addCommentVote($this->getReqParam('comment_id'), $this->_default_vote);
+        $this->afterLike($answer);
+    }
+    
+    private function afterLike($answer) {
+        if ($answer === true) {
+            $this->answer['result'] = Mobile_api::RESPONSE_STATUS_SUCCESS;
+            $this->answer['liked'] = Mobile_api::RESPONSE_STATUS_SUCCESS;
+        } elseif ($answer === false) {
+            $this->answer['result'] = Mobile_api::RESPONSE_STATUS_SUCCESS;
+            $this->answer['liked'] = Mobile_api::RESPONSE_STATUS_ERROR;
+        }
     }
 }
