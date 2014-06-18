@@ -1,9 +1,11 @@
 <?php
 class Post{
 
+    const DATE_TIME_FORMAT = 'Y-m-d H:i:s';
+    
     private $config_Class;
 
-        private $limit = 10;
+    private $limit = 10;
 
     function __construct()
     {
@@ -1102,19 +1104,15 @@ class Post{
     }
 
     public function getPostById($id){
-
         $sql="select * from post as p, profile as pro
         where id_post=:id and pro.id_profile=p.id_profile_post group by p.id_post limit 1";
         return $this->config_Class->query($sql,array(":id"=>$id));
-
     }
 
     public function getAllPosts($timestamp, $user_id = 0){
-
         $sql="select * from post as p, profile as pro
         where pro.id_profile=p.id_profile_post ".$this->userSQL($user_id).$this->timePostSQL($timestamp, 'date_post')." order by date_post desc limit ".$this->limit;
         return $this->config_Class->query($sql);
-
     }
 
     private function userSQL($user_id) {
@@ -1127,8 +1125,9 @@ class Post{
 
     private function timePostSQL($timestamp, $field_name) {
         $subquery = "";
-        if (strlen(trim($timestamp)) > 5){
-            $subquery = " AND $field_name < $timestamp";
+        if ($timestamp > 0){
+            $date = date(self::DATE_TIME_FORMAT, $timestamp);
+            $subquery = " AND $field_name < '$date'";
         } 
         return $subquery;
     }

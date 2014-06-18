@@ -7,7 +7,7 @@
 class postController extends Mobile_api {
 
     private $_post;
-    private $_default_vote = 1; //Add one point to total amount post points.
+    private $_default_vote = 1; //Add one point to total amount post or comment points.
 
     public function __construct($request = array()) {
         parent::__construct($request);
