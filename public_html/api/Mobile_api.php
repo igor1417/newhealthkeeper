@@ -74,14 +74,14 @@ class Mobile_api {
         $this->jsonOut();
     }
     
-    protected function rangeValidator($value, $parametr_name) {
-        $_model_property = '_'.$parametr_name;
+    protected function rangeValidator($value, $parameter_name) {
+        $_model_property = '_'.$parameter_name;
         $range_array = $this->$_model_property;
         if (in_array($value, $range_array)) {
             return $value;
         }
         $this->answer['result'] = Mobile_api::RESPONSE_STATUS_ERROR;
-        $this->answer['error'] = 'Parameter '.$parametr_name.' should be in range ('.implode(', ', $range_array).')';
+        $this->answer['error'] = 'Parameter '.$parameter_name.' should be in range ('.implode(', ', $range_array).')';
         $this->jsonOut();
     }
 }
