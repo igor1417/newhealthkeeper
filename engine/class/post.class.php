@@ -652,8 +652,8 @@ class Post{
 
     }
 
-    public function getAllPostComments($id, $timestamp){
-        $sql="select * from  profile as p, post_comment as pc
+    public function getAllPostComments($id, $timestamp){ 
+        $sql="select p.*, pc.*, IFNULL(pct.vote_pct, 0) as already_voted from  profile as p, post_comment as pc
         left join post_comment_thumb as pct on pc.id_pc=pct.id_pc_pct and pct.id_profile_pct='".USER_ID."'
         where pc.id_post_pc=:id and pc.id_profile_pc=p.id_profile ".$this->timePostSQL($timestamp, 'pc.date_pc')." order by pc.date_pc asc limit ".$this->limit;
         return $this->config_Class->query($sql,array(":id"=>$id));
@@ -1114,7 +1114,9 @@ class Post{
     }
 
     public function getAllPosts($timestamp, $user_id = 0){
-        $sql="select * from post as p, profile as pro
+        $sql="select p.*, pro.*, IFNULL(pt.vote_pt, 0) as already_voted
+        from post as p inner join profile as pro
+        left join post_thumb as pt on pt.id_profile_pt=".USER_ID." and pt.id_post_pt=p.id_post  
         where pro.id_profile=p.id_profile_post ".$this->userSQL($user_id).$this->timePostSQL($timestamp, 'date_post')." order by date_post desc limit ".$this->limit;
         return $this->config_Class->query($sql);
     }
