@@ -30,9 +30,10 @@ class Mobile_api {
             } else {
                 if (array_key_exists('result', $answer)) {
                     if ($answer['result'] === 0) {
-                        $answer['result'] = self::RESPONSE_STATUS_ERROR;
-                        if (!array_key_exists('error', $answer)) {
-                            $answer['error'] = 'There is an error in response to the request or an empty response.';
+                        if (array_key_exists('error', $answer)) {
+                            $answer['result'] = self::RESPONSE_STATUS_ERROR;
+                        } else {
+                            $answer['result'] = self::RESPONSE_STATUS_SUCCESS;
                         }
                     } elseif (is_int($answer['result'])) {
                         $answer['result'] = self::RESPONSE_STATUS_SUCCESS;
