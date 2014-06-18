@@ -2,9 +2,8 @@
 
 class Tab_articles extends CI_Controller {
 
-	public function index()
-	{
-		$this->load->view('tab_articles');
-	}
-	
+    public function index() {
+        $this->load->view('tab_articles');
+    }
+
 }

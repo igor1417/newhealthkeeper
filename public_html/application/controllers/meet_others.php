@@ -2,9 +2,8 @@
 
 class Meet_others extends CI_Controller {
 
-	public function index()
-	{
-		$this->load->view('meet_others');
-	}
-	
+    public function index() {
+        $this->load->view('meet_others');
+    }
+
 }
