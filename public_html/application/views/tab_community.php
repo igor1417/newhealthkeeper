@@ -1,193 +1,34 @@
-
-                        <div class="post-content">
-                            <div class="col-md-3 flex-vertical">
-                                <div class="col-40">
-                                    <img src="resourses/img/ava1.jpg" class="img-rounded avatar center-block">
-                                    <div class="info-placeholder">
-                                        <div class="like">
-                                            <span>3</span>
-                                        </div>
-                                        <span class="like-text">Like</span>
-                                    </div>
-                                </div>
-                                <div class="col-60">
-                                    <h2>Hispers</h2>
-                                    <p>12 hours ago</p>
-                                    <div class="info-placeholder">
-                                        <div class="comment">
-                                            <span>3</span>
-                                        </div>
-                                        <span class="comment-text">45 min ago</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-9 post-pre-text">
-                                <div class="left-shadow hidden-sm hidden-xs"></div>
-                                <h1>Excepteur sint occaecat cupidatat non proident</h1>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmodtem por incididunt ut labore et dolore magna aliqua. Ut enim admin...</p>
-                                <div class="btn btn-default btn-xs post-tags">Tags for post</div>
-                                <div class="btn btn-default btn-xs post-tags">Tags for post</div>
-                            </div>
-                        </div>
-                        <div class="post-content">
-                            <div class="col-md-3 flex-vertical">
-                                <div class="col-40">
-                                    <img src="resourses/img/ava2.jpg" class="img-rounded avatar center-block">
-                                    <div class="info-placeholder">
-                                        <div class="like">
-                                            <span>45</span>
-                                        </div>
-                                        <span class="like-text">Like</span>
-                                    </div>
-                                </div>
-                                <div class="col-60">
-                                    <h2>Yukonwhisp</h2>
-                                    <p>22 hours ago</p>
-                                    <div class="info-placeholder">
-                                        <div class="comment">
-                                            <span>13</span>
-                                        </div>
-                                        <span class="comment-text">45 min ago</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-9 post-pre-text">
-                                <div class="left-shadow hidden-sm hidden-xs"></div>
-                                <h1>Lorem ipsum dolor sit amet, consectetur</h1>
-                                <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officidese runt mollit anim id est laborum. Excepteur sint occaecat...</p>
-                                <div class="btn btn-default btn-xs post-tags">Tags for post</div>
-                                <div class="btn btn-default btn-xs post-tags">Tags for post</div>
-                                <div class="btn btn-default btn-xs post-tags">Tags for post</div>
-                            </div>
-                        </div>
-                        <div class="post-content">
-                            <div class="col-md-3 flex-vertical">
-                                <div class="col-40">
-                                    <img src="resourses/img/ava1.jpg" class="img-rounded avatar center-block">
-                                    <div class="info-placeholder">
-                                        <div class="like">
-                                            <span>3</span>
-                                        </div>
-                                        <span class="like-text">Like</span>
-                                    </div>
-                                </div>
-                                <div class="col-60">
-                                    <h2>Hispers</h2>
-                                    <p>12 hours ago</p>
-                                    <div class="info-placeholder">
-                                        <div class="comment">
-                                            <span>3</span>
-                                        </div>
-                                        <span class="comment-text">45 min ago</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-9 post-pre-text">
-                                <div class="left-shadow hidden-sm hidden-xs"></div>
-                                <h1>Excepteur sint occaecat cupidatat non proident</h1>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmodtem por incididunt ut labore et dolore magna aliqua. Ut enim admin...</p>
-                                <div class="btn btn-default btn-xs post-tags">Tags for post</div>
-                                <div class="btn btn-default btn-xs post-tags">Tags for post</div>
-                            </div>
-                        </div>
-                        <div class="post-content">
-                            <div class="col-md-3 flex-vertical">
-                                <div class="col-40">
-                                    <img src="resourses/img/ava2.jpg" class="img-rounded avatar center-block">
-                                    <div class="info-placeholder">
-                                        <div class="like">
-                                            <span>45</span>
-                                        </div>
-                                        <span class="like-text">Like</span>
-                                    </div>
-                                </div>
-                                <div class="col-60">
-                                    <h2>Yukonwhisp</h2>
-                                    <p>22 hours ago</p>
-                                    <div class="info-placeholder">
-                                        <div class="comment">
-                                            <span>13</span>
-                                        </div>
-                                        <span class="comment-text">45 min ago</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-9 post-pre-text">
-                                <div class="left-shadow hidden-sm hidden-xs"></div>
-                                <h1>Lorem ipsum dolor sit amet, consectetur</h1>
-                                <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officidese runt mollit anim id est laborum. Excepteur sint occaecat...</p>
-                                <div class="btn btn-default btn-xs post-tags">Tags for post</div>
-                                <div class="btn btn-default btn-xs post-tags">Tags for post</div>
-                                <div class="btn btn-default btn-xs post-tags">Tags for post</div>
-                            </div>
-                        </div>
-                        <div class="post-content">
-                            <div class="col-md-3 flex-vertical">
-                                <div class="col-40">
-                                    <img src="resourses/img/ava1.jpg" class="img-rounded avatar center-block">
-                                    <div class="info-placeholder">
-                                        <div class="like">
-                                            <span>3</span>
-                                        </div>
-                                        <span class="like-text">Like</span>
-                                    </div>
-                                </div>
-                                <div class="col-60">
-                                    <h2>Hispers</h2>
-                                    <p>12 hours ago</p>
-                                    <div class="info-placeholder">
-                                        <div class="comment">
-                                            <span>3</span>
-                                        </div>
-                                        <span class="comment-text">45 min ago</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-9 post-pre-text">
-                                <div class="left-shadow hidden-sm hidden-xs"></div>
-                                <h1>Excepteur sint occaecat cupidatat non proident</h1>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmodtem por incididunt ut labore et dolore magna aliqua. Ut enim admin...</p>
-                                <div class="btn btn-default btn-xs post-tags">Tags for post</div>
-                                <div class="btn btn-default btn-xs post-tags">Tags for post</div>
-                            </div>
-                        </div>
-                        <div class="post-content">
-                            <div class="col-md-3 flex-vertical">
-                                <div class="col-40">
-                                    <img src="resourses/img/ava2.jpg" class="img-rounded avatar center-block">
-                                    <div class="info-placeholder">
-                                        <div class="like">
-                                            <span>45</span>
-                                        </div>
-                                        <span class="like-text">Like</span>
-                                    </div>
-                                </div>
-                                <div class="col-60">
-                                    <h2>Yukonwhisp</h2>
-                                    <p>22 hours ago</p>
-                                    <div class="info-placeholder">
-                                        <div class="comment">
-                                            <span>13</span>
-                                        </div>
-                                        <span class="comment-text">45 min ago</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-9 post-pre-text">
-                                <div class="left-shadow hidden-sm hidden-xs"></div>
-                                <h1>Lorem ipsum dolor sit amet, consectetur</h1>
-                                <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officidese runt mollit anim id est laborum. Excepteur sint occaecat...</p>
-                                <div class="btn btn-default btn-xs post-tags">Tags for post</div>
-                                <div class="btn btn-default btn-xs post-tags">Tags for post</div>
-                                <div class="btn btn-default btn-xs post-tags">Tags for post</div>
-                            </div>
-                        </div>
-                        <ul class="paginator">
-                            <li><a href="#">Back</a></li>
-                            <li class="selected"><a href="#">1</a></li>
-                            <li><a href="#">2</a></li>
-                            <li><a href="#">3</a></li>
-                            <li class="pag-space"><a href="#">...</a></li>
-                            <li><a href="#">15</a></li>
-                            <li><a href="#">Next</a></li>
-                        </ul>
+<?php foreach ($post as $item):?>
+	<div class="post-content">
+		<div class="col-md-3 flex-vertical">
+			<div class="col-40">
+				<img src="img/profile/tb/<?php echo !empty($item['image_profile']) ? $item['image_profile'] : 'ava1.jpg'; ?>" class="img-rounded avatar center-block">
+				<div class="info-placeholder">
+					<div class="like">
+						<span><?php echo $item['social_rank_post']; ?></span>
+					</div>
+					<span class="like-text">Like</span>
+				</div>
+			</div>
+			<div class="col-60">
+				<h2><?php echo $item['username_profile']; ?></h2>
+				<p><?php echo !empty($item['date_post']) ? $item['date_post'] : '' ; ?></p>
+				<div class="info-placeholder">
+					<div class="comment">
+						<span><?php echo $item['comments_post']; ?></span>
+					</div>
+					<span class="comment-text"><?php echo !empty($item['postLastCommentDate']) ? $item['postLastCommentDate'] : '' ; ?></span>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-9 post-pre-text">
+			<div class="left-shadow hidden-sm hidden-xs"></div>
+			<h1><?php echo !empty($item['title_post']) ? $item['title_post'] : "&nbsp;" ; ?></h1>
+			<p><?php echo $item['text_post']; ?></p>
+			<div class="btn btn-default btn-xs post-tags">Tags for post</div>
+			<div class="btn btn-default btn-xs post-tags">Tags for post</div>
+		</div>
+	</div>
+	
+<?php endforeach;	?>
+	</div>

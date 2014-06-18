@@ -267,8 +267,7 @@ class User{
         $res=$this->config_Class->query($sql,array(":id"=>USER_ID));
     }
 
-    public function addNew($username, $email, $password, $gender){
-
+    public function addNew($username, $email, $password, $gender) {
         $res = $this->addCommonStart($email, $password);
 
         if (!$res['result']) {
@@ -277,7 +276,7 @@ class User{
 
         require_once(ENGINE_PATH.'class/profile.class.php');
         $profileClass = new Profile();
-        $res=$profileClass->addNew($username, $gender);
+        $res = $profileClass->addNew($username, $gender);
 
         if (!$res['result']) {
             return $res;
@@ -289,9 +288,8 @@ class User{
     }
 
     public function addNewSocial($social_id, $field_name, $gender) {
-
         require_once(ENGINE_PATH.'class/profile.class.php');
-        $profileClass=new Profile();
+        $profileClass = new Profile();
         $username = $social_id;
         $resProfile = $profileClass->addNew($username, $gender);
 

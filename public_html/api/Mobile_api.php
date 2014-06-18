@@ -30,9 +30,10 @@ class Mobile_api {
             } else {
                 if (array_key_exists('result', $answer)) {
                     if ($answer['result'] === 0) {
-                        $answer['result'] = self::RESPONSE_STATUS_ERROR;
-                        if (!array_key_exists('error', $answer)) {
-                            $answer['error'] = 'There is an error in response to the request or an empty response.';
+                        if (array_key_exists('error', $answer)) {
+                            $answer['result'] = self::RESPONSE_STATUS_ERROR;
+                        } else {
+                            $answer['result'] = self::RESPONSE_STATUS_SUCCESS;
                         }
                     } elseif (is_int($answer['result'])) {
                         $answer['result'] = self::RESPONSE_STATUS_SUCCESS;
@@ -73,14 +74,14 @@ class Mobile_api {
         $this->jsonOut();
     }
     
-    protected function rangeValidator($value, $parametr_name) {
-        $_model_property = '_'.$parametr_name;
+    protected function rangeValidator($value, $parameter_name) {
+        $_model_property = '_'.$parameter_name;
         $range_array = $this->$_model_property;
         if (in_array($value, $range_array)) {
             return $value;
         }
         $this->answer['result'] = Mobile_api::RESPONSE_STATUS_ERROR;
-        $this->answer['error'] = 'Parameter '.$parametr_name.' should be in range ('.implode(', ', $range_array).')';
+        $this->answer['error'] = 'Parameter '.$parameter_name.' should be in range ('.implode(', ', $range_array).')';
         $this->jsonOut();
     }
 }

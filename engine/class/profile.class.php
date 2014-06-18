@@ -662,41 +662,38 @@ class Profile{
 
     }
 
-    public function addNew($username,$gender){
-
-        $username = preg_replace("/[^a-zA-Z0-9\_\-]/", "", strtolower($username));
-        if(strlen($username)<5){
-            return array("result"=>false,"error"=>"Username needs to have more than 5 characters");
+    public function addNew($username, $gender) {
+        $username = preg_replace("/[^a-zA-Z0-9\_\-]/", '', strtolower($username));
+        if (strlen($username) < 5) {
+            return array('result'=>false, 'error'=>'Username needs to have more than 5 characters');
         }
 
-        if($gender!="m" && $gender!="f"){
-            return array("result"=>false,"error"=>"Gender not set");
+        if ($gender!='m' && $gender!='f' && $gender!='') {
+            return array('result' => false, 'error'=>'Gender not set');
         }
 
-        $res=$this->getByUsername($username);
+        $res = $this->getByUsername($username);
 
-        if($res["result"]){
-            return array("result"=>false,"error"=>"Username already exists");
+        if ($res['result']) {
+            return array('result'=>false, 'error'=>'Username already exists');
         }
 
-        $sql="INSERT INTO `profile`
+        $sql = 'INSERT INTO `profile`
             (`username_profile`, `gender_profile`, `created_profile`, `updated_profile`)
-            VALUES (:uname,:gender,now(),now())";
-        $res=$this->config_Class->query($sql, array(":uname"=>$username,":gender"=>$gender));
+            VALUES (:uname,:gender,now(),now())';
+        $res=$this->config_Class->query($sql, array(':uname'=>$username, ':gender'=>$gender));
 
-        if(!$res){
-            return array("result"=>false,"error"=>"There was an error while creating your profile. Please try again or contact us.");
-        }else{
-            $res=$this->getByUsername($username);
+        if (!$res) {
+            return array('result'=>false, 'error'=>'There was an error while creating your profile. Please try again or contact us.');
+        } else {
+            $res = $this->getByUsername($username);
 
-            if($res["result"]){
-                $this->updateSearchTable('newUser',$res);
+            if ($res['result']) {
+                $this->updateSearchTable('newUser', $res);
                 return $res;
-            }else{
-                return array("result"=>false,"error"=>"There was an error while creating your profile. Please try again or contact us.");
+            } else {
+                return array('result'=>false, 'error'=>'There was an error while creating your profile. Please try again or contact us.');
             }
         }
-
     }
-
 }
