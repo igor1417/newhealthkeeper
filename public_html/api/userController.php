@@ -27,9 +27,7 @@ class userController extends Mobile_api {
     public function registration() {
         $ar_email = explode('@', $this->getReqParam('email', false));
         $username = $ar_email[0];
-        $gender = $this->getReqParam('gender', false);
-        $gender = $this->rangeValidator($gender, 'gender');
-        $this->answer = $this->_user->addNew($username, $this->getReqParam('email', false), $this->getReqParam('password', false), $gender);
+        $this->answer = $this->_user->addNew($username, $this->getReqParam('email', false), $this->getReqParam('password', false), '');
     }
     
     public function login() {
@@ -39,8 +37,6 @@ class userController extends Mobile_api {
     public function socialAuth() {
         $social_id = $this->getReqParam('social_id', false);
         $social_type = $this->getReqParam('social_type');
-        $gender = $this->getReqParam('gender', false);
-        $gender = $this->rangeValidator($gender, 'gender');
         if (strlen($social_id) < 10) {
             $this->answer['result'] = Mobile_api::RESPONSE_STATUS_ERROR;
             $this->answer['error'] = 'Wrong social_id parameter value.';
@@ -56,7 +52,7 @@ class userController extends Mobile_api {
                 $this->answer['user_id'] = $res[0]['id_user'];
                 $this->answer['new'] = false;
             } else {
-                $this->answer = $this->_user->addNewSocial($social_id, $field_name, $gender);
+                $this->answer = $this->_user->addNewSocial($social_id, $field_name, '');
             }
          }
     }
