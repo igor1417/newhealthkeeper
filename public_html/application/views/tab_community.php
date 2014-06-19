@@ -62,11 +62,15 @@ function ajax_back(url){
 
 <!-- PAGINATION -->
 <ul class="paginator">
-    <li><a href="#">Back</a></li>
+    <? if ($pageNum > 1):?>
+    <li><a onclick="ajax_next('tab_community?pageNum=<? echo $pageNum - 1; ?>')" href="#tab_community?pageNum=<? echo $pageNum - 1; ?>">Back</a></li>
+    <? endif; ?>
     <li class="selected"><a href="#">1</a></li>
     <li><a href="#">2</a></li>
     <li><a href="#">3</a></li>
     <li class="pag-space"><a href="#">...</a></li>
-    <li><a href="#">15</a></li>
-    <li><a onclick="ajax_next('tab_community?timestamp=<?= $date_end; ?>')" href="#tab_community">Next</a></li>
+    <li><a href="#"><?= $pageCount ?></a></li>
+    <? if ($pageNum < $pageCount):?>
+    <li><a onclick="ajax_next('tab_community?pageNum=<? echo $pageNum + 1; ?>')" href="#tab_community?pageNum=<? echo $pageNum + 1; ?>">Next</a></li>
+    <? endif; ?>
 </ul>

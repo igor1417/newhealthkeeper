@@ -9,8 +9,21 @@ class Tab_community extends CI_Controller {
 
         $post = new Post();
         $config = new Config();
-        $timestamp = (int)$this->input->get('timestamp');
-        $result = $post->getAllPosts($timestamp);
+        $pageNum = (int)$this->input->get('pageNum');
+        if ($pageNum) {
+            $pageNum = (int)$pageNum;
+        }
+        if ($pageNum == 0) {
+            $pageNum = 1;
+        }
+        $limit = 10;
+        $result = $post->getAllPostsPaged(10 * ($pageNum - 1), $limit);
+        $postCount = $post->getAllPostsCount();
+        if ($postCount['result']) {
+            $postCount = $postCount[0]['postCount'];
+        } else {
+            $postCount = 0;
+        }
 
         if (isset($result['result']) && $result['result'] > 0) {
             $date_end = strtotime($result[$result['result'] - 1]['date_post']);
@@ -35,7 +48,8 @@ class Tab_community extends CI_Controller {
         }
         $data = array(
             'post' => $result
-          , 'date_end' => $date_end
+          , 'pageNum' => $pageNum
+          , 'pageCount' => ceil($postCount / 10)
         );
 
         $this->load->view('tab_community', $data);
