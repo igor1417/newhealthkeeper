@@ -9,8 +9,6 @@
     <link rel="stylesheet" href="resourses/css/styles.css">
     <script src="resourses/js/jquery-2.1.0.js"></script>
     <script src="resourses/js/bootstrap.js"></script>
-    <script src="resourses/js/hk-main.js"></script>
-
 </head>
 <body>
 
