@@ -19,14 +19,17 @@ class postController extends Mobile_api {
     
     public function allPosts() {
         $this->answer = $this->_post->getAllPosts($this->getReqParam('timestamp', true, 0));
+        $this->afterPostFind();
     }
     
     public function userPosts() {
         $this->answer = $this->_post->getAllPosts($this->getReqParam('timestamp', true, 0), $this->getReqParam('author_id'));
+        $this->afterPostFind();        
     }
     
     public function getPostComments() {
         $this->answer = $this->_post->getAllPostComments($this->getReqParam('post_id'), $this->getReqParam('timestamp', true, 0));
+        $this->afterCommentFind();        
     }
     
     public function addPost() {
@@ -49,6 +52,28 @@ class postController extends Mobile_api {
 
     public function commentLike() {
         $this->answer = $this->_post->commentLike($this->getReqParam('comment_id'), $this->_default_vote);
+    }
+    
+    private function afterPostFind() {
+        if (count($this->answer) > 0) {
+            foreach ($this->answer as $key=>$post) {
+                if ($key !== 'result') {
+                    $timestamp = strtotime($this->answer[$key]['date_post']);
+                    $this->answer[$key]['hours_ago'] = $this->config->ago($timestamp);
+                }
+            }
+        }
+    }
+    
+    private function afterCommentFind() {
+        if (count($this->answer) > 0) {
+            foreach ($this->answer as $key=>$post) {
+                if ($key !== 'result') {
+                    $timestamp = strtotime($this->answer[$key]['date_pc']);
+                    $this->answer[$key]['hours_ago'] = $this->config->ago($timestamp);
+                }
+            }
+        }
     }
     
 }
