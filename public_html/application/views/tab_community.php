@@ -1,20 +1,10 @@
 <script>
-function ajax_next(url){
+function ajax_pagination(url){
     $.ajax({
         url: url,
         cache: false,
         success: function(html){
-            $("#community").html(html);
-        }
-    });
-}
-
-function ajax_back(url){
-    $.ajax({
-        url: url,
-        cache: false,
-        success: function(html){
-            $("#community").html(html);
+            $("#tab_community").html(html);
         }
     });
 }
@@ -63,7 +53,7 @@ function ajax_back(url){
 <!-- PAGINATION -->
 <ul class="paginator">
     <? if ($pageNum > 1):?>
-    <li><a onclick="ajax_next('tab_community?pageNum=<? echo $pageNum - 1; ?>')" href="#tab_community?pageNum=<? echo $pageNum - 1; ?>">Back</a></li>
+    <li><a onclick="ajax_pagination('tab_community?pageNum=<? echo $pageNum - 1; ?>')" href="#tab_community?pageNum=<? echo $pageNum - 1; ?>">Back</a></li>
     <? endif; ?>
     <li class="selected"><a href="#">1</a></li>
     <li><a href="#">2</a></li>
@@ -71,6 +61,6 @@ function ajax_back(url){
     <li class="pag-space"><a href="#">...</a></li>
     <li><a href="#"><?= $pageCount ?></a></li>
     <? if ($pageNum < $pageCount):?>
-    <li><a onclick="ajax_next('tab_community?pageNum=<? echo $pageNum + 1; ?>')" href="#tab_community?pageNum=<? echo $pageNum + 1; ?>">Next</a></li>
+    <li><a onclick="ajax_pagination('tab_community?pageNum=<? echo $pageNum + 1; ?>')" href="#tab_community?pageNum=<? echo $pageNum + 1; ?>">Next</a></li>
     <? endif; ?>
 </ul>

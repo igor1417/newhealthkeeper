@@ -1,6 +1,13 @@
 <script>
 $('#community').ready(function(){
-    ajax_top_menu('tab_community', '#community');
+    if ($(location).attr('hash') === '') {
+        var hash = 'tab_community';
+    } else if ($(location).attr('hash').substr(0, 1) === '#') {
+        var hash = $(location).attr('hash').substr(1);
+    } else {
+        var hash = 'tab_community';
+    }
+    ajax_top_menu(hash, '#tab_community');
 });
 
 function ajax_sidebar_menu(url){
@@ -86,9 +93,9 @@ function ajax_top_menu(url, dest){
         </div>
         <div class="col-lg-10 col-md-10 col-sm-9 right-col">
             <ul id="three-tabs" class="nav nav-tabs">
-                <li class="active"><a onclick="ajax_top_menu('tab_community', '#community')" href="#community" data-toggle="tab">Community</a></li>
-                <li class=""><a onclick="ajax_top_menu('tab_articles', '#articles')" href="#articles" data-toggle="tab">Articles</a></li>
-                <li class=""><a onclick="ajax_top_menu('tab_tracking', '#tracking')" href="#tracking" data-toggle="tab">Tracking</a></li>
+                <li class="active"><a onclick="ajax_top_menu('tab_community', '#tab_community')" href="#tab_community" data-toggle="tab">Community</a></li>
+                <li class=""><a onclick="ajax_top_menu('tab_articles', '#tab_articles')" href="#tab_articles" data-toggle="tab">Articles</a></li>
+                <li class=""><a onclick="ajax_top_menu('tab_tracking', '#tab_tracking')" href="#tab_tracking" data-toggle="tab">Tracking</a></li>
             </ul>
             <div class="row">
                 <div class="col-md-12">
@@ -108,11 +115,11 @@ function ajax_top_menu(url, dest){
                 </div>
             </div>
             <div id="three-tabsContent" class="tab-content">
-                <div class="tab-pane fade active in row" id="community">
+                <div class="tab-pane fade active in row" id="tab_community">
                 </div>
-                <div class="tab-pane fade row" id="articles">
+                <div class="tab-pane fade row" id="tab_articles">
                 </div>
-                <div class="tab-pane fade row" id="tracking">
+                <div class="tab-pane fade row" id="tab_tracking">
                 </div>
             </div>
         </div>
