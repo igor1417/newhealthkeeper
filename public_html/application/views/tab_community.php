@@ -27,7 +27,7 @@ function ajax_back(url){
         <div class="col-lg-3">
             <div class="row">
                 <div class="col-lg-5">
-                    <img src="img/profile/tb/<?php echo !empty($item['image_profile']) ? $item['image_profile'] : 'ava1.jpg'; ?>" class="img-rounded avatar center-block">
+                    <img src="<?php echo !empty($item['image_profile']) ? 'img/profile/tb/'.$item['image_profile'] : 'inc/img/avatar/man1.jpg'; ?>" class="img-rounded avatar center-block">
                 </div>
                 <div class="col-lg-7">
                     <h2 class="title-avatar"><?php echo $item['username_profile']; ?></h2>
