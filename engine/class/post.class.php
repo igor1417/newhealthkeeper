@@ -1150,6 +1150,19 @@ class Post{
         return $this->config_Class->query($sql);
     }
 
+    public function getAllPostsPaged($offset, $limit, $user_id = 0) {
+        $sql = "select p.*, pro.*, IFNULL(pt.vote_pt, 0) as already_voted
+        from post as p inner join profile as pro
+        left join post_thumb as pt on pt.id_profile_pt=".USER_ID." and pt.id_post_pt=p.id_post
+        where pro.id_profile=p.id_profile_post ".$this->userSQL($user_id)." order by date_post desc limit ".$offset.', '.$limit;
+        return $this->config_Class->query($sql);
+    }
+
+    public function getAllPostsCount() {
+        $sql = 'SELECT COUNT(*) as postCount FROM post';
+        return $this->config_Class->query($sql);
+    }
+
     private function userSQL($user_id) {
         $subquery = "";
         if ($user_id != 0){

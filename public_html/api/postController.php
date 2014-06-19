@@ -59,7 +59,7 @@ class postController extends Mobile_api {
             foreach ($this->answer as $key=>$post) {
                 if ($key !== 'result') {
                     $timestamp = strtotime($this->answer[$key]['date_post']);
-                    $this->answer[$key]['hours_ago'] = $this->config->ago($timestamp);
+                    $this->answer[$key]['time_ago'] = $this->config->ago($timestamp);
                 }
             }
         }
@@ -70,7 +70,7 @@ class postController extends Mobile_api {
             foreach ($this->answer as $key=>$post) {
                 if ($key !== 'result') {
                     $timestamp = strtotime($this->answer[$key]['date_pc']);
-                    $this->answer[$key]['hours_ago'] = $this->config->ago($timestamp);
+                    $this->answer[$key]['time_ago'] = $this->config->ago($timestamp);
                 }
             }
         }

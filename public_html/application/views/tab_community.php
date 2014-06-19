@@ -1,20 +1,10 @@
 <script>
-function ajax_next(url){
+function ajax_pagination(url){
     $.ajax({
         url: url,
         cache: false,
         success: function(html){
-            $("#community").html(html);
-        }
-    });
-}
-
-function ajax_back(url){
-    $.ajax({
-        url: url,
-        cache: false,
-        success: function(html){
-            $("#community").html(html);
+            $("#tab_community").html(html);
         }
     });
 }
@@ -27,11 +17,11 @@ function ajax_back(url){
         <div class="col-lg-3">
             <div class="row">
                 <div class="col-lg-5">
-                    <img src="img/profile/tb/<?php echo !empty($item['image_profile']) ? $item['image_profile'] : 'ava1.jpg'; ?>" class="img-rounded avatar center-block">
+                    <img src="<?php echo !empty($item['image_profile']) ? 'img/profile/tb/'.$item['image_profile'] : 'inc/img/avatar/man1.jpg'; ?>" class="img-rounded avatar center-block">
                 </div>
                 <div class="col-lg-7">
                     <h2 class="title-avatar"><?php echo $item['username_profile']; ?></h2>
-                    <p><?php echo !empty($item['date_post']) ? $item['date_post'] : '' ; ?></p>
+                    <p class="p-avatar"><?php echo !empty($item['date_post']) ? $item['date_post'] : '' ; ?></p>
                 </div>
             </div>
             <div class="row marg1">
@@ -62,11 +52,15 @@ function ajax_back(url){
 
 <!-- PAGINATION -->
 <ul class="paginator">
-    <li><a href="#">Back</a></li>
+    <? if ($pageNum > 1):?>
+    <li><a onclick="ajax_pagination('tab_community?pageNum=<? echo $pageNum - 1; ?>')" href="#tab_community?pageNum=<? echo $pageNum - 1; ?>">Back</a></li>
+    <? endif; ?>
     <li class="selected"><a href="#">1</a></li>
     <li><a href="#">2</a></li>
     <li><a href="#">3</a></li>
     <li class="pag-space"><a href="#">...</a></li>
-    <li><a href="#">15</a></li>
-    <li><a onclick="ajax_next('tab_community?timestamp=<?= $date_end; ?>')" href="#tab_community">Next</a></li>
+    <li><a href="#"><?= $pageCount ?></a></li>
+    <? if ($pageNum < $pageCount):?>
+    <li><a onclick="ajax_pagination('tab_community?pageNum=<? echo $pageNum + 1; ?>')" href="#tab_community?pageNum=<? echo $pageNum + 1; ?>">Next</a></li>
+    <? endif; ?>
 </ul>

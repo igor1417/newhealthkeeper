@@ -627,6 +627,35 @@ class Profile{
 
     }
 
+    public function newAvatar($user_id, $image) {
+        $sql = 'select * from profile where id_profile=:id limit 1';
+        $res = $this->config_Class->query($sql, array(':id'=>$user_id));
+
+        if ($res['result']) {
+            $imgPath = PUBLIC_HTML_PATH.'img/profile/';
+            $image = $this->config_Class->uploadImageURL(WEB_URL.'inc/img/avatar/'.$image, $imgPath);
+
+            if ($image['image'] == '') {
+                return false;
+            }
+
+            if ($res[0]['image_profile'] != '') {
+                @unlink($imgPath.'org/'.$res[0]['image_profile']);
+                @unlink($imgPath.'med/'.$res[0]['image_profile']);
+                @unlink($imgPath.'tb/'.$res[0]['image_profile']);
+            }
+
+            $sql = 'update profile set image_profile=:img where id_profile=:id';
+            $res = $this->config_Class->query($sql, array(':img'=>$image['image'], ':id'=>$user_id));
+            if ($res) {
+                $this->updateSearchTable('updateUser', $user_id);
+            }
+            return $res;
+        } else {
+            return false;
+        }
+    }
+
     public function updateGender($gender){
         $sql="update profile set gender_profile=:gender where id_profile=:id";
         return $this->config_Class->query($sql, array(":gender"=>$gender,":id"=>USER_ID));
