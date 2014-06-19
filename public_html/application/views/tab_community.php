@@ -1,3 +1,25 @@
+<script>
+function ajax_next(url){
+    $.ajax({
+        url: url,
+        cache: false,
+        success: function(html){
+            $("#community").html(html);
+        }
+    });
+}
+
+function ajax_back(url){
+    $.ajax({
+        url: url,
+        cache: false,
+        success: function(html){
+            $("#community").html(html);
+        }
+    });
+}
+</script>
+
 <?php foreach ($post as $item):?>
 <div class="post-content">
     <div class="col-md-3 flex-vertical">
@@ -37,5 +59,5 @@
     <li><a href="#">3</a></li>
     <li class="pag-space"><a href="#">...</a></li>
     <li><a href="#">15</a></li>
-    <li><a href="#">Next</a></li>
+    <li><a onclick="ajax_next('tab_community?timestamp=<?= $date_end; ?>')" href="#tab_community">Next</a></li>
 </ul>
