@@ -44,22 +44,11 @@ class postController extends Mobile_api {
     }
     
     public function postLike() {
-        $answer = $this->_post->addVote($this->getReqParam('post_id'), $this->_default_vote);
-        $this->afterLike($answer);
+        $this->answer = $this->_post->postLike($this->getReqParam('post_id'), $this->_default_vote);
     }
-    
+
     public function commentLike() {
-        $answer = $this->_post->addCommentVote($this->getReqParam('comment_id'), $this->_default_vote);
-        $this->afterLike($answer);
+        $this->answer = $this->_post->commentLike($this->getReqParam('comment_id'), $this->_default_vote);
     }
     
-    private function afterLike($answer) {
-        if ($answer === true) {
-            $this->answer['result'] = Mobile_api::RESPONSE_STATUS_SUCCESS;
-            $this->answer['liked'] = Mobile_api::RESPONSE_STATUS_SUCCESS;
-        } elseif ($answer === false) {
-            $this->answer['result'] = Mobile_api::RESPONSE_STATUS_SUCCESS;
-            $this->answer['liked'] = Mobile_api::RESPONSE_STATUS_ERROR;
-        }
-    }
 }

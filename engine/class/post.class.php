@@ -903,7 +903,7 @@ class Post{
         return $this->config_Class->query($sql,array(":id_post"=>$id,":tot"=>$total));
 
     }
-    public function removeVote($id){
+    private function removeVote($id){
 
         $res=$this->getById($id);
 
@@ -928,12 +928,12 @@ class Post{
         if($resVote[0]["vote_pt"]>0){
             return $this->updateVoteCountUp($id);
         }else if($resVote[0]["vote_pt"]<0){
-            return $this->updateVoteCountDown($id);
+        return $this->updateVoteCountDown($id);
         }
 
      }
 
-     public function removeCommentVote($id){
+     private function removeCommentVote($id){
 
         $res=$this->getCommentById($id);
 
@@ -958,8 +958,7 @@ class Post{
         if($resVote[0]["vote_pct"]>0){
             return $this->updateCommentVoteCountUp($id);
         }else if($resVote[0]["vote_pct"]<0){
-            return false;
-            //return $this->updateCommentVoteCountDown($id);
+            return $this->updateCommentVoteCountDown($id);
         }
 
      }
@@ -985,7 +984,7 @@ class Post{
         return $this->config_Class->query($sql,array(":id"=>$id,":total"=>$total));
     }
 
-     public function addCommentVote($id,$vote){
+     private function addCommentVote($id,$vote){
 
         $resComment=$this->getCommentById($id);
 
@@ -1022,18 +1021,48 @@ class Post{
             //return $this->updateVoteCountDown($id);
         }
     }
+    
+    public function postLike($id,$vote) {
+        $resVote=$this->alreadyVoted($id);
 
-    public function addVote($id,$vote){
+        $answer = array('result' => false);
+        if($resVote["result"]){
+            if ($this->removeVote($id)) {
+                $answer['result'] = true;
+                $answer['like'] = false;
+            }
+        } else {
+            if ($this->addVote($id,$vote)) {
+                $answer['result'] = true;
+                $answer['like'] = true;
+            }
+        }
+        return $answer;
+    }
+    
+    public function commentLike($id,$vote) {
+        $resVote=$this->alreadyCommentVoted($id);
+
+        $answer = array('result' => false);
+        if($resVote["result"]){
+            if ($this->removeCommentVote($id)) {
+                $answer['result'] = true;
+                $answer['like'] = false;
+            }
+        } else {
+            if ($this->addCommentVote($id,$vote)) {
+                $answer['result'] = true;
+                $answer['like'] = true;
+            }
+        }
+        return $answer;
+    }
+
+    private function addVote($id,$vote){
 
         $resPost=$this->getById($id);
 
         if(!$resPost["result"]){
-            return false;
-        }
-
-        $res=$this->alreadyVoted($id);
-
-        if($res["result"]){
             return false;
         }
 
