@@ -1,12 +1,6 @@
 <script>
 $('#community').ready(function(){
-    $.ajax({
-        url: 'tab_community',
-        cache: false,
-        success: function(html){
-            $('#community').html(html);
-        }
-    });
+    ajax_top_menu('tab_community', '#community');
 });
 
 function ajax_sidebar_menu(url){
@@ -19,28 +13,12 @@ function ajax_sidebar_menu(url){
     });
 }
 
-function ajax_top_menu(){
+function ajax_top_menu(url, dest){
     $.ajax({
-        url: 'tab_community',
+        url: url,
         cache: false,
         success: function(html){
-            $('#community').html(html);
-        }
-    });
-
-    $.ajax({
-        url: 'tab_articles',
-        cache: false,
-        success: function(html){
-            $('#articles').html(html);
-        }
-    });
-
-    $.ajax({
-        url: 'tab_tracking',
-        cache: false,
-        success: function(html){
-            $('#tracking').html(html);
+            $(dest).html(html);
         }
     });
 }
@@ -51,19 +29,19 @@ function ajax_top_menu(){
         <div class="col-lg-2 col-md-2 col-sm-3 left-col">
             <ul class="side-bar hidden-xs">
                 <li class="sb-item">
-                    <a onclick="ajax_sidebar_menu('my_profile')" href="#">My profile</a>
+                    <a onclick="ajax_sidebar_menu('my_profile')" href="#my_profile">My profile</a>
                 </li>
                 <li class="sb-item">
-                    <a onclick="ajax_sidebar_menu('my_diary')" href="#">My Diary</a>
+                    <a onclick="ajax_sidebar_menu('my_diary')" href="#my_diary">My Diary</a>
                 </li>
                 <li class="sb-item">
-                    <a onclick="ajax_sidebar_menu('meet_others')" href="#">Meet Others</a>
+                    <a onclick="ajax_sidebar_menu('meet_others')" href="#meet_others">Meet Others</a>
                 </li>
                 <li class="sb-item">
-                    <a onclick="ajax_sidebar_menu('my_team')" href="#">My Team</a>
+                    <a onclick="ajax_sidebar_menu('my_team')" href="#my_team">My Team</a>
                 </li>
                 <li class="sb-item">
-                    <a onclick="ajax_sidebar_menu('my_doctors')" href="#">My Doctors</a>
+                    <a onclick="ajax_sidebar_menu('my_doctors')" href="#my_doctors">My Doctors</a>
                 </li>
                 <li class="sb-item iconed">
                     <a href="#">
@@ -107,10 +85,10 @@ function ajax_top_menu(){
             </ul>
         </div>
         <div class="col-lg-10 col-md-10 col-sm-9 right-col">
-            <ul id="three-tabs" class="nav nav-tabs" onclick="ajax_top_menu()">
-                <li class="active"><a href="#community" data-toggle="tab">Community</a></li>
-                <li class=""><a href="#articles" data-toggle="tab">Articles</a></li>
-                <li class=""><a href="#tracking" data-toggle="tab">Tracking</a></li>
+            <ul id="three-tabs" class="nav nav-tabs">
+                <li class="active"><a onclick="ajax_top_menu('tab_community', '#community')" href="#community" data-toggle="tab">Community</a></li>
+                <li class=""><a onclick="ajax_top_menu('tab_articles', '#articles')" href="#articles" data-toggle="tab">Articles</a></li>
+                <li class=""><a onclick="ajax_top_menu('tab_tracking', '#tracking')" href="#tracking" data-toggle="tab">Tracking</a></li>
             </ul>
             <div class="row">
                 <div class="col-md-12">
