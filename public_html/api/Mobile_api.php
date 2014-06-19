@@ -88,7 +88,7 @@ class Mobile_api {
     protected function checkImage($param_name) {
         if (!array_key_exists($param_name, $_FILES)) {
             $this->answer['result'] = Mobile_api::RESPONSE_STATUS_ERROR;
-            $this->answer['error'] = 'Mobile_api::RESPONSE_STATUS_ERROR';
+            $this->answer['error'] = 'Image file is required';
             $this->jsonOut();
         } else {
             return $param_name;
