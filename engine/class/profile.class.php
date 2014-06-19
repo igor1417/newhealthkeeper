@@ -135,6 +135,44 @@ class Profile{
         }
         return $res;
     }
+    
+    public function updateProfile ($attributes, $img = '') {
+        $sql = "update profile set";
+        $first_attr = true;
+        $params_array = array();
+        
+        foreach ($attributes as $key => $attribute) {
+            $params_array[":$key"] = $attribute;
+            if (!$first_attr) $sql.=",";            
+            $sql.=" $key=:$key";
+            $first_attr = false;
+        }
+        $sql .= " where id_profile=:id_profile";
+        $params_array[":id_profile"] = USER_ID;
+
+        $res= $this->config_Class->query($sql, $params_array);
+
+        if($res){
+            if($img!="" && isset($_FILES[$img])){
+                $imgPath=PUBLIC_HTML_PATH."img/profile/";
+                $image=$this->config_Class->uploadImage($img, $imgPath);
+                if($image["image"]!=""){
+                    $image=$image["image"];
+                }else{
+                    $image="";
+                }
+                $this->config_Class->query("update profile set image_profile='$image' where id_profile=".USER_ID);
+            }
+            $this->updateSearchTable('updateUser',USER_ID);
+        }
+        return $this->getById(USER_ID);
+    }
+    
+    public function checkZip($zip) {
+        $sql="select zip from zipcode where zip=:zip";
+        $result = $this->config_Class->query($sql,array(":zip"=>$zip));
+        return $result['result'];
+    }
 
     public function updateBio($bio){
         $sql="update profile set bio_profile=:bio where id_profile=:id";
