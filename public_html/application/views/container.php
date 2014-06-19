@@ -24,9 +24,9 @@ function ajax_top_menu(url, dest){
 }
 </script>
 
-<div class="container">
+<div class="container page-container">
     <div class="row">
-        <div class="col-lg-2 col-md-2 col-sm-3 left-col">
+        <div class="col-lg-2 col-md-2 col-sm-3 left-col pos-none">
             <ul class="side-bar hidden-xs">
                 <li class="sb-item">
                     <a onclick="ajax_sidebar_menu('my_profile')" href="#my_profile">My profile</a>

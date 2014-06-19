@@ -928,7 +928,7 @@ class Post{
         if($resVote[0]["vote_pt"]>0){
             return $this->updateVoteCountUp($id);
         }else if($resVote[0]["vote_pt"]<0){
-        return $this->updateVoteCountDown($id);
+            return $this->updateVoteCountDown($id);
         }
 
      }
