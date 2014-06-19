@@ -30,7 +30,7 @@ function ajax_back(url){
                     <img src="img/profile/tb/<?php echo !empty($item['image_profile']) ? $item['image_profile'] : 'ava1.jpg'; ?>" class="img-rounded avatar center-block">
                 </div>
                 <div class="col-lg-7">
-                    <h2><?php echo $item['username_profile']; ?></h2>
+                    <h2 class="title-avatar"><?php echo $item['username_profile']; ?></h2>
                     <p><?php echo !empty($item['date_post']) ? $item['date_post'] : '' ; ?></p>
                 </div>
             </div>
