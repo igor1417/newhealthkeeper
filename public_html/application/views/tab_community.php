@@ -31,7 +31,7 @@ function ajax_back(url){
                 </div>
                 <div class="col-lg-7">
                     <h2 class="title-avatar"><?php echo $item['username_profile']; ?></h2>
-                    <p><?php echo !empty($item['date_post']) ? $item['date_post'] : '' ; ?></p>
+                    <p class="p-avatar"><?php echo !empty($item['date_post']) ? $item['date_post'] : '' ; ?></p>
                 </div>
             </div>
             <div class="row marg1">
