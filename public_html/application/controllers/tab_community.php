@@ -17,7 +17,7 @@ class Tab_community extends CI_Controller {
             $pageNum = 1;
         }
         $limit = 10;
-        $result = $post->getAllPostsPaged(10 * ($pageNum - 1), $limit);
+        $result = $post->getAllPostsPaged($limit * ($pageNum - 1), $limit);
         $postCount = $post->getAllPostsCount();
         if ($postCount['result']) {
             $postCount = $postCount[0]['postCount'];
@@ -49,7 +49,9 @@ class Tab_community extends CI_Controller {
         $data = array(
             'post' => $result
           , 'pageNum' => $pageNum
-          , 'pageCount' => ceil($postCount / 10)
+//           , 'pageCount' => ceil($postCount / $limit)
+          , 'pageCount' => 10
+          , 'pagerVisibleSigns' => 2
         );
 
         $this->load->view('tab_community', $data);
