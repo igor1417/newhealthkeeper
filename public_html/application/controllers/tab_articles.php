@@ -9,15 +9,27 @@ class Tab_articles extends CI_Controller {
         
         $postClass = new Post();
         $configClass = new Config();
-
-        $resPosts = $postClass->getFeedPosts(1,'recent','news');		//   was     $resPosts = $postClass->getFeedPosts(1,'recent',$_SESSION["pfilter"]["feed"]);
-//         print_r($resPosts);  die;
-        
+		$pageNum = (int)$this->input->get('pageNum');
+        if ($pageNum) {
+            $pageNum = (int)$pageNum;
+        }
+        if ($pageNum == 0) {
+            $pageNum = 1;
+        }
+        $limit = 10;
+        $resPosts = $postClass->getFeedPosts($pageNum,'recent','news');		//   was     $resPosts = $postClass->getFeedPosts(1,'recent',$_SESSION["pfilter"]["feed"]);
         unset($resPosts['result']);
+        $postCount = $postClass->getAllPostsCount();
+        if ($postCount['result']) {
+            $postCount = $postCount[0]['postCount'];
+        } else {
+            $postCount = 0;
+        }
+        
         foreach ($resPosts as $key => $val) {
 			$resPosts[$key]['date_post'] = $configClass->ago(strtotime($resPosts[$key]['date_post']));
 			if ($resPosts[$key]['comments_post'] > 0) {
-                    $postComments = $post->getAllPostComments($resPosts[$key]['id_post'], 0);
+                    $postComments = $postClass->getAllPostComments($resPosts[$key]['id_post'], 0);
                     if($postComments['result'] != 0) {
                         $postLastCommentDate = $postComments[$postComments['result'] - 1]['date_pc'];
                     } else {
@@ -31,10 +43,11 @@ class Tab_articles extends CI_Controller {
         
         $data = array(
             'posts' => $resPosts
-//           , 'pageNum' => $pageNum
-//           , 'pageCount' => ceil($postCount / $limit)
-//           , 'pagerVisibleSigns' => 2
+          , 'pageNum' => $pageNum
+          , 'pageCount' => ceil($postCount / $limit)
+          , 'pagerVisibleSigns' => 2
         );
+        
         $this->load->view('tab_articles', $data);
     }
 
