@@ -49,8 +49,7 @@ class Tab_community extends CI_Controller {
         $data = array(
             'post' => $result
           , 'pageNum' => $pageNum
-//           , 'pageCount' => ceil($postCount / $limit)
-          , 'pageCount' => 10
+          , 'pageCount' => ceil($postCount / $limit)
           , 'pagerVisibleSigns' => 2
         );
 

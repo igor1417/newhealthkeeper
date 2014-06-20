@@ -7,7 +7,7 @@
     <div class="col-lg-3 col-md-3 col-sm-4 col-xs-4 col-sxs-12">
         <img class="article-ico center-block img-responsive img-rounded" src="resourses/img/article_img1.jpg">
         <div class="like-group">
-            <div class="info-placeholder">
+            <div class="info-placeholder col-lg-6">
                 <div class="like">
                     <span>45</span>
                 </div>
@@ -30,7 +30,7 @@
     <div class="col-lg-3 col-md-3 col-sm-4 col-xs-4 col-sxs-12">
         <img class="article-ico center-block img-responsive img-rounded" src="resourses/img/article_img1.jpg">
         <div class="like-group">
-            <div class="info-placeholder">
+            <div class="info-placeholder col-lg-6">
                 <div class="like">
                     <span>45</span>
                 </div>
@@ -53,7 +53,7 @@
     <div class="col-lg-3 col-md-3 col-sm-4 col-xs-4 col-sxs-12">
         <img class="article-ico center-block img-responsive img-rounded" src="resourses/img/article_img1.jpg">
         <div class="like-group">
-            <div class="info-placeholder">
+            <div class="info-placeholder col-lg-6">
                 <div class="like">
                     <span>45</span>
                 </div>
@@ -76,7 +76,7 @@
     <div class="col-lg-3 col-md-3 col-sm-4 col-xs-4 col-sxs-12">
         <img class="article-ico center-block img-responsive img-rounded" src="resourses/img/article_img1.jpg">
         <div class="like-group">
-            <div class="info-placeholder">
+            <div class="info-placeholder col-lg-6">
                 <div class="like">
                     <span>45</span>
                 </div>
