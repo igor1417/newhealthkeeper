@@ -3,11 +3,11 @@ class Post{
 
     const DATE_TIME_FORMAT = 'Y-m-d H:i:s';
     
-    private $_config_Class;
+    private $config_Class;
 
-    private $_limit = 10;
+    private $limit = 10;
     
-    private $_user_id_array = array();
+    private $user_id_array = array();
 
     function __construct()
     {
@@ -1360,7 +1360,7 @@ class Post{
             $sql = "SELECT share_with_post AS user_id FROM post WHERE share_with_post IS NOT NULL AND id_profile_post=:id";
             $res2 = $this->config_Class->query($sql, array(":id" => USER_ID));
             $this->addUsersIDs($res2);                
-            return $this->_user_id_array;
+            return $this->user_id_array;
     }
         
     private function addUsersIDs($ids) {
@@ -1368,8 +1368,8 @@ class Post{
         unset($ids['result']);
         if ($result > 0) {
             foreach ($ids as $key => $id) {
-                if (!in_array($id['user_id'], $this->_user_id_array))
-                $this->_user_id_array[] = $id['user_id'];
+                if (!in_array($id['user_id'], $this->user_id_array))
+                $this->user_id_array[] = $id['user_id'];
             }
         }
     }    

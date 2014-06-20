@@ -28,6 +28,10 @@ class messageController extends Mobile_api {
         $this->answer = $this->_post->getAllConversations();
     }
     
+    public function getConversations1() {
+        $this->answer = $this->_post->getAllConversations();
+    }    
+    
     
     
    
