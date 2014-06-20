@@ -28,8 +28,9 @@ class messageController extends Mobile_api {
         $this->answer = $this->_post->getAllConversations();
     }
     
-    public function getConversations1() {
-        $this->answer = $this->_post->getAllConversations();
+    public function getConversationMessages() {
+        $to_user_id = $this->getReqParam('to_user_id', true);
+        $this->answer = $this->_post->getConvMessages($to_user_id, $this->getReqParam('timestamp', true, 0));
     }    
     
     

@@ -1372,7 +1372,18 @@ class Post{
                 $this->user_id_array[] = $id['user_id'];
             }
         }
-    }    
+    }
+    
+    public function getConvMessages($to_user_id, $timestamp) {
+        $sql = "SELECT * FROM post LEFT JOIN profile ON post.id_profile_post=profile.id_profile
+                WHERE ".$this->getConditionSQL().$this->timePostSQL($timestamp, 'date_post')." ORDER BY date_post DESC LIMIT ".$this->limit;
+        return $this->config_Class->query($sql, array(":user_from" => USER_ID, ":user_to" => $to_user_id,":user_from2" => USER_ID, ":user_to2" => $to_user_id));
+        
+    }
+    
+    private function getConditionSQL() {
+            return " (id_profile_post=:user_to AND share_with_post=:user_from) OR (id_profile_post=:user_from2 AND share_with_post=:user_to2) ";
+    }
 
     public function addNewV2SimplePost($title,$url,$text,$forceTopic=1){
 
