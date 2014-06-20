@@ -3,9 +3,11 @@ class Post{
 
     const DATE_TIME_FORMAT = 'Y-m-d H:i:s';
     
-    private $config_Class;
+    private $_config_Class;
 
-    private $limit = 10;
+    private $_limit = 10;
+    
+    private $_user_id_array = array();
 
     function __construct()
     {
@@ -1289,7 +1291,9 @@ class Post{
             $sql="select * from profile where id_profile=:id limit 1";
             $resProfile = $this->config_Class->query($sql,array(":id"=>$asMessage));
             if($resProfile["result"]){
-                $text="<a class=\"inPostMention\" href=\"".WEB_URL.$resProfile[0]["username_profile"]."\">@".$resProfile[0]["username_profile"]."</a> ".$text;
+                if (!defined('MOBILE_REQUEST')) {
+                    $text="<a class=\"inPostMention\" href=\"".WEB_URL.$resProfile[0]["username_profile"]."\">@".$resProfile[0]["username_profile"]."</a> ".$text;                     
+                }
             }
         }
 
@@ -1333,17 +1337,42 @@ class Post{
                     }
                     $this->saveImage($image,$res[0]["id_post"]);
                 }
-                return true;
+                return $res;
             }else{
                 return false;
             }
-
 
         }else{
             return false;
         }
 
     }
+    
+    public function getAllConversations() {
+        $sql = "SELECT * FROM profile WHERE id_profile IN (".implode(',', $this->getUsersID()).")";
+        return $this->config_Class->query($sql);
+    }
+    
+    private function getUsersID() {
+            $sql = "SELECT id_profile_post AS user_id FROM post WHERE share_with_post=:id";
+            $res1 = $this->config_Class->query($sql, array(":id" => USER_ID));
+            $this->addUsersIDs($res1);
+            $sql = "SELECT share_with_post AS user_id FROM post WHERE share_with_post IS NOT NULL AND id_profile_post=:id";
+            $res2 = $this->config_Class->query($sql, array(":id" => USER_ID));
+            $this->addUsersIDs($res2);                
+            return $this->_user_id_array;
+    }
+        
+    private function addUsersIDs($ids) {
+        $result = $ids['result'];
+        unset($ids['result']);
+        if ($result > 0) {
+            foreach ($ids as $key => $id) {
+                if (!in_array($id['user_id'], $this->_user_id_array))
+                $this->_user_id_array[] = $id['user_id'];
+            }
+        }
+    }    
 
     public function addNewV2SimplePost($title,$url,$text,$forceTopic=1){
 
