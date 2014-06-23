@@ -634,7 +634,11 @@ class Post{
 
     public function getPostTopics($id){
         $sql="select * from topic, post_relation where id_post_pr=:id and id_topic_pr=id_topic";
-        return $this->config_Class->query($sql,array(":id"=>$id));
+        $res = $this->config_Class->query($sql,array(":id"=>$id));
+        if (defined('MOBILE_REQUEST') && MOBILE_REQUEST) {
+            unset($res['result']);
+        }
+        return $res;
     }
 
     public function getPostAbout($id){
@@ -1143,12 +1147,23 @@ class Post{
         where id_post=:id and pro.id_profile=p.id_profile_post group by p.id_post limit 1";
         return $this->config_Class->query($sql,array(":id"=>$id));
     }
+    
+    public function getPostsByTopicId($id_topic, $timestamp){
+        $sql="select p.*, pro.*, IFNULL(pt.vote_pt, 0) as already_voted
+        from post_relation as pr, profile as pro, post as p
+        left join post_thumb as pt on p.id_post=pt.id_post_pt and pt.id_profile_pt='".USER_ID."'
+        where id_topic_pr=:id and p.id_post=pr.id_post_pr and pro.id_profile=p.id_profile_post
+        and pro.type_profile<=2 and p.share_with_post is null ".$this->timePostSQL($timestamp, 'date_post')." order by date_post desc limit ".$this->getLimit();;
+        return $this->config_Class->query($sql,array(":id"=>$id_topic));
+
+    }
 
     public function getAllPosts($timestamp, $user_id = 0){
         $sql="select p.*, pro.*, IFNULL(pt.vote_pt, 0) as already_voted
         from post as p inner join profile as pro
         left join post_thumb as pt on pt.id_profile_pt=".USER_ID." and pt.id_post_pt=p.id_post  
-        where pro.id_profile=p.id_profile_post and pro.type_profile<=2 and p.share_with_post is null ".$this->userSQL($user_id).$this->timePostSQL($timestamp, 'date_post')." order by date_post desc limit ".$this->getLimit();
+        where pro.id_profile=p.id_profile_post and pro.type_profile<=2 and p.share_with_post is null ".
+        $this->userSQL($user_id).$this->timePostSQL($timestamp, 'date_post')." order by date_post desc limit ".$this->getLimit();
         return $this->config_Class->query($sql);
     }
 
@@ -1278,7 +1293,7 @@ class Post{
             $res = $this->config_Class->query($sql,array(':user'=>USER_ID));
 
             if ($res['result']) {
-               $this->findNewsTopic($res[0]['id_post'], '', $text, true);
+               $this->findNewsTopic($res[0]['id_post'], $title, $text, true);
                $this->updateSearchTable('newPost', $res);
                return $res;
             } else {

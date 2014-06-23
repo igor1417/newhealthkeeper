@@ -27,6 +27,11 @@ class postController extends Mobile_api {
         $this->afterPostFind();        
     }
     
+    public function topicPosts() {
+        $this->answer = $this->_post->getPostsByTopicId($this->getReqParam('id_topic'), $this->getReqParam('timestamp', true, 0));
+        $this->afterPostFind();        
+    }
+    
     public function getPostComments() {
         $this->answer = $this->_post->getAllPostComments($this->getReqParam('post_id'), $this->getReqParam('timestamp', true, 0));
         $this->afterCommentFind();        
@@ -60,6 +65,7 @@ class postController extends Mobile_api {
                 if ($key !== 'result') {
                     $timestamp = strtotime($this->answer[$key]['date_post']);
                     $this->answer[$key]['time_ago'] = $this->config->ago($timestamp);
+                    $this->answer[$key]['post_topics'] = $this->_post->getPostTopics($post['id_post']);
                 }
             }
         }
