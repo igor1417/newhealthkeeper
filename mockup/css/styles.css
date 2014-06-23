@@ -6,6 +6,8 @@
 html,
 body {
   font-family: Trebuchet, Trebuchet MS, Arial;
+  min-height: 100% !important;
+  height: 100%;
 }
 header {
   padding: 10px 0;
@@ -15,6 +17,10 @@ header {
 }
 header .navbar-brand {
   padding: 2px 15px;
+}
+.marg1 {
+  margin-top: 15px;
+  margin-bottom: 15px;
 }
 .logo {
   display: inline-block;
@@ -213,6 +219,11 @@ ul {
   min-height: 100%;
   background-color: #5f91cc;
   margin: 0;
+  position: absolute;
+  top: 0px;
+  left: -15px;
+  bottom: 0px;
+  width: 16.6667%;
 }
 .flex-box {
   display: flex;
@@ -297,14 +308,20 @@ h2 {
   font-family: Arial;
   color: #ffffff;
 }
+.like {
+  margin-left: 10px;
+}
 .comment {
   background-position: -84px 0;
+  margin-left: -5px;
 }
 .like-text {
   color: #e65c71;
+  font-size: 12px;
 }
 .comment-text {
   color: #5f91cc;
+  font-size: 12px;
 }
 .post-content,
 .track-content {
@@ -522,4 +539,33 @@ footer span {
   .track-table thead p {
     font-size: 11px;
   }
+}
+.avatar {
+    height: 100%;
+    width: 100%;
+    margin: 10px 0px 0 10px;
+}
+.title-avatar {
+    display: block;
+    float: none;
+    text-align: center;
+    margin-bottom: 3px;
+    word-wrap: break-word;
+}
+.p-avatar {
+    color: #909090;
+    font-size: 12px;
+    text-align: center;
+    word-wrap: break-word;
+}
+.page-container {
+    min-height: 100% !important;
+    padding-top: 115px;
+    margin-top: -115px;
+/*    overflow: hidden;
+    clear: both;*/
+    position: relative;
+}
+.pos-none {
+    position: inherit !important;
 }
