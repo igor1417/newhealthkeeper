@@ -22,6 +22,15 @@ header .navbar-brand {
   margin-top: 15px;
   margin-bottom: 15px;
 }
+.marg2 {
+    margin-right: 10px;
+}
+.marg3 {
+    margin-top: 20px;
+}
+.marg4 {
+    margin-top: 4px;
+}
 .logo {
   display: inline-block;
   text-decoration: none;
@@ -314,7 +323,7 @@ h2 {
 }
 .comment {
   background-position: -84px 0;
-  margin-left: -25px;
+  margin-left: -5px;
 }
 .like-text {
   color: #e65c71;
@@ -563,10 +572,79 @@ footer span {
     min-height: 100% !important;
     padding-top: 115px;
     margin-top: -115px;
-/*    overflow: hidden;
-    clear: both;*/
     position: relative;
 }
 .pos-none {
     position: inherit !important;
+}
+.c-breadcrumbs {
+    color: #909090;
+    font-size: 14px;
+    overflow: hidden;
+    padding: 20px 20px 0px;
+}
+.c-breadcrumbs a {
+    color: #909090;
+    font-size: 14px;
+}
+h5 {
+    color: #909090;
+    font-size: 14px;
+    padding-bottom: 10px;
+}
+.art-img {
+    width: 456px;
+    border-radius: 5px;
+    overflow: hidden;
+}
+.big-title {
+    font-size: 26px;
+}
+.comment-title {
+    float: left;
+    font-size: 22px;
+    margin-right: 18px;
+}
+.like-title {
+    float: right;
+    margin-left: 5px;
+    line-height: 32px;
+    color: #df6272;
+}
+.c-blue-line {
+    border-bottom: 1px solid #dfe9f5;
+    padding-bottom: 15px;
+}
+.title-avatar2 {
+    margin: 10px 0 0 0 !important;
+}
+.p-avatar2 {
+    color: #909090;
+    font-size: 12px;
+}
+.inp-text {
+    border: 1px solid #c2d3ed;
+    border-radius: 5px;
+    display: block;
+    padding: 8px;
+    margin-top: 6px;
+    width: 100%;
+}
+.btn-send {
+    background-color: #315f9a;
+    border-radius: 5px;
+    color: #ffffff !important;
+    display: block;
+    padding: 8px;
+    text-align: center;
+    margin-top: 6px;
+}
+.fr {
+    float: right;
+}
+.fl {
+    float: left;
+}
+.none {
+    display: none;
 }
