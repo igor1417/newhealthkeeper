@@ -21,16 +21,6 @@ $('#articles').ready(function(){
     ajax_top_menu(hash, '#tab_articles');
 });
 
-function ajax_sidebar_menu(url){
-    $.ajax({
-        url: url,
-        cache: false,
-        success: function(html){
-            $("#three-tabsContent").html(html);
-        }
-    });
-}
-
 function ajax_top_menu(url, dest){
     $.ajax({
         url: url,
@@ -47,22 +37,22 @@ function ajax_top_menu(url, dest){
         <div class="col-lg-2 col-md-2 col-sm-3 left-col pos-none">
             <ul class="side-bar hidden-xs">
                 <li class="sb-item">
-                    <a onclick="ajax_sidebar_menu('my_profile')" href="#my_profile">My profile</a>
+                    <a href="my_profile">My profile</a>
                 </li>
                 <li class="sb-item">
-                    <a onclick="ajax_sidebar_menu('my_diary')" href="#my_diary">My Diary</a>
+                    <a href="my_diary">My Diary</a>
                 </li>
                 <li class="sb-item">
-                    <a onclick="ajax_sidebar_menu('meet_others')" href="#meet_others">Meet Others</a>
+                    <a href="meet_others">Meet Others</a>
                 </li>
                 <li class="sb-item">
-                    <a onclick="ajax_sidebar_menu('my_team')" href="#my_team">My Team</a>
+                    <a href="my_team">My Team</a>
                 </li>
                 <li class="sb-item">
-                    <a onclick="ajax_sidebar_menu('my_doctors')" href="#my_doctors">My Doctors</a>
+                    <a href="my_doctors">My Doctors</a>
                 </li>
                 <li class="sb-item iconed">
-                    <a href="#">
+                    <a href="message_my_doctor">
                         <i class="glyphicon glyphicon-envelope"></i>
                         <div>
                             <p>Message</p>
@@ -71,7 +61,7 @@ function ajax_top_menu(url, dest){
                     </a>
                 </li>
                 <li class="sb-item iconed">
-                    <a href="#">
+                    <a href="request_accountment">
                         <i class="glyphicon glyphicon-pencil"></i>
                         <div>
                             <p>Request</p>
@@ -80,7 +70,7 @@ function ajax_top_menu(url, dest){
                     </a>
                 </li>
                 <li class="sb-item iconed">
-                    <a href="#">
+                    <a href="request_rx_refill">
                         <i class="glyphicon glyphicon-edit"></i>
                         <div>
                             <p>Request</p>
@@ -89,16 +79,16 @@ function ajax_top_menu(url, dest){
                     </a>
                 </li>
                 <li class="sb-item">
-                    <a href="#">Conditions</a>
+                    <a href="conditions">Conditions</a>
                 </li>
                 <li class="sb-item">
-                    <a href="#">Symptoms</a>
+                    <a href="symptoms">Symptoms</a>
                 </li>
                 <li class="sb-item">
-                    <a href="#">Medications</a>
+                    <a href="medications">Medications</a>
                 </li>
                 <li class="sb-item">
-                    <a href="#">Procedures</a>
+                    <a href="procedures">Procedures</a>
                 </li>
             </ul>
         </div>
