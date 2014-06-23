@@ -43,7 +43,7 @@ class profileController extends Mobile_api {
                 if (!in_array($key, $this->_available_attr)) {
                     unset($request[$key]);
                 } else {
-                    if ($key == 'zip_profile') {
+                    if ($key == 'zip_profile' && strlen($request[$key]) > 0) {
                         if (!$this->_profile->checkZip($request['zip_profile'])) {
                             $this->answer['error'] = 'Wrong zip code, please enter real zip code.';
                         }

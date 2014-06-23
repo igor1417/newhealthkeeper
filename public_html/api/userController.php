@@ -93,6 +93,9 @@ class userController extends Mobile_api {
             $this->answer['result'] = Mobile_api::RESPONSE_STATUS_ERROR;
             $this->answer['error'] = 'User with this email doesn`t exist.';
         }
-         
+    }
+    
+    public function deleteUser() {
+        $this->answer = $this->_user->deleteUser($this->getReqParam('user_id'));
     }
 }

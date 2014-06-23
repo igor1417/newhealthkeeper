@@ -369,6 +369,18 @@ class User{
         return $this->addCommonEndAuto($res,$email,$password);
 
     }
+    
+    public function deleteUser($user_id) {
+        $sql = "select * from user where id_user=:id_user limit 1";
+        $res = $this->config_Class->query($sql,array(':id_user' => $user_id));
+        if ($res['result']) {
+            $sql = "delete from user where id_user=:id_user";
+            $res = $this->config_Class->query($sql,array(':id_user' => $user_id));
+            return array('result'=>$res);
+        } else {
+            return array('result'=>false, 'error'=>'User with this id_user not found.');            
+        }
+    }
 
     public function doLogin($email, $password) {
 
