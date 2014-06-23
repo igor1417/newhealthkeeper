@@ -1171,12 +1171,19 @@ class Post{
         $sql = "select p.*, pro.*, IFNULL(pt.vote_pt, 0) as already_voted
         from post as p inner join profile as pro
         left join post_thumb as pt on pt.id_profile_pt=".USER_ID." and pt.id_post_pt=p.id_post
-        where pro.id_profile=p.id_profile_post ".$this->userSQL($user_id)." order by date_post desc limit ".$offset.', '.$limit;
+        where pro.id_profile=p.id_profile_post and pro.type_profile<=2 ".$this->userSQL($user_id)." order by date_post desc limit ".$offset.', '.$limit;
         return $this->config_Class->query($sql);
     }
 
-    public function getAllPostsCount() {
-        $sql = 'SELECT COUNT(*) as postCount FROM post';
+    public function getAllPostsCount($what) {
+        if ($what == 'exp') {
+            $what_sql = " and pro.type_profile<='2'";
+        } else if ($what == 'news') {
+            $what_sql = " and pro.type_profile='4'";
+        } else {
+            $what_sql = '';
+        }
+        $sql = 'SELECT COUNT(*) as postCount FROM post as p inner join profile as pro where pro.id_profile=p.id_profile_post'.$what_sql;
         return $this->config_Class->query($sql);
     }
 

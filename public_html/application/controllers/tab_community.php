@@ -18,7 +18,7 @@ class Tab_community extends CI_Controller {
         }
         $limit = 10;
         $result = $post->getAllPostsPaged($limit * ($pageNum - 1), $limit);
-        $postCount = $post->getAllPostsCount();
+        $postCount = $post->getAllPostsCount('exp');
         if ($postCount['result']) {
             $postCount = $postCount[0]['postCount'];
         } else {
