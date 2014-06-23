@@ -223,7 +223,8 @@ ul {
   top: 0px;
   left: -15px;
   bottom: 0px;
-  width: 16.6667%;
+  padding-top: 115px;
+  width: 17.977%;
 }
 .flex-box {
   display: flex;
@@ -313,7 +314,7 @@ h2 {
 }
 .comment {
   background-position: -84px 0;
-  margin-left: -5px;
+  margin-left: -25px;
 }
 .like-text {
   color: #e65c71;
