@@ -358,6 +358,7 @@ h2 {
 .article-content {
   padding-left: 15px;
   overflow: hidden;
+  width: 100%;
 }
 .paginator {
   display: inline-block;
