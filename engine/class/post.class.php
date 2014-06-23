@@ -5,7 +5,7 @@ class Post{
     
     private $config_Class;
 
-    private $limit = 10;
+    private $limit = 5;
     
     private $user_id_array = array();
 
@@ -657,7 +657,7 @@ class Post{
     public function getAllPostComments($id, $timestamp){ 
         $sql="select p.*, pc.*, IFNULL(pct.vote_pct, 0) as already_voted from  profile as p, post_comment as pc
         left join post_comment_thumb as pct on pc.id_pc=pct.id_pc_pct and pct.id_profile_pct='".USER_ID."'
-        where pc.id_post_pc=:id and pc.id_profile_pc=p.id_profile ".$this->timePostSQL($timestamp, 'pc.date_pc')." order by pc.date_pc asc limit ".$this->limit;
+        where pc.id_post_pc=:id and pc.id_profile_pc=p.id_profile ".$this->timePostSQL($timestamp, 'pc.date_pc')." order by pc.date_pc asc limit ".$this->getLimit();
         return $this->config_Class->query($sql,array(":id"=>$id));
     }
 
@@ -1148,7 +1148,7 @@ class Post{
         $sql="select p.*, pro.*, IFNULL(pt.vote_pt, 0) as already_voted
         from post as p inner join profile as pro
         left join post_thumb as pt on pt.id_profile_pt=".USER_ID." and pt.id_post_pt=p.id_post  
-        where pro.id_profile=p.id_profile_post ".$this->userSQL($user_id).$this->timePostSQL($timestamp, 'date_post')." order by date_post desc limit ".$this->limit;
+        where pro.id_profile=p.id_profile_post ".$this->userSQL($user_id).$this->timePostSQL($timestamp, 'date_post')." order by date_post desc limit ".$this->getLimit();
         return $this->config_Class->query($sql);
     }
 
@@ -1180,6 +1180,13 @@ class Post{
             $subquery = " AND $field_name < '$date'";
         } 
         return $subquery;
+    }
+    
+    private function getLimit() {
+        if (defined('RECORDS_LIMIT') && RECORDS_LIMIT > 0){
+            return RECORDS_LIMIT;
+        } 
+        return $this->limit;
     }
     
     private function getLastInsertID() {
@@ -1349,7 +1356,7 @@ class Post{
     }
     
     public function getAllConversations() {
-        $sql = "SELECT * FROM profile WHERE id_profile IN (".implode(',', $this->getUsersID()).")";
+        $sql = "SELECT * FROM profile WHERE id_profile IN (".implode(',', $this->getUsersID()).") LIMIT ".$this->getLimit();
         return $this->config_Class->query($sql);
     }
     
@@ -1376,7 +1383,7 @@ class Post{
     
     public function getConvMessages($to_user_id, $timestamp) {
         $sql = "SELECT * FROM post LEFT JOIN profile ON post.id_profile_post=profile.id_profile
-                WHERE ".$this->getConditionSQL().$this->timePostSQL($timestamp, 'date_post')." ORDER BY date_post DESC LIMIT ".$this->limit;
+                WHERE ".$this->getConditionSQL().$this->timePostSQL($timestamp, 'date_post')." ORDER BY date_post DESC LIMIT ".$this->getLimit();
         return $this->config_Class->query($sql, array(":user_from" => USER_ID, ":user_to" => $to_user_id,":user_from2" => USER_ID, ":user_to2" => $to_user_id));
         
     }

@@ -18,6 +18,7 @@ class Mobile_api {
     public function __construct($request = array()) {
         $this->request = $request;
         define('USER_ID', $this->getReqParam('user_id', true, 0));
+        define('RECORDS_LIMIT', $this->getReqParam('records_limit', true, 0));
         $this->config = new Config();
     }
     

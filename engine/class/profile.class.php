@@ -142,14 +142,16 @@ class Profile{
         $params_array = array();
         
         foreach ($attributes as $key => $attribute) {
-            $params_array[":$key"] = $attribute;
-            if (!$first_attr) $sql.=",";            
-            $sql.=" $key=:$key";
-            $first_attr = false;
+            if (in_array($key, array('zip_profile', 'country_profile')) && strlen(trim($attribute)) == 0) {} else {
+                $params_array[":$key"] = $attribute;
+                if (!$first_attr) $sql.=",";            
+                $sql.=" $key=:$key";
+                $first_attr = false;
+            }
         }
         $sql .= " where id_profile=:id_profile";
         $params_array[":id_profile"] = USER_ID;
-
+        
         $res= $this->config_Class->query($sql, $params_array);
 
         if($res){
