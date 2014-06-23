@@ -38,7 +38,7 @@
 |
 */
 
-$route['default_controller'] = "main_ci";
+$route['default_controller'] = 'tab_community';
 $route['404_override'] = '';
 
 
