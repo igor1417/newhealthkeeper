@@ -63,8 +63,59 @@
 
             <?php endforeach;?>
 
-
             <!-- PAGINATION -->
+            <? if ($pageCount > 1):?>
+                <ul class="paginator">
+                    <? if ($pageNum > 1): ?>
+                        <li><a href="tab_articles?pageNum=<?= $pageNum-1; ?>">Back</a></li>
+                    <? endif; ?>
+                    <? if ($pageNum<=$pagerVisibleSigns+1): ?>
+                        <? for ($i=1; $i<=$pageNum+$pagerVisibleSigns; ++$i): ?>
+                            <li <?php if ($i == $pageNum): ?> class="selected" <?php endif; ?>><a href="tab_articles?pageNum=<?= $i; ?>"><?= $i; ?></a></li>
+                        <? endfor; ?>
+                        <? if ($pageNum+$pagerVisibleSigns == $pageCount): ?>
+                        <? elseif ($pageNum+$pagerVisibleSigns+1 == $pageCount): ?>
+                            <li><a href="tab_articles?pageNum=<?= $pageCount; ?>"><?= $pageCount; ?></a></li>
+                        <? else: ?>
+                            <li class="pag-space">...</li>
+                            <li><a href="tab_articles?pageNum=<?= $pageCount; ?>"><?= $pageCount; ?></a></li>
+                        <? endif; ?>
+                    <? elseif ($pageNum > $pageCount - $pagerVisibleSigns): ?>
+                        <? if ($pageNum-$pagerVisibleSigns == 1): ?>
+                        <? elseif ($pageNum-$pagerVisibleSigns-1 == 1): ?>
+                            <li><a href="tab_articles?pageNum=1">1</a></li>
+                        <? else: ?>
+                            <li><a href="tab_articles?pageNum=1">1</a></li>
+                            <li class="pag-space">...</li>
+                        <? endif; ?>
+                        <? for ($i=$pageNum-$pagerVisibleSigns; $i<=$pageCount; ++$i): ?>
+                            <li <?php if ($i == $pageNum): ?> class="selected" <?php endif; ?>><a href="tab_articles?pageNum=<?= $i; ?>"><?= $i; ?></a></li>
+                        <? endfor; ?>
+                    <? else: ?>
+                        <? if ($pageNum-$pagerVisibleSigns == 1): ?>
+                        <? elseif ($pageNum-$pagerVisibleSigns-1 == 1): ?>
+                            <li><a href="tab_articles?pageNum=1">1</a></li>
+                        <? else: ?>
+                            <li><a href="tab_articles?pageNum=1">1</a></li>
+                            <li class="pag-space">...</li>
+                        <? endif; ?>
+                        <? for ($i=$pageNum-$pagerVisibleSigns; $i<=$pageNum+$pagerVisibleSigns; ++$i): ?>
+                            <li <?php if ($i == $pageNum): ?> class="selected" <?php endif; ?>><a href="tab_articles?pageNum=<?= $i; ?>"><?= $i; ?></a></li>
+                        <? endfor; ?>
+                        <? if ($pageNum+$pagerVisibleSigns == $pageCount): ?>
+                        <? elseif ($pageNum+$pagerVisibleSigns+1 == $pageCount): ?>
+                            <li><a href="tab_articles?pageNum=<?= $pageCount; ?>"><?= $pageCount; ?></a></li>
+                        <? else: ?>
+                            <li class="pag-space">...</li>
+                            <li><a href="tab_articles?pageNum=<?= $pageCount; ?>"><?= $pageCount; ?></a></li>
+                        <? endif; ?>
+                    <? endif; ?>
+                    <? if ($pageNum < $pageCount): ?>
+                        <li><a href="tab_articles?pageNum=<? echo $pageNum + 1; ?>">Next</a></li>
+                    <? endif; ?>
+                </ul>
+            <? endif; ?>
+
             <ul class="paginator">
                 <? if ($pageNum > 1):?>
                     <li><a href="tab_articles?pageNum=<? echo $pageNum - 1; ?>">Back</a></li>

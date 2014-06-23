@@ -71,48 +71,57 @@
             <?php endforeach;?>
 
             <!-- PAGINATION -->
+            <? if ($pageCount > 1):?>
             <ul class="paginator">
-                <? if ($pageNum > 1):?>
-                    <li><a href="tab_community?pageNum=<? echo $pageNum - 1; ?>">Back</a></li>
+                <? if ($pageNum > 1): ?>
+                    <li><a href="tab_community?pageNum=<?= $pageNum-1; ?>">Back</a></li>
                 <? endif; ?>
-
-                <? if ( $pageNum > 0 &&  $pageNum <= $pagerVisibleSigns + 1): ?>
-                    <? for ($i=1; $i<=$pagerVisibleSigns+1; ++$i ): ?>
-                        <li <?php if ($i == $pageNum): ?> class="selected" <?php endif; ?> ><a href="#"><?= $i; ?></a></li>
+                <? if ($pageNum<=$pagerVisibleSigns+1): ?>
+                    <? for ($i=1; $i<=$pageNum+$pagerVisibleSigns; ++$i): ?>
+                        <li <?php if ($i == $pageNum): ?> class="selected" <?php endif; ?>><a href="tab_community?pageNum=<?= $i; ?>"><?= $i; ?></a></li>
                     <? endfor; ?>
-                    <?php if ( $pageNum==2 ): ?>
-                        <li><a href="#"><?= $pageNum+2; ?></a></li>
-                    <?php endif; ?>
-                    <?php if ( $pageNum==3 ): ?>
-                        <li><a href="#"><?= $pageNum+1; ?></a></li>
-                        <li><a href="#"><?= $pageNum+2; ?></a></li>
-                    <?php endif; ?>
-                    <li class="pag-space"><a href="#">...</a></li>
-                    <li><a href="#"><?= $pageCount; ?></a></li>
-
-                <? elseif ( $pageNum <= $pageCount && $pageNum > $pageCount - $pagerVisibleSigns + 1): ?>
-                    <li><a href="#">1</a></li>
-                    <li class="pag-space"><a href="#">...</a></li>
-                    <li <?= $pageNum-2 ?> ><a href="#"><?=  $pageNum-2; ?></a></li>
-                    <li <?= $pageNum-1 ?> ><a href="#"><?=  $pageNum-1; ?></a></li>
-                    <li <? if ($pageNum == $pageCount): ?> class="selected"<? endif; ?> ><a href="#"><? echo $pageCount; ?></a></li>
-
+                    <? if ($pageNum+$pagerVisibleSigns == $pageCount): ?>
+                    <? elseif ($pageNum+$pagerVisibleSigns+1 == $pageCount): ?>
+                        <li><a href="tab_community?pageNum=<?= $pageCount; ?>"><?= $pageCount; ?></a></li>
+                    <? else: ?>
+                        <li class="pag-space">...</li>
+                        <li><a href="tab_community?pageNum=<?= $pageCount; ?>"><?= $pageCount; ?></a></li>
+                    <? endif; ?>
+                <? elseif ($pageNum > $pageCount - $pagerVisibleSigns): ?>
+                    <? if ($pageNum-$pagerVisibleSigns == 1): ?>
+                    <? elseif ($pageNum-$pagerVisibleSigns-1 == 1): ?>
+                        <li><a href="tab_community?pageNum=1">1</a></li>
+                    <? else: ?>
+                        <li><a href="tab_community?pageNum=1">1</a></li>
+                        <li class="pag-space">...</li>
+                    <? endif; ?>
+                    <? for ($i=$pageNum-$pagerVisibleSigns; $i<=$pageCount; ++$i): ?>
+                        <li <?php if ($i == $pageNum): ?> class="selected" <?php endif; ?>><a href="tab_community?pageNum=<?= $i; ?>"><?= $i; ?></a></li>
+                    <? endfor; ?>
                 <? else: ?>
-                    <li><a href="#">1</a></li>
-                    <li class="pag-space"><a href="#">...</a></li>
-                    <li <?= $pageNum-2 ?> ><a href="#"><?=  $pageNum-2; ?></a></li>
-                    <li <?= $pageNum-1 ?> ><a href="#"><?=  $pageNum-1; ?></a></li>
-                    <li <?= $pageNum ?> class="selected" ><a href="#"><?=  $pageNum; ?></a></li>
-                    <li <?= $pageNum+1 ?>  ><a href="#"><?=  $pageNum+1; ?></a></li>
-                    <li <?= $pageNum+2 ?>  ><a href="#"><?=  $pageNum+2; ?></a></li>
-                    <li class="pag-space"><a href="#">...</a></li>
-                    <li><a href="#"><?= $pageCount; ?></a></li>
+                    <? if ($pageNum-$pagerVisibleSigns == 1): ?>
+                    <? elseif ($pageNum-$pagerVisibleSigns-1 == 1): ?>
+                        <li><a href="tab_community?pageNum=1">1</a></li>
+                    <? else: ?>
+                        <li><a href="tab_community?pageNum=1">1</a></li>
+                        <li class="pag-space">...</li>
+                    <? endif; ?>
+                    <? for ($i=$pageNum-$pagerVisibleSigns; $i<=$pageNum+$pagerVisibleSigns; ++$i): ?>
+                        <li <?php if ($i == $pageNum): ?> class="selected" <?php endif; ?>><a href="tab_community?pageNum=<?= $i; ?>"><?= $i; ?></a></li>
+                    <? endfor; ?>
+                    <? if ($pageNum+$pagerVisibleSigns == $pageCount): ?>
+                    <? elseif ($pageNum+$pagerVisibleSigns+1 == $pageCount): ?>
+                        <li><a href="tab_community?pageNum=<?= $pageCount; ?>"><?= $pageCount; ?></a></li>
+                    <? else: ?>
+                        <li class="pag-space">...</li>
+                        <li><a href="tab_community?pageNum=<?= $pageCount; ?>"><?= $pageCount; ?></a></li>
+                    <? endif; ?>
                 <? endif; ?>
-
                 <? if ($pageNum < $pageCount): ?>
                     <li><a href="tab_community?pageNum=<? echo $pageNum + 1; ?>">Next</a></li>
                 <? endif; ?>
             </ul>
+            <? endif; ?>
 
         </div>
 
