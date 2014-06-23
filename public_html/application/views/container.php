@@ -10,6 +10,17 @@ $('#community').ready(function(){
     ajax_top_menu(hash, '#tab_community');
 });
 
+$('#articles').ready(function(){
+    if ($(location).attr('hash') === '') {
+        var hash = 'tab_articles';
+    } else if ($(location).attr('hash').substr(0, 1) === '#') {
+        var hash = $(location).attr('hash').substr(1);
+    } else {
+        var hash = 'tab_articles';
+    }
+    ajax_top_menu(hash, '#tab_articles');
+});
+
 function ajax_sidebar_menu(url){
     $.ajax({
         url: url,
