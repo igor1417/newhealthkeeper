@@ -286,6 +286,11 @@ class User extends Base{
 
         return $resEnd;
     }
+    
+    public function getBySocial($field_name, $social_id) {
+        $sql = 'select * from user where '.$field_name.'=:social_id limit 1';
+        return $this->config_Class->query($sql, array(':social_id' => $social_id));
+    }
 
     public function addNewSocial($social_id, $field_name, $gender) {
         require_once(ENGINE_PATH.'class/profile.class.php');

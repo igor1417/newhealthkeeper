@@ -60,14 +60,15 @@ class userController extends Mobile_api {
             $this->answer['error'] = 'Wrong social_type parameter value.';
         } else {
             $field_name = $this->_social_types[$social_type];
-            $sql = 'select * from user where '.$field_name.'=:social_id limit 1';
-            $res = $this->config->query($sql, array(':social_id' => $social_id));
+            $res = $this->_user->getBySocial($field_name, $social_id);
             if ($res['result']) {
                 $this->answer['result'] = Mobile_api::RESPONSE_STATUS_SUCCESS;
                 $this->answer['user_id'] = $res[0]['id_user'];
-                $this->answer['new'] = false;
             } else {
                 $this->answer = $this->_user->addNewSocial($social_id, $field_name, '');
+            }
+            if (isset($this->answer['user_id']) && $this->answer['user_id'] > 0) {
+                $this->answer = $this->getProfileClass()->getById($this->answer['user_id']);
             }
         }
         if (isset($this->answer['user_id']) && $this->answer['user_id'] > 0) {
