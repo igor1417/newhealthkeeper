@@ -53,7 +53,10 @@ class Tab_community extends CI_Controller {
           , 'pagerVisibleSigns' => 2
         );
 
+        $this->load->view('header');
+        $this->load->view('menu');
         $this->load->view('tab_community', $data);
+        $this->load->view('footer');
     }
 
 }

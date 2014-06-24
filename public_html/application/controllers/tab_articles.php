@@ -48,7 +48,10 @@ class Tab_articles extends CI_Controller {
           , 'pagerVisibleSigns' => 2
         );
 
+        $this->load->view('header');
+        $this->load->view('menu');
         $this->load->view('tab_articles', $data);
+        $this->load->view('footer');
     }
 
 }
