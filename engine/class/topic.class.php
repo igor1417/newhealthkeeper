@@ -1,7 +1,7 @@
 <?php
-class Topic{
+class Topic extends Base{
 
-	private $config_Class;
+    private $config_Class;
     
     function __construct()
     {
@@ -22,6 +22,13 @@ class Topic{
 	    return $this->config_Class->query($sql,array(":id"=>USER_ID));
     }
     
+    public function getUserTopics($timestamp){   //API
+	    $sql="select topic.* from topic_follow, topic
+	    where id_topic_tf=id_topic and id_profile_tf=:user ".$this->timePostSQL($timestamp, 'gnews_topic')." order by gnews_topic desc limit ".$this->getLimit();
+	    return $this->config_Class->query($sql,array(":user"=>USER_ID));
+    }
+    
+        
     public function addNew($name, $type){
     
     	if(strlen($name)<3){

@@ -16,6 +16,7 @@ class userController extends Mobile_api {
       , 2 => 'f'
     );
     private $_user;
+    private $_profile;    
 
     public function __construct($request = array()) {
         parent::__construct($request);
@@ -23,20 +24,29 @@ class userController extends Mobile_api {
         require_once(ENGINE_PATH.'class/user.class.php');
         $this->_user = new User();
     }
+    
+    private function getProfileClass() {
+        if (!is_object($this->_profile)) {
+             require_once(ENGINE_PATH.'class/profile.class.php');   
+             $this->_profile = new Profile();
+        }
+        return $this->_profile;
+    }
 
     public function registration() {
         $ar_email = explode('@', $this->getReqParam('email', false));
         $username = $ar_email[0];
         $this->answer = $this->_user->addNew($username, $this->getReqParam('email', false), $this->getReqParam('password', false), '');
         if (isset($this->answer['user_id']) && $this->answer['user_id'] > 0) {
-            require_once(ENGINE_PATH.'class/profile.class.php');
-            $profile = new Profile();
-            $profile->newAvatar($this->answer['user_id'], 'man1.jpg');
+            $this->getProfileClass()->newAvatar($this->answer['user_id'], 'man1.jpg');
         }
     }
     
     public function login() {
         $this->answer = $this->_user->doLogin($this->getReqParam('email', false), $this->getReqParam('password', false));
+        if (isset($this->answer['user_id']) && $this->answer['user_id'] > 0) {
+            $this->answer = $this->getProfileClass()->getById($this->answer['user_id']);
+        }
     }
     
     public function socialAuth() {
@@ -61,9 +71,7 @@ class userController extends Mobile_api {
             }
         }
         if (isset($this->answer['user_id']) && $this->answer['user_id'] > 0) {
-            require_once(ENGINE_PATH.'class/profile.class.php');
-            $profile = new Profile();
-            $profile->newAvatar($this->answer['user_id'], 'man1.jpg');
+            $this->getProfileClass()->newAvatar($this->answer['user_id'], 'man1.jpg');
         }
     }
     

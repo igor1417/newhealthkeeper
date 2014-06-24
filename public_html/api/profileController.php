@@ -56,14 +56,4 @@ class profileController extends Mobile_api {
         return $request;         
     }
     
-    
-    
-//    - фото
-//- никнейм
-//- пол
-//- дата рождения 
-//- страна (где живет)
-//- зип код
-//- occupation
-//- about
 }

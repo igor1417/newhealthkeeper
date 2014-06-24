@@ -1,6 +1,7 @@
 <?php
 define('MOBILE_REQUEST', true);
 require_once('../../engine/starter/config.php');
+require_once ('../../engine/class/base.class.php');
 require_once ('Mobile_api.php');
 
 $path_string = str_replace('/api/index.php/', '', $_SERVER['PHP_SELF']);

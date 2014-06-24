@@ -1,5 +1,5 @@
 <?php
-class User{
+class User extends Base{
 
     private $config_Class;
 

@@ -1,5 +1,5 @@
 <?php
-class Profile{
+class Profile extends Base{
 
     private $config_Class;
 

@@ -1,14 +1,10 @@
 <?php
-class Post{
+class Post extends Base {
 
-    const DATE_TIME_FORMAT = 'Y-m-d H:i:s';
-    
     private $config_Class;
 
-    private $limit = 5;
-    
     private $user_id_array = array();
-
+    
     function __construct()
     {
         $this->config_Class=new Config();
@@ -1148,17 +1144,27 @@ class Post{
         return $this->config_Class->query($sql,array(":id"=>$id));
     }
     
-    public function getPostsByTopicId($id_topic, $timestamp){
+    public function getPostsByKeyword($keyword, $timestamp){   //API Request
+        $sql="select p.*, pro.*, IFNULL(pt.vote_pt, 0) as already_voted
+            from post_relation as pr, profile as pro, post as p
+            left join post_thumb as pt on p.id_post=pt.id_post_pt and pt.id_profile_pt='".USER_ID."'
+            where p.id_post=pr.id_post_pr and pro.id_profile=p.id_profile_post and
+            ( text_post REGEXP '[[:<:]]".$keyword."[[:>:]]'OR title_post REGEXP '[[:<:]]".$keyword."[[:>:]]' )
+            and pro.type_profile<=2 and p.share_with_post is null ".$this->timePostSQL($timestamp, 'date_post')." order by date_post desc limit ".$this->getLimit();
+        return $this->config_Class->query($sql);
+    }
+    
+    public function getPostsByTopicId($id_topic, $timestamp){   //API Request
         $sql="select p.*, pro.*, IFNULL(pt.vote_pt, 0) as already_voted
         from post_relation as pr, profile as pro, post as p
         left join post_thumb as pt on p.id_post=pt.id_post_pt and pt.id_profile_pt='".USER_ID."'
         where id_topic_pr=:id and p.id_post=pr.id_post_pr and pro.id_profile=p.id_profile_post
-        and pro.type_profile<=2 and p.share_with_post is null ".$this->timePostSQL($timestamp, 'date_post')." order by date_post desc limit ".$this->getLimit();;
+        and pro.type_profile<=2 and p.share_with_post is null ".$this->timePostSQL($timestamp, 'date_post')." order by date_post desc limit ".$this->getLimit();
         return $this->config_Class->query($sql,array(":id"=>$id_topic));
 
     }
 
-    public function getAllPosts($timestamp, $user_id = 0){
+    public function getAllPosts($timestamp, $user_id = 0){   //API Request
         $sql="select p.*, pro.*, IFNULL(pt.vote_pt, 0) as already_voted
         from post as p inner join profile as pro
         left join post_thumb as pt on pt.id_profile_pt=".USER_ID." and pt.id_post_pt=p.id_post  
@@ -1195,22 +1201,6 @@ class Post{
         return $subquery;
     }
 
-    private function timePostSQL($timestamp, $field_name) {
-        $subquery = "";
-        if ($timestamp > 0){
-            $date = date(self::DATE_TIME_FORMAT, $timestamp);
-            $subquery = " AND $field_name < '$date'";
-        } 
-        return $subquery;
-    }
-    
-    private function getLimit() {
-        if (defined('RECORDS_LIMIT') && RECORDS_LIMIT > 0){
-            $this->limit = RECORDS_LIMIT;
-        } 
-        return $this->limit;
-    }
-    
     private function getLastInsertID() {
         $last_insert_array = $this->config_Class->query('select LAST_INSERT_ID() as last_id');
         if ($last_insert_array['result'] && $last_insert_array[0]['last_id'] > 0) {

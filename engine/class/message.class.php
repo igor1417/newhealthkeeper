@@ -1,5 +1,5 @@
 <?php
-class Message{
+class Message extends Base{
 
 	private $config_Class;
 	private $profile_Class;
