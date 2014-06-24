@@ -840,6 +840,9 @@ class Post extends Base {
         if(!$res){
             return false;
         }
+        
+        $this->getProfileClass()->updateBadge('helpful', USER_ID);
+        
         if($img!="" && isset($_FILES[$img])){
             $imgPath=PUBLIC_HTML_PATH."img/post/";
             $image=$this->config_Class->uploadImage($img, $imgPath);
@@ -920,20 +923,23 @@ class Post extends Base {
         }
 
         $sql="delete from post_thumb where id_profile_pt=:user and id_post_pt=:id";
-        $res= $this->config_Class->query($sql,array(":id"=>$id,":user"=>USER_ID));
+        $delete_res= $this->config_Class->query($sql,array(":id"=>$id,":user"=>USER_ID));
 
-        if(!$res){
+        if(!$delete_res){
             return false;
         }
 
-
         if($resVote[0]["vote_pt"]>0){
-            return $this->updateVoteCountUp($id);
+            $final_result = $this->updateVoteCountUp($id);
         }else if($resVote[0]["vote_pt"]<0){
-            return $this->updateVoteCountDown($id);
+            $final_result = $this->updateVoteCountDown($id);
         }
-
-     }
+        
+        $this->getProfileClass()->updateBadge('supportive', USER_ID);
+        $this->getProfileClass()->updateBadge('karma', $res[0]['id_profile_post']);
+        
+        return $final_result;
+    }
 
      private function removeCommentVote($id){
 
@@ -950,19 +956,22 @@ class Post extends Base {
         }
 
         $sql="delete from post_comment_thumb where id_profile_pct=:user and id_pc_pct=:id";
-        $res= $this->config_Class->query($sql,array(":id"=>$id,":user"=>USER_ID));
+        $delete_res= $this->config_Class->query($sql,array(":id"=>$id,":user"=>USER_ID));
 
-        if(!$res){
+        if(!$delete_res){
             return false;
         }
-
-
+        
         if($resVote[0]["vote_pct"]>0){
-            return $this->updateCommentVoteCountUp($id);
+            $final_result = $this->updateCommentVoteCountUp($id);
         }else if($resVote[0]["vote_pct"]<0){
-            return $this->updateCommentVoteCountDown($id);
+            $final_result = $this->updateCommentVoteCountDown($id);
         }
-
+        
+        $this->getProfileClass()->updateBadge('supportive', USER_ID);
+        $this->getProfileClass()->updateBadge('karma', $res[0]['id_profile_pc']);
+        
+        return $final_result;
      }
 
      public function alreadyCommentVoted($id){
@@ -988,7 +997,7 @@ class Post extends Base {
 
      private function addCommentVote($id,$vote){
 
-        $resComment=$this->getCommentById($id);
+        $resComment = $this->getCommentById($id);
 
         if(!$resComment["result"]){
             return false;
@@ -1015,6 +1024,9 @@ class Post extends Base {
             require_once(ENGINE_PATH.'class/message.class.php');
             $messageClass=new Message();
             $resMsg=$messageClass->commentLike(USER_ID,$resComment[0]["id_profile_pc"],$link);
+            
+            $this->getProfileClass()->updateBadge('supportive', USER_ID);
+            $this->getProfileClass()->updateBadge('karma', $resComment[0]['id_profile_pc']);
 
             return $resUpdated;
 
@@ -1074,13 +1086,18 @@ class Post extends Base {
         if(!$res){
             return false;
         }
-
+        
         if($vote>0){
             $link=WEB_URL."post/".$id;
             require_once(ENGINE_PATH.'class/message.class.php');
             $messageClass=new Message();
             $resMsg=$messageClass->postLike(USER_ID,$resPost[0]["id_profile_post"],$link);
-            return $this->updateVoteCountUp($id);
+            $final_res = $this->updateVoteCountUp($id);
+            
+            $this->getProfileClass()->updateBadge('supportive', USER_ID);
+            $this->getProfileClass()->updateBadge('karma', $resPost[0]['id_profile_post']);
+            
+            return $final_res;
         }else if($vote<0){
             return false;
             //return $this->updateVoteCountDown($id);
@@ -1276,6 +1293,8 @@ class Post extends Base {
         $res = $this->config_Class->query($sql,array(':user'=>USER_ID, ':text'=>$text, ':title'=>$title));
         
         if ($res) {
+            $this->getProfileClass()->updateBadge('sharing', USER_ID);
+            
             if($img!="" && isset($_FILES[$img])){
                 $imgPath=PUBLIC_HTML_PATH."img/post/";
                 $image=$this->config_Class->uploadImage($img, $imgPath);

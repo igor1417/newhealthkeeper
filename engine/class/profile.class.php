@@ -91,8 +91,8 @@ class Profile extends Base{
         }else if($badge=="supportive"){
             $sql="update profile set
             supportive_profile=(
-            (select count(id_pt) from post_thumb where id_profile_pt=:user group by id_profile_pt)+
-            (select count(id_pct) from post_comment_thumb where id_profile_pct=:user2 group by id_profile_pct))
+            IFNULL((select count(id_pt) from post_thumb where id_profile_pt=:user group by id_profile_pt), 0)+
+            IFNULL((select count(id_pct) from post_comment_thumb where id_profile_pct=:user2 group by id_profile_pct), 0) )
             where id_profile=:id";
             return $this->config_Class->query($sql,array(":user"=>$user,":user2"=>$user,":id"=>$user));
         }else if($badge=="helpful"){
