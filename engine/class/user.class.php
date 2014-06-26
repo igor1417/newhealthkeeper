@@ -116,7 +116,7 @@ class User extends Base{
         }
 
         $res=$this->getByEmail($email);
-
+var_dump($res);
         if($res["result"]){
             return array("result"=>false,"error"=>"Email adress already registered","emailDup"=>true);
         }

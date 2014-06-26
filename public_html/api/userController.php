@@ -36,14 +36,14 @@ class userController extends Mobile_api {
     public function registration() {
         $ar_email = explode('@', $this->getReqParam('email', false));
         $username = $ar_email[0];
+        $gender = $this->rangeValidator('gender', $this->getReqParam('gender', false));
         $this->answer = $this->_user->addNew(
             $username
           , $this->getReqParam('email', false)
           , $this->getReqParam('password', false)
+          , $gender
         );
-        if (isset($this->answer['user_id']) && $this->answer['user_id'] > 0) {
-            $this->getProfileClass()->newAvatar($this->answer['user_id'], 'man1.jpg');
-        }
+        $this->newAvatar($this->answer, $gender);
     }
     
     public function login() {
@@ -69,10 +69,13 @@ class userController extends Mobile_api {
                 $this->answer['result'] = Mobile_api::RESPONSE_STATUS_SUCCESS;
                 $this->answer['user_id'] = $res[0]['id_user'];
             } else {
+                $gender = $this->rangeValidator('gender', $this->getReqParam('gender', false));
                 $this->answer = $this->_user->addNewSocial(
                     $social_id
                   , $field_name
+                  , $gender
                 );
+                $this->newAvatar($this->answer, $gender);
             }
             if (isset($this->answer['user_id']) && $this->answer['user_id'] > 0) {
                 $this->answer = $this->getProfileClass()->getById($this->answer['user_id']);
@@ -89,6 +92,18 @@ class userController extends Mobile_api {
             return true;
         } else {
             return false;
+        }
+    }
+
+    private function newAvatar (array $answer, $gender) {
+        if($gender == 'f') {
+            $image = 'woman';
+        } else {
+            $image = 'man';
+        }
+        $image .= rand(1, 12).'.jpg';
+        if (isset($answer['user_id']) && $answer['user_id'] > 0) {
+            $this->getProfileClass()->newAvatar($answer['user_id'], $image);
         }
     }
     
