@@ -36,7 +36,11 @@ class userController extends Mobile_api {
     public function registration() {
         $ar_email = explode('@', $this->getReqParam('email', false));
         $username = $ar_email[0];
-        $this->answer = $this->_user->addNew($username, $this->getReqParam('email', false), $this->getReqParam('password', false), '');
+        $this->answer = $this->_user->addNew(
+            $username
+          , $this->getReqParam('email', false)
+          , $this->getReqParam('password', false)
+        );
         if (isset($this->answer['user_id']) && $this->answer['user_id'] > 0) {
             $this->getProfileClass()->newAvatar($this->answer['user_id'], 'man1.jpg');
         }
@@ -65,7 +69,10 @@ class userController extends Mobile_api {
                 $this->answer['result'] = Mobile_api::RESPONSE_STATUS_SUCCESS;
                 $this->answer['user_id'] = $res[0]['id_user'];
             } else {
-                $this->answer = $this->_user->addNewSocial($social_id, $field_name, '');
+                $this->answer = $this->_user->addNewSocial(
+                    $social_id
+                  , $field_name
+                );
             }
             if (isset($this->answer['user_id']) && $this->answer['user_id'] > 0) {
                 $this->answer = $this->getProfileClass()->getById($this->answer['user_id']);

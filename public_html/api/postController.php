@@ -45,9 +45,8 @@ class postController extends Mobile_api {
     public function addPost() {
         $title = $this->getReqParam('title', false);
         $content = $this->getReqParam('content', false);
-        $image = $this->checkImage('image', true);
 
-        $this->answer = $this->_post->addNewNoTopic($content, $title, $image);
+        $this->answer = $this->_post->addNewNoTopic($content, $title, 'image');
     }
     
     public function addComment() {
