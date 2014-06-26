@@ -27,3 +27,5 @@ public_html/application/cache/*
 public_html/application/logs/*
 !public_html/application/logs/index.html
 !public_html/application/logs/.htaccess
+/hk_homepage_v3.psd
+/hk_homepage_v3-login.jpg
