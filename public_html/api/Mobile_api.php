@@ -82,7 +82,7 @@ class Mobile_api {
             return $value;
         }
         $this->answer['result'] = Mobile_api::RESPONSE_STATUS_ERROR;
-        $this->answer['error'] = 'Parameter '.$parameter_name.' should be in range ('.implode(', ', $range_array).')';
+        $this->answer['error'] = 'Parameter '.$name.' should be in range ('.implode(', ', $range_array).')';
         $this->jsonOut();
     }
 }
