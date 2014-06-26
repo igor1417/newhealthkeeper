@@ -209,6 +209,15 @@ class Profile extends Base{
         return $res;
     }
 
+    public function newName($user_id, $name){
+        $sql = 'update profile set name_profile=:name where id_profile=:id';
+        $res = $this->config_Class->query($sql, array(':name' => $name, ':id' => $user_id));
+        if ($res) {
+            $this->updateSearchTable('updateUser', USER_ID);
+        }
+        return $res;
+    }
+
     public function saveStep($step){
 
         $sql="select steps_profile from profile where id_profile=:id limit 1";
