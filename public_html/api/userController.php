@@ -43,9 +43,7 @@ class userController extends Mobile_api {
           , $this->getReqParam('password', false)
           , $gender
         );
-        if (isset($this->answer['user_id']) && $this->answer['user_id'] > 0) {
-            $this->getProfileClass()->newAvatar($this->answer['user_id'], 'man1.jpg');
-        }
+        $this->newAvatar($this->answer, $gender);
     }
     
     public function login() {
@@ -77,6 +75,7 @@ class userController extends Mobile_api {
                   , $field_name
                   , $gender
                 );
+                $this->newAvatar($this->answer, $gender);
             }
             if (isset($this->answer['user_id']) && $this->answer['user_id'] > 0) {
                 $this->answer = $this->getProfileClass()->getById($this->answer['user_id']);
@@ -93,6 +92,18 @@ class userController extends Mobile_api {
             return true;
         } else {
             return false;
+        }
+    }
+
+    private function newAvatar (array $answer, $gender) {
+        if($gender == 'f') {
+            $image = 'woman';
+        } else {
+            $image = 'man';
+        }
+        $image .= rand(1, 12).'.jpg';
+        if (isset($answer['user_id']) && $answer['user_id'] > 0) {
+            $this->getProfileClass()->newAvatar($answer['user_id'], $image);
         }
     }
     
