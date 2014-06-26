@@ -75,9 +75,8 @@ class Mobile_api {
         $this->jsonOut();
     }
     
-    protected function rangeValidator($parameter_name) {
-        $value = $this->request[$parameter_name];
-        $_model_property = '_'.$parameter_name;
+    protected function rangeValidator($name, $value) {
+        $_model_property = '_'.$name;
         $range_array = $this->$_model_property;
         if (in_array($value, $range_array)) {
             return $value;
