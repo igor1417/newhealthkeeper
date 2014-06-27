@@ -403,6 +403,17 @@ class Profile extends Base{
 
     }
 
+    public function getByIdWithTopics($id) { //API
+        $profile = $this->getById($id);
+
+        if ($profile['result']) {
+            $sql = 'select topic.* from topic_follow, topic
+            where id_topic_tf=id_topic and id_profile_tf=:user order by gnews_topic desc';
+            $profile['topic'] = $this->config_Class->query($sql, array(':user'=>$id));
+        }
+        return $profile;
+    }
+
     public function getByType($type){
 
         $sql="select * from profile where type_profile=:type order by name_profile";
