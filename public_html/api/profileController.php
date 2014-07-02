@@ -8,24 +8,24 @@ class profileController extends Mobile_api {
 
     private $_profile;
     private $_available_attr = array('username_profile', 'gender_profile', 'dob_profile', 'country_profile', 'zip_profile', 'job_profile', 'bio_profile');
-    
+
     public function __construct($request = array()) {
         parent::__construct($request);
         $this->getReqParam('user_id');
-        
+
         require_once(ENGINE_PATH.'class/profile.class.php');
         $this->_profile = new Profile();
     }
-    
+
     public function getProfile() {
-        $this->answer = $this->_profile->getById($this->getReqParam('user_id'));
+        $this->answer = $this->_profile->getByIdWithTopics($this->getReqParam('user_id'));
     }
-    
+
     public function updateProfile() {
         $attributes = $this->getProfileAttr();
          if (count($attributes) === count($this->_available_attr) ) {
             if (!isset($this->answer['error'])) {
-                $this->answer = $this->_profile->updateProfile($attributes, 'image');                           
+                $this->answer = $this->_profile->updateProfile($attributes, 'image');
             } else {
                 $this->answer['result'] = Mobile_api::RESPONSE_STATUS_ERROR;
             }
@@ -34,7 +34,7 @@ class profileController extends Mobile_api {
             $this->answer['error'] = 'We need all this params ('.implode(',', $this->_available_attr).').';
         }
     }
-    
+
     private function getProfileAttr() {
         $request = $this->request;
         unset($request['user_id']);
@@ -48,12 +48,12 @@ class profileController extends Mobile_api {
                             $this->answer['error'] = 'Wrong zip code, please enter real zip code.';
                         }
                     } else {
-                        $request[$key] = trim(strip_tags($param));                                          
+                        $request[$key] = trim(strip_tags($param));
                     }
                 }
             }
         }
-        return $request;         
+        return $request;
     }
-    
+
 }

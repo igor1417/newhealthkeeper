@@ -39,7 +39,7 @@
 
                 <div class="article-content">
                     <div class="col-lg-9 col-md-9 col-sm-8 col-xs-8 col-sxs-12">
-                        <h1><?= !empty($post['title_post']) ? $post['title_post'] : "&nbsp;"; ?></h1>
+                        <h1><a href="/article?id=<?= $post['id_post'] ?>" ><?= !empty($post['title_post']) ? $post['title_post'] : "&nbsp;"; ?></a></h1>
                         <h6 class="author-time"><?= $post['username_profile'], ' ', !empty($post['date_post']) ? $post['date_post'] : '' ; ?></h6>
                         <p><?= !empty($post['text_post']) ? $post['text_post'] : "&nbsp;"; ?></p>
                     </div>

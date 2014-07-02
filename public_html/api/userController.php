@@ -43,6 +43,7 @@ class userController extends Mobile_api {
           , $this->getReqParam('password', false)
           , $gender
         );
+        $this->newName($this->answer, $gender);
         $this->newAvatar($this->answer, $gender);
     }
     
@@ -75,6 +76,7 @@ class userController extends Mobile_api {
                   , $field_name
                   , $gender
                 );
+                $this->newName($this->answer, $gender);
                 $this->newAvatar($this->answer, $gender);
             }
             if (isset($this->answer['user_id']) && $this->answer['user_id'] > 0) {
@@ -106,7 +108,24 @@ class userController extends Mobile_api {
             $this->getProfileClass()->newAvatar($answer['user_id'], $image);
         }
     }
-    
+
+    private function newName(array $answer, $gender) {
+        if($gender == 'f') {
+            $file = 'woman.txt';
+        } else {
+            $file = 'man.txt';
+        }
+        if (file_exists(__DIR__.'/'.$file)) {
+            $lines = file(__DIR__.'/'.$file);
+            $names = array_rand($lines, 2);
+            $name = trim($lines[$names[0]]).'-'.trim($lines[$names[1]]);
+
+            if (isset($answer['user_id']) && $answer['user_id'] > 0) {
+                $this->getProfileClass()->newName($answer['user_id'], $name);
+            }
+        }
+    }
+
     public function forgotPassword() {
         $user_result = $this->_user->getByEmail($this->getReqParam('email', false));
         if ($user_result['result']) {

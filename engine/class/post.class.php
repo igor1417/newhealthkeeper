@@ -4,7 +4,7 @@ class Post extends Base {
     private $config_Class;
 
     private $user_id_array = array();
-    
+
     function __construct()
     {
         $this->config_Class=new Config();
@@ -840,9 +840,9 @@ class Post extends Base {
         if(!$res){
             return false;
         }
-        
+
         $this->getProfileClass()->updateBadge('helpful', USER_ID);
-        
+
         if($img!="" && isset($_FILES[$img])){
             $imgPath=PUBLIC_HTML_PATH."img/post/";
             $image=$this->config_Class->uploadImage($img, $imgPath);
@@ -934,10 +934,10 @@ class Post extends Base {
         }else if($resVote[0]["vote_pt"]<0){
             $final_result = $this->updateVoteCountDown($id);
         }
-        
+
         $this->getProfileClass()->updateBadge('supportive', USER_ID);
         $this->getProfileClass()->updateBadge('karma', $res[0]['id_profile_post']);
-        
+
         return $final_result;
     }
 
@@ -961,16 +961,16 @@ class Post extends Base {
         if(!$delete_res){
             return false;
         }
-        
+
         if($resVote[0]["vote_pct"]>0){
             $final_result = $this->updateCommentVoteCountUp($id);
         }else if($resVote[0]["vote_pct"]<0){
             $final_result = $this->updateCommentVoteCountDown($id);
         }
-        
+
         $this->getProfileClass()->updateBadge('supportive', USER_ID);
         $this->getProfileClass()->updateBadge('karma', $res[0]['id_profile_pc']);
-        
+
         return $final_result;
      }
 
@@ -1024,7 +1024,7 @@ class Post extends Base {
             require_once(ENGINE_PATH.'class/message.class.php');
             $messageClass=new Message();
             $resMsg=$messageClass->commentLike(USER_ID,$resComment[0]["id_profile_pc"],$link);
-            
+
             $this->getProfileClass()->updateBadge('supportive', USER_ID);
             $this->getProfileClass()->updateBadge('karma', $resComment[0]['id_profile_pc']);
 
@@ -1035,7 +1035,7 @@ class Post extends Base {
             //return $this->updateVoteCountDown($id);
         }
     }
-    
+
     public function postLike($id,$vote) {
         $resVote=$this->alreadyVoted($id);
 
@@ -1053,7 +1053,7 @@ class Post extends Base {
         }
         return $answer;
     }
-    
+
     public function commentLike($id,$vote) {
         $resVote=$this->alreadyCommentVoted($id);
 
@@ -1086,17 +1086,17 @@ class Post extends Base {
         if(!$res){
             return false;
         }
-        
+
         if($vote>0){
             $link=WEB_URL."post/".$id;
             require_once(ENGINE_PATH.'class/message.class.php');
             $messageClass=new Message();
             $resMsg=$messageClass->postLike(USER_ID,$resPost[0]["id_profile_post"],$link);
             $final_res = $this->updateVoteCountUp($id);
-            
+
             $this->getProfileClass()->updateBadge('supportive', USER_ID);
             $this->getProfileClass()->updateBadge('karma', $resPost[0]['id_profile_post']);
-            
+
             return $final_res;
         }else if($vote<0){
             return false;
@@ -1160,7 +1160,7 @@ class Post extends Base {
         where id_post=:id and pro.id_profile=p.id_profile_post group by p.id_post limit 1";
         return $this->config_Class->query($sql,array(":id"=>$id));
     }
-    
+
     public function getPostsByKeyword($keyword, $timestamp){   //API Request
         $sql="select p.*, pro.*, IFNULL(pt.vote_pt, 0) as already_voted
             from post_relation as pr, profile as pro, post as p
@@ -1170,7 +1170,7 @@ class Post extends Base {
             and pro.type_profile<=2 and p.share_with_post is null ".$this->timePostSQL($timestamp, 'date_post')." order by date_post desc limit ".$this->getLimit();
         return $this->config_Class->query($sql);
     }
-    
+
     public function getPostsByTopicId($id_topic, $timestamp){   //API Request
         $sql="select p.*, pro.*, IFNULL(pt.vote_pt, 0) as already_voted
         from post_relation as pr, profile as pro, post as p
@@ -1227,7 +1227,7 @@ class Post extends Base {
         }
     }
 
-    
+
     public function addRelation($id_post, $id_topic) {
         $sql = 'select * from post_relation where id_post_pr=:id_post and id_topic_pr=:id_topic';
         $res = $this->config_Class->query($sql, array(':id_post'=>$id_post, ':id_topic'=>$id_topic));
@@ -1291,10 +1291,10 @@ class Post extends Base {
 
         $sql = 'insert into post (text_post,id_profile_post,date_post,title_post) VALUES (:text,:user,now(),:title)';
         $res = $this->config_Class->query($sql,array(':user'=>USER_ID, ':text'=>$text, ':title'=>$title));
-        
+
         if ($res) {
             $this->getProfileClass()->updateBadge('sharing', USER_ID);
-            
+
             if($img!="" && isset($_FILES[$img])){
                 $imgPath=PUBLIC_HTML_PATH."img/post/";
                 $image=$this->config_Class->uploadImage($img, $imgPath);
@@ -1385,12 +1385,17 @@ class Post extends Base {
         }
 
     }
-    
+
     public function getAllConversations() {
+        $users = $this->getUsersID();
+        if (!empty($users)) {
         $sql = "SELECT * FROM profile WHERE id_profile IN (".implode(',', $this->getUsersID()).") LIMIT ".$this->getLimit();
-        return $this->config_Class->query($sql);
+            return $this->config_Class->query($sql);
+        } else {
+            return array('result' => true);
+        }
     }
-    
+
     private function getUsersID() {
             $sql = "SELECT id_profile_post AS user_id FROM post WHERE share_with_post=:id";
             $res1 = $this->config_Class->query($sql, array(":id" => USER_ID));
@@ -1400,7 +1405,7 @@ class Post extends Base {
             $this->addUsersIDs($res2);                
             return $this->user_id_array;
     }
-        
+
     private function addUsersIDs($ids) {
         $result = $ids['result'];
         unset($ids['result']);
@@ -1411,14 +1416,13 @@ class Post extends Base {
             }
         }
     }
-    
+
     public function getConvMessages($to_user_id, $timestamp) {
         $sql = "SELECT * FROM post LEFT JOIN profile ON post.id_profile_post=profile.id_profile
                 WHERE ".$this->getConditionSQL().$this->timePostSQL($timestamp, 'date_post')." ORDER BY date_post DESC LIMIT ".$this->getLimit();
         return $this->config_Class->query($sql, array(":user_from" => USER_ID, ":user_to" => $to_user_id,":user_from2" => USER_ID, ":user_to2" => $to_user_id));
-        
     }
-    
+
     private function getConditionSQL() {
             return " (id_profile_post=:user_to AND share_with_post=:user_from) OR (id_profile_post=:user_from2 AND share_with_post=:user_to2) ";
     }
@@ -1506,8 +1510,6 @@ class Post extends Base {
             }else{
                 return false;
             }
-
-
         }else{
             return false;
         }

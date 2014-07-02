@@ -209,6 +209,15 @@ class Profile extends Base{
         return $res;
     }
 
+    public function newName($user_id, $name){
+        $sql = 'update profile set name_profile=:name where id_profile=:id';
+        $res = $this->config_Class->query($sql, array(':name' => $name, ':id' => $user_id));
+        if ($res) {
+            $this->updateSearchTable('updateUser', USER_ID);
+        }
+        return $res;
+    }
+
     public function saveStep($step){
 
         $sql="select steps_profile from profile where id_profile=:id limit 1";
@@ -392,6 +401,17 @@ class Profile extends Base{
         $sql="select * from profile where id_profile=:id limit 1";
         return $this->config_Class->query($sql,array(":id"=>$id));
 
+    }
+
+    public function getByIdWithTopics($id) { //API
+        $profile = $this->getById($id);
+
+        if ($profile['result']) {
+            $sql = 'select topic.* from topic_follow, topic
+            where id_topic_tf=id_topic and id_profile_tf=:user order by gnews_topic desc';
+            $profile['topic'] = $this->config_Class->query($sql, array(':user'=>$id));
+        }
+        return $profile;
     }
 
     public function getByType($type){
