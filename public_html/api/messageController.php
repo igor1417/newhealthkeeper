@@ -26,11 +26,37 @@ class messageController extends Mobile_api {
     
     public function getConversations() {
         $this->answer = $this->_post->getAllConversations($this->getReqParam('timestamp', true, 0));
+        $this->getDateAgoLastPost();
     }
-    
+
     public function getConversationMessages() {
         $to_user_id = $this->getReqParam('to_user_id', true);
         $this->answer = $this->_post->getConvMessages($to_user_id, $this->getReqParam('timestamp', true, 0));
-    }    
+        $this->afterMessageFind();
+    }
+
+    private function afterMessageFind() {
+        if (count($this->answer) > 0) {
+            foreach ($this->answer as $key=>$post) {
+                if ($key !== 'result') {
+                    $timestamp = strtotime($this->answer[$key]['date_post']);
+                    $this->answer[$key]['time_ago'] = $this->config->ago($timestamp);
+                }
+            }
+        }
+    }
+
+    private function getDateAgoLastPost() {
+        if (count($this->answer) > 0) {
+            foreach ($this->answer as $key=>$post) {
+                if ($key !== 'result') {
+                    $last_post = $this->_post->getConvMessages($this->answer[$key]['id_profile'], $this->getReqParam('timestamp', true, 1));
+                    /*$timestamp = strtotime($this->answer[$key]['date_post']);*/
+                    $this->answer[$key]['date_post'] = $last_post[0]['date_post'];
+                    $this->afterMessageFind();
+                }
+            }
+        }
+    }
 
 }
