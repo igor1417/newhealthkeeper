@@ -56,7 +56,7 @@ class Config{
                     if(preg_match("/^select/", strtolower($sql))){
                             $query->execute($params);
                             $res = $query->fetchAll(PDO::FETCH_ASSOC);
-                        $res["result"]=count($res);
+                            $res["result"]=count($res);
                             return $res;
                     }else{
                             return $query->execute($params);    

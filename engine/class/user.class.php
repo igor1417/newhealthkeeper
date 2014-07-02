@@ -497,8 +497,11 @@ class User extends Base{
                 $sql="select * from user,profile
                     where id_user=id_profile and id_user=:id and session_user=:session and cookie_user=:cookie limit 1";
                 $res=$this->config_Class->query($sql,
-                    array(":session"=>$_SESSION["user_token"],":cookie"=>$_COOKIE["healthkeep"],
-                        ":id"=>$user_id)
+                    array(
+                          ":session"=>$_SESSION["user_token"]
+                         ,":cookie"=>$_COOKIE["healthkeep"]
+                         ,":id"=>$user_id
+                         )
                     );
                 if($res["result"]){
                     $this->doDefine($res);
