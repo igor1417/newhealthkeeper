@@ -67,18 +67,14 @@ class messageController extends Mobile_api {
                     foreach ($last_post as $key2=>$lp) {
                         if($key2 !== 'result' ) {
                             $this->answer[$key]['date_post'] = $last_post[0]['date_post'];
-                           // $this->answer[$key]['test'] = $last_post;
                             $this->afterConversationFind();
-                        } else {
-                            $this->answer[$key]['date_post'] = $key2;
                         }
-
                     }
                 }
 
-      /*          if ($key != 'result' && !isset($this->answer[$key]['date_post'])) {
+                if ($key !== 'result' && !isset($this->answer[$key]['date_post'])) {
                     unset($this->answer[$key]);
-                }*/
+                }
             }
         }
     }
