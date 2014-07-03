@@ -74,9 +74,9 @@ class messageController extends Mobile_api {
                     }
                 }
 
-                if ($key != 'result' && !isset($this->answer[$key]['date_post'])) {
+      /*          if ($key != 'result' && !isset($this->answer[$key]['date_post'])) {
                     unset($this->answer[$key]);
-                }
+                }*/
             }
         }
     }
