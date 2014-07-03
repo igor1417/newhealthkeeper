@@ -12,6 +12,19 @@ class Login extends CI_Controller {
         require_once(ENGINE_PATH . 'class/config.class.php');
         require_once(ENGINE_PATH . 'class/user.class.php');
 
+        $userClass = new User();
+        if(USER_ID!=0){							//check out this part later
+			if(isset($_GET["logout"])){
+				$userClass->doLogout();
+			}else{
+				header("Location:" . WEB_URL);
+				exit;
+			}
+		}else if(isset($_GET["logout"])){
+			//in case the session has expired still can logout
+			$userClass->doLogout();
+		}
+        
         $token=sha1(microtime(true).mt_rand(10000,90000));
 		$_SESSION['token']=$token;
 		
@@ -19,7 +32,7 @@ class Login extends CI_Controller {
 		$password = $this->input->post('password');
 		$errorMsg = '';
 		if(isset($email, $password) && !empty($email) && !empty($password)) {
-			$userClass = new User();
+// 			$userClass = new User();
 			$res = $userClass->doLogin($email, $password);
 // 			print_r($res); die;
 			if($res['result']) {
@@ -43,17 +56,14 @@ class Login extends CI_Controller {
 				if(isset($res["error"])) {
 /*					if($res["error"]=="email"){
 // 					header("Location:".WEB_URL."login?email".$gotoParam);
-					echo 'error1';
 					exit;
 					}
 					else if($res["error"]=="password"){
 	// 					header("Location:".WEB_URL."login?password".$gotoParam);
-						echo 'error2';
 						exit;
 					}
 					else{
 	// 					header("Location:".WEB_URL."login?refresh".$gotoParam);
-						echo 'error3';
 						exit;
 					}*/
 					$errorMsg = $res["error"];
@@ -67,6 +77,13 @@ class Login extends CI_Controller {
         $this->load->view('login_header');
         $this->load->view('login', array('errorMsg' => $errorMsg));
         $this->load->view('footer');
+    }
+    
+    public function logout() {											//		temporary
+		require_once('../engine/starter/config.php');
+		header("Location:".WEB_URL."login?logout");
+// 		echo "<pre>";
+// 		print_r(get_defined_constants(true)); die;
     }
 
 }

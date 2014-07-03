@@ -4,9 +4,12 @@ class Tab_community extends CI_Controller {
 
     public function index() {
         require_once('../engine/starter/config.php');
+        if(USER_ID == 0) {
+			header('Location:'.WEB_URL.'login');
+        }
         require_once(ENGINE_PATH.'class/post.class.php');
         require_once(ENGINE_PATH.'class/config.class.php');
-
+        
         $post = new Post();
         $config = new Config();
         $pageNum = (int)$this->input->get('pageNum');
