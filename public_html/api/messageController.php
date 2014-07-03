@@ -70,7 +70,7 @@ class messageController extends Mobile_api {
                            // $this->answer[$key]['test'] = $last_post;
                             $this->afterConversationFind();
                         } else {
-                            $this->answer[$key]['date_post'] = "no data";
+                            $this->answer[$key]['date_post'] = $key2;
                         }
 
                     }
