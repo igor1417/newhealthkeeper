@@ -39,8 +39,21 @@ class messageController extends Mobile_api {
         if (count($this->answer) > 0) {
             foreach ($this->answer as $key=>$post) {
                 if ($key !== 'result') {
-                    $timestamp = strtotime($this->answer[$key]['date_post']);
+                   $timestamp = strtotime($this->answer[$key]['date_post']);
                     $this->answer[$key]['time_ago'] = $this->config->ago($timestamp);
+                }
+            }
+        }
+    }
+
+    private function afterConversationFind() {
+        if (count($this->answer) > 0) {
+            foreach ($this->answer as $key=>$post) {
+                if ($key !== 'result') {
+                    if (isset($this->answer[$key]['date_post'])) {
+                        $timestamp = strtotime($this->answer[$key]['date_post']);
+                        $this->answer[$key]['time_ago'] = $this->config->ago($timestamp);
+                    }
                 }
             }
         }
@@ -51,9 +64,18 @@ class messageController extends Mobile_api {
             foreach ($this->answer as $key=>$post) {
                 if ($key !== 'result') {
                     $last_post = $this->_post->getConvMessages($this->answer[$key]['id_profile'], $this->getReqParam('timestamp', true, 1));
-                    /*$timestamp = strtotime($this->answer[$key]['date_post']);*/
-                    $this->answer[$key]['date_post'] = $last_post[0]['date_post'];
-                    $this->afterMessageFind();
+                    foreach ($last_post as $key2=>$lp) {
+                        if($key2 !== 'result' ) {
+                            $this->answer[$key]['date_post'] = $last_post[0]['date_post'];
+                           // $this->answer[$key]['test'] = $last_post;
+                            $this->afterConversationFind();
+                        }
+
+                    }
+                }
+
+                if ($key != 'result' && !isset($this->answer[$key]['date_post'])) {
+                    unset($this->answer[$key]);
                 }
             }
         }
