@@ -24,54 +24,56 @@ class Login extends CI_Controller {
 			//in case the session has expired still can logout
 			$userClass->doLogout();
 		}
-        
-        $token=sha1(microtime(true).mt_rand(10000,90000));
-		$_SESSION['token']=$token;
 		
-		$email = $this->input->post('email');
-		$password = $this->input->post('password');
 		$errorMsg = '';
-		if(isset($email, $password) && !empty($email) && !empty($password)) {
-// 			$userClass = new User();
-			$res = $userClass->doLogin($email, $password);
-// 			print_r($res); die;
-			if($res['result']) {
-				//renew mixpanel info
-				$_SESSION["mx_name_tag"]=0;
-				
-				require_once(ENGINE_PATH.'class/profile.class.php');
-				$profileClass=new Profile();
-				$resProfile=$profileClass->getById($_SESSION["user_id"]);
-				if($resProfile["result"]) {
-// 					if($gotoParam!="" && $goto!="") {
-// 						header("Location:".WEB_URL.$goto);
-// 					}
-// 					else {
-						header("Location:" . WEB_URL);
-// 					}
+		if(!empty($_POST))	 {
+			$token=sha1(microtime(true).mt_rand(10000,90000));
+			$_SESSION['token']=$token;
+			$email = $this->input->post('email');
+			$password = $this->input->post('password');
+			if(isset($email, $password) && !empty($email) && !empty($password)) {
+				$res = $userClass->doLogin($email, $password);
+	// 			print_r($res); die;
+				if($res['result']) {
+					//renew mixpanel info
+					$_SESSION["mx_name_tag"]=0;
+					
+					require_once(ENGINE_PATH.'class/profile.class.php');
+					$profileClass=new Profile();
+					$resProfile=$profileClass->getById($_SESSION["user_id"]);
+					if($resProfile["result"]) {
+	// 					if($gotoParam!="" && $goto!="") {
+	// 						header("Location:".WEB_URL.$goto);
+	// 					}
+	// 					else {
+							header("Location:" . WEB_URL);
+	// 					}
+						
+					}
+				}
+				else {
+					if(isset($res["error"])) {
+	/*					if($res["error"]=="email"){
+	// 					header("Location:".WEB_URL."login?email".$gotoParam);
+						exit;
+						}
+						else if($res["error"]=="password"){
+		// 					header("Location:".WEB_URL."login?password".$gotoParam);
+							exit;
+						}
+						else{
+		// 					header("Location:".WEB_URL."login?refresh".$gotoParam);
+							exit;
+						}*/
+						$errorMsg = $res["error"];
+					}
 					
 				}
 			}
 			else {
-				if(isset($res["error"])) {
-/*					if($res["error"]=="email"){
-// 					header("Location:".WEB_URL."login?email".$gotoParam);
-					exit;
-					}
-					else if($res["error"]=="password"){
-	// 					header("Location:".WEB_URL."login?password".$gotoParam);
-						exit;
-					}
-					else{
-	// 					header("Location:".WEB_URL."login?refresh".$gotoParam);
-						exit;
-					}*/
-					$errorMsg = $res["error"];
-				}
-				
+				$errorMsg = 'Please fill Email and Password';
 			}
-		}
-		
+		}	
         
         $this->load->helper('form');
         $this->load->view('login_header');

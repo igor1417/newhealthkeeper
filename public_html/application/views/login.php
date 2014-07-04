@@ -42,7 +42,6 @@
 					</div>
 			<? endif ?>
             
-            <? echo form_hidden('go', 'login'); ?>
             <? echo form_input(array('name' => 'email', 'class' => 'form-control marg-b-15', 'placeholder' => 'Email')); ?>
             <? echo form_password(array('name' => 'password', 'class' => 'form-control marg-b-15', 'placeholder' => 'Password')); ?>
             <? echo form_submit(array( 'value' => 'login', 'class' => 'btn btn-default btn-login marg-b-15 center-block width-100')); ?>
