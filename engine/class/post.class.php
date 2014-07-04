@@ -635,9 +635,10 @@ class Post extends Base {
             unset($res['result']);
         }
         require_once(ENGINE_PATH.'class/topic.class.php');
+        $topicClass = new Topic();
         foreach ($res as $key => $val){
             if(is_array($res[$key])){
-                $res[$key]['full_url_topic'] = WEB_URL . Topic::PathSingular($res[$key]['type_topic']) . "/" . $res[$key]['url_topic'];
+                $res[$key]['full_url_topic'] = WEB_URL . $topicClass->PathSingular($res[$key]['type_topic']) . "/" . $res[$key]['url_topic'];
             }
         }
        return $res;
