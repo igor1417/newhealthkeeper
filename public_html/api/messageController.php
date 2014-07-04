@@ -63,13 +63,20 @@ class messageController extends Mobile_api {
         if (count($this->answer) > 0) {
             foreach ($this->answer as $key=>$post) {
                 if ($key !== 'result') {
-                    $last_post = $this->_post->getConvMessages($this->answer[$key]['id_profile'], $this->getReqParam('timestamp', true, 1));
-                    foreach ($last_post as $key2=>$lp) {
-                        if($key2 !== 'result' ) {
-                            $this->answer[$key]['date_post'] = $last_post[0]['date_post'];
-                            $this->afterConversationFind();
-                        }
+                    $last_post = $this->_post->getConvMessages($this->answer[$key]['id_profile'], $this->getReqParam('timestamp', true, 0));
+                    if (isset($last_post[0]['date_post'])) {
+                        $this->answer[$key]['date_post'] = $last_post[0]['date_post'];
+//                        $this->afterConversationFind();
+                        $this->answer[$key]['time_ago'] = $this->config->ago(strtotime($last_post[0]['date_post']));
+                    } else {
+                        unset($this->answer[$key]);
                     }
+//                    foreach ($last_post as $key2=>$lp) {
+//                        if($key2 !== 'result' ) {
+//                            $this->answer[$key]['date_post'] = $last_post[0]['date_post'];
+//                            $this->afterConversationFind();
+//                        }
+//                    }
                 }
 
                 /*if ($key !== 'result' && !isset($this->answer[$key]['date_post'])) {
