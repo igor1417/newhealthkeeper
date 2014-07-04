@@ -4,9 +4,12 @@ class Tab_community extends CI_Controller {
 
     public function index() {
         require_once('../engine/starter/config.php');
+        if(USER_ID == 0) {
+			header('Location:'.WEB_URL.'login');
+        }
         require_once(ENGINE_PATH.'class/post.class.php');
         require_once(ENGINE_PATH.'class/config.class.php');
-
+        
         $post = new Post();
         $config = new Config();
         $pageNum = (int)$this->input->get('pageNum');
@@ -29,6 +32,12 @@ class Tab_community extends CI_Controller {
             $date_end = strtotime($result[$result['result'] - 1]['date_post']);
             unset($result['result']);
             foreach ($result as $key => $val) {
+
+                $result[$key]['topics'] = $post->getPostTopics($result[$key]['id_post']); //adds an array of tags to $result
+                if(isset($result[$key]['topics']['result'])) {
+                    unset($result[$key]['topics']['result']);
+                }
+
                 $result[$key]['date_post'] = $config->ago(strtotime($result[$key]['date_post']));
 
                 if ($result[$key]['comments_post'] > 0) {
