@@ -3,10 +3,28 @@
 <head>
     <title>Healthkeep - Main</title>
     <meta name="viewport" content="initial-scale = 1, user-scalable = no">
-    <link rel="stylesheet" href="resourses/css/bootstrap.css">
-    <link rel="stylesheet" href="resourses/css/styles.css">
-    <script src="resourses/js/jquery-2.1.0.js"></script>
-    <script src="resourses/js/bootstrap.js"></script>
+    <link rel="stylesheet" href="<?= base_url(); ?>resourses/css/bootstrap.css">
+    <link rel="stylesheet" href="<?= base_url(); ?>resourses/css/styles.css">
+    <script src="<?= base_url(); ?>resourses/js/jquery-2.1.0.js"></script>
+    <script src="<?= base_url(); ?>resourses/js/bootstrap.js"></script>
+    <script>
+		function registerUser() {
+			
+			var email = $('#email');
+			var username = $('#username');
+			var gender = $('#gender');
+			var token = $('#token');
+			$('#submit').hide();
+			
+			username.removeClass('hidden');
+			gender.removeClass('hidden');
+		
+// 			alert(gender.val());
+			$('#login_form').attr('action', '<?= base_url(); ?>login/register');
+			$('#register').attr("onclick", "$('#login_form').submit()");
+			
+		}
+    </script>
 </head>
 <body>
 <!-- ***************** HEADER ********************* -->
@@ -15,7 +33,7 @@
         <div class="navbar-header">
             <a class="navbar-brand">
                 <div class="logo">
-                    <img src="resourses/img/logo.png">
+                    <img src="<?= base_url(); ?>resourses/img/logo.png">
                     <p>Health<span>Keep</span></p>
                 </div>
             </a>

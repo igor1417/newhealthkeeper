@@ -72,10 +72,15 @@ class Login extends CI_Controller {
 			}
 		}
 		
+        $data = array(
+			'token' => $token,
+			'errorMsg' => $errorMsg
+        );
         
         $this->load->helper('form');
+        $this->load->helper('url');
         $this->load->view('login_header');
-        $this->load->view('login', array('errorMsg' => $errorMsg));
+        $this->load->view('login', $data);
         $this->load->view('footer');
     }
     
@@ -84,6 +89,46 @@ class Login extends CI_Controller {
 		header("Location:".WEB_URL."login?logout");
 // 		echo "<pre>";
 // 		print_r(get_defined_constants(true)); die;
+    }
+    
+    public function register() {
+		require_once('../engine/starter/config.php');
+echo 1; die;		
+		$username=trim($_POST["username"]);
+		$email=trim($_POST["email"]);
+		$password=$_POST["password"];
+		$gender=$_POST["gender"];
+		$token=$_POST["token"];
+		$_SESSION["token"]=$token;
+// 				
+// 		$res=$userClass->addNew($username,$email,$password,$gender);
+// 		
+// 		if(!$res["result"]){
+// 			if(isset($res["error"])){
+// 				if(isset($res["emailDup"])){
+// 					$_SESSION["emailDup"]=$email;
+// 					header("Location:".WEB_URL."login.php");
+// 					exit;
+// 				}else{
+// 					echo $res["error"];
+// 				}
+// 			}else{
+// 				echo "Something really strange happened. Please try again or contact us!";
+// 			}
+// 		}else{
+// 			header("Location:".WEB_URL."start.php");
+// 			exit;
+// 		}
+    
+
+    
+		$errorMsg = '';
+		
+		$this->load->helper('form');
+		$this->load->helper('url');
+		$this->load->view('login_header');
+		$this->load->view('register_form', array('errorMsg' => $errorMsg));
+		$this->load->view('footer');
     }
 
 }

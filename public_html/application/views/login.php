@@ -1,4 +1,4 @@
-        <? echo form_open('login', array('class' => 'login-form form-horizontal')); ?>
+        <? echo form_open('login', array('id' => 'login_form', 'class' => 'login-form form-horizontal')); ?>
 
             <div class="logo marg-b-15">
                 <img src="resourses/img/logo.png">
@@ -42,10 +42,13 @@
 					</div>
 			<? endif ?>
             
-            <? echo form_hidden('go', 'login'); ?>
-            <? echo form_input(array('name' => 'email', 'class' => 'form-control marg-b-15', 'placeholder' => 'Email')); ?>
-            <? echo form_password(array('name' => 'password', 'class' => 'form-control marg-b-15', 'placeholder' => 'Password')); ?>
-            <? echo form_submit(array( 'value' => 'login', 'class' => 'btn btn-default btn-login marg-b-15 center-block width-100')); ?>
-            <? echo form_button(array('name' => 'register', 'content' => 'Register', 'class' => 'btn btn-default btn-register marg-b-15 center-block width-100')); ?>
+            <? echo form_input(array('id' => 'email', 'name' => 'email', 'class' => 'form-control marg-b-15', 'placeholder' => 'Email')); ?>
+            <? echo form_password(array('id' => 'password', 'name' => 'password', 'class' => 'form-control marg-b-15', 'placeholder' => 'Password')); ?>
+            <? echo form_input(array('id' => 'username', 'name' => 'username', 'class' => 'form-control marg-b-15 hidden', 'placeholder' => 'Username')); ?>
+            <? echo form_input(array('id' => 'gender', 'name' => 'gender', 'class' => 'form-control marg-b-15 hidden', 'placeholder' => 'Gender')); ?>
+            <? echo form_input(array('id' => 'token', 'name' => 'token', 'value' => $token, 'class' => 'form-control marg-b-15 hidden')); ?>
+            
+            <? echo form_submit(array('id' => 'submit', 'value' => 'login', 'class' => 'btn btn-default btn-login marg-b-15 center-block width-100')); ?>
+            <? echo form_button(array('id' => 'register', 'name' =>'register', 'content' => 'Register', 'class' => 'btn btn-default btn-register marg-b-15 center-block width-100',  'onclick' => "registerUser()")); ?>
             <a href="#" class="forgot-pass-link">Forgot password?</a>
         <? echo form_close(); ?>
