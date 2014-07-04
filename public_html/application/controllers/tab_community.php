@@ -32,6 +32,12 @@ class Tab_community extends CI_Controller {
             $date_end = strtotime($result[$result['result'] - 1]['date_post']);
             unset($result['result']);
             foreach ($result as $key => $val) {
+
+                $result[$key]['topics'] = $post->getPostTopics($result[$key]['id_post']); //adds an array of tags to $result
+                if(isset($result[$key]['topics']['result'])) {
+                    unset($result[$key]['topics']['result']);
+                }
+
                 $result[$key]['date_post'] = $config->ago(strtotime($result[$key]['date_post']));
 
                 if ($result[$key]['comments_post'] > 0) {

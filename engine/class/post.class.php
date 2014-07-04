@@ -634,7 +634,13 @@ class Post extends Base {
         if (defined('MOBILE_REQUEST') && MOBILE_REQUEST) {
             unset($res['result']);
         }
-        return $res;
+        require_once(ENGINE_PATH.'class/topic.class.php');
+        foreach ($res as $key => $val){
+            if(is_array($res[$key])){
+                $res[$key]['full_url_topic'] = WEB_URL . Topic::PathSingular($res[$key]['type_topic']) . "/" . $res[$key]['url_topic'];
+            }
+        }
+       return $res;
     }
 
     public function getPostAbout($id){

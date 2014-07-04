@@ -63,8 +63,11 @@
                         <div class="left-shadow hidden-sm hidden-xs"></div>
                         <h1><?php echo !empty($item['title_post']) ? $item['title_post'] : "&nbsp;" ; ?></h1>
                         <p><?php echo $item['text_post']; ?></p>
-                        <div class="btn btn-default btn-xs post-tags">Tags for post</div>
-                        <div class="btn btn-default btn-xs post-tags">Tags for post</div>
+                        <?php foreach ($item['topics'] as $topic) : ?>
+                            <a href="<?= $topic['full_url_topic']; ?>">
+                                <div class="btn btn-default btn-xs post-tags"> <?= $topic['name_topic']; ?> </div>
+                            </a>
+                        <?php endforeach; ?>
                     </div>
                 </div>
             </div>
