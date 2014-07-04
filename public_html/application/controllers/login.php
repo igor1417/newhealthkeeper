@@ -27,8 +27,6 @@ class Login extends CI_Controller {
 		
 		$errorMsg = '';
 		if(!empty($_POST))	 {
-			$token=sha1(microtime(true).mt_rand(10000,90000));
-			$_SESSION['token']=$token;
 			$email = $this->input->post('email');
 			$password = $this->input->post('password');
 			if(isset($email, $password) && !empty($email) && !empty($password)) {
@@ -36,7 +34,7 @@ class Login extends CI_Controller {
 	// 			print_r($res); die;
 				if($res['result']) {
 					//renew mixpanel info
-					$_SESSION["mx_name_tag"]=0;
+					$_SESSION["mx_name_tag"]=1;
 					
 					require_once(ENGINE_PATH.'class/profile.class.php');
 					$profileClass=new Profile();
