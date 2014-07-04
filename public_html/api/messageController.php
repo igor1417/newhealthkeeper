@@ -26,7 +26,7 @@ class messageController extends Mobile_api {
     
     public function getConversations() {
         $this->answer = $this->_post->getAllConversations($this->getReqParam('timestamp', true, 0));
-        $this->getDateAgoLastPost();
+        //$this->getDateAgoLastPost();
     }
 
     public function getConversationMessages() {
@@ -72,11 +72,10 @@ class messageController extends Mobile_api {
                     }
                 }
 
-                if ($key !== 'result' && !isset($this->answer[$key]['date_post'])) {
+                /*if ($key !== 'result' && !isset($this->answer[$key]['date_post'])) {
                     unset($this->answer[$key]);
-                }
+                }*/
             }
         }
     }
-
 }
