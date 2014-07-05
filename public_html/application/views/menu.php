@@ -2,13 +2,13 @@
 <div class="col-lg-2 col-md-2 col-sm-3 left-col pos-none">
     <ul class="side-bar hidden-xs">
         <li class="sb-item">
-            <a href="my_profile">My profile</a>
+            <a href="<?php echo WEB_URL.USER_NAME; ?>">My profile</a>
         </li>
         <li class="sb-item">
-            <a href="my_diary">My Diary</a>
+            <a href="<?php echo WEB_URL.USER_NAME; ?>/diary">My Diary</a>
         </li>
         <li class="sb-item">
-            <a href="meet_others">Meet Others</a>
+            <a href="<?php echo WEB_URL ;?>meet">Meet Others</a>
         </li>
         <li class="sb-item">
             <a href="my_team">My Team</a>
@@ -44,16 +44,16 @@
             </a>
         </li>
         <li class="sb-item">
-            <a href="conditions">Conditions</a>
+            <a href="<?php echo WEB_URL; ?>feed/conditions">Conditions</a>
         </li>
         <li class="sb-item">
-            <a href="symptoms">Symptoms</a>
+            <a href="<?php echo WEB_URL; ?>feed/symptoms">Symptoms</a>
         </li>
         <li class="sb-item">
-            <a href="medications">Medications</a>
+            <a href="<?php echo WEB_URL; ?>feed/medications">Medications</a>
         </li>
         <li class="sb-item">
-            <a href="procedures">Procedures</a>
+            <a href="<?php echo WEB_URL; ?>feed/procedures">Procedures</a>
         </li>
     </ul>
 </div>

@@ -14,7 +14,7 @@
 <header class="navbar navbar-static-top bs-docs-nav" id="top" role="banner">
     <div class="container">
         <div class="navbar-header">
-            <a class="navbar-brand">
+            <a class="navbar-brand" href='<?php echo WEB_URL ;?>'>
                 <div class="logo">
                     <img src="resourses/img/logo.png">
                     <p>Health<span>Keep</span></p>
@@ -28,7 +28,7 @@
                 </li>
             </ul>
             <div class="alerts">
-                <a href="#" class="mail">
+                <a href="<?php echo WEB_URL ;?>/msg" class="mail">
                     <?php if (defined('PROFILE_MSGS') && PROFILE_MSGS > 0): ?><div class="circle red flex-center"><span id="topInboxCount"><?php echo PROFILE_MSGS; ?></span></div><?php endif; ?>
                 </a>
                 <a href="#" class="user"></a>
