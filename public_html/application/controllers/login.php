@@ -5,9 +5,13 @@ if (!defined('BASEPATH'))
 
 class Login extends CI_Controller {
 
-
+	public function __construct() {
+		parent::__construct();
+		require_once('../engine/starter/config.php');
+	}
+	
     public function index() {
-        require_once('../engine/starter/config.php');
+        
         require_once(ENGINE_PATH . 'class/post.class.php');
         require_once(ENGINE_PATH . 'class/config.class.php');
         require_once(ENGINE_PATH . 'class/user.class.php');
@@ -20,7 +24,7 @@ class Login extends CI_Controller {
 				header("Location:" . WEB_URL);
 				exit;
 			}
-		}else if(isset($_GET["logout"])){
+		}elseif(isset($_GET["logout"])){
 			//in case the session has expired still can logout
 			$userClass->doLogout();
 		}
@@ -97,10 +101,12 @@ class Login extends CI_Controller {
     
     public function register() {
 	
+	if(USER_ID != 0) {
+			header('Location:'.WEB_URL);
+        }
 	$errorMsg = '';
 	
 	if(isset($_POST) && !empty($_POST)) {
-			require_once('../engine/starter/config.php');
 			require_once(ENGINE_PATH . 'class/user.class.php');
 
 			$userClass = new User();
