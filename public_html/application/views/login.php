@@ -49,6 +49,6 @@
 <!--             <?// echo form_input(array('id' => 'token', 'name' => 'token', 'value' => $token, 'class' => 'form-control marg-b-15 hidden')); ?> -->
             
             <? echo form_submit(array('id' => 'submit', 'value' => 'login', 'class' => 'btn btn-default btn-login marg-b-15 center-block width-100')); ?>
-            <? echo form_button(array('id' => 'register', 'name' =>'register', 'content' => 'Register', 'class' => 'btn btn-default btn-register marg-b-15 center-block width-100',  'onclick' => "")); ?>
+            <? echo form_button(array('id' => 'register', 'name' =>'register', 'content' => 'Register', 'class' => 'btn btn-default btn-register marg-b-15 center-block width-100',  'onclick' => "window.location.href='login/register'")); ?>
             <a href="#" class="forgot-pass-link">Forgot password?</a>
         <? echo form_close(); ?>
