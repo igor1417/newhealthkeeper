@@ -1,7 +1,7 @@
-        <? echo form_open('login', array('class' => 'login-form form-horizontal')); ?>
+        <? echo form_open('login/register', array('id' => 'register_form', 'class' => 'login-form form-horizontal')); ?>
 
             <div class="logo marg-b-15">
-                <img src="resourses/img/logo.png">
+                <img src="<?= base_url(); ?>resourses/img/logo.png">
                 <p>Health<span>Keep</span></p>
             </div>
             
@@ -42,11 +42,13 @@
 					</div>
 			<? endif ?>
             
-            <? echo form_hidden('go', 'login'); ?>
-            <? echo form_input(array('name' => 'email', 'class' => 'form-control marg-b-15', 'placeholder' => 'Choose Username')); ?>
-            <? echo form_password(array('name' => 'password', 'class' => 'form-control marg-b-15', 'placeholder' => 'Choose Password')); ?>
-            <? echo form_submit(array( 'value' => 'login', 'class' => 'btn btn-default btn-login marg-b-15 center-block width-100')); ?>
-            <? echo form_button(array('name' => 'register', 'content' => 'Register', 'class' => 'btn btn-default btn-register marg-b-15 center-block width-100', 'onclick' => 'location.href='.base_url().'login/register')); ?>
-<!--             <button name="register" type="button" class="btn btn-default btn-register marg-b-15 center-block width-100" onclick="location.href='login/register'">Register</button> -->
+            <? echo form_input(array('id' => 'email', 'name' => 'email', 'class' => 'form-control marg-b-15', 'placeholder' => 'Email')); ?>
+            <? echo form_password(array('id' => 'password', 'name' => 'password', 'class' => 'form-control marg-b-15', 'placeholder' => 'Password')); ?>
+            <? echo form_input(array('id' => 'username', 'name' => 'username', 'class' => 'form-control marg-b-15', 'placeholder' => 'Username')); ?>
+            <? echo form_dropdown('gender', array('m' => 'male', 'f' => 'female'), 'm', 'id = "gender" class = "form-control marg-b-15"'); ?>
+<!--             <?// echo form_input(array('id' => 'token', 'name' => 'token', 'value' => $token, 'class' => 'form-control marg-b-15')); ?> -->
+            
+            <? echo form_submit(array('id' => 'submit', 'value' => 'register', 'class' => 'btn btn-default btn-login marg-b-15 center-block width-100')); ?>
+<!--             <? echo form_button(array('id' => 'register', 'name' =>'register', 'content' => 'Register', 'class' => 'btn btn-default btn-register marg-b-15 center-block width-100',  'onclick' => "registerUser()")); ?> -->
             <a href="#" class="forgot-pass-link">Forgot password?</a>
         <? echo form_close(); ?>

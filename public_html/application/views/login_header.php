@@ -9,20 +9,32 @@
     <script src="<?= base_url(); ?>resourses/js/bootstrap.js"></script>
     <script>
 		function registerUser() {
-			
 			var email = $('#email');
 			var username = $('#username');
 			var gender = $('#gender');
 			var token = $('#token');
-			$('#submit').hide();
-			
 			username.removeClass('hidden');
 			gender.removeClass('hidden');
-		
-// 			alert(gender.val());
-			$('#login_form').attr('action', '<?= base_url(); ?>login/register');
-			$('#register').attr("onclick", "$('#login_form').submit()");
+			$('#submit').hide();
 			
+			$('#login_form').attr('action', '<?= base_url(); ?>login/register');
+			$( "form" ).bind( "submit", function(event) {
+
+				event.preventDefault();
+			});
+
+// 			$('#login_form').attr("onclick", "registerUser2()");
+		}
+		
+		function registerUser2() {
+			
+// 			alert(2);
+// 			$('#login_form').submit();
+// 			$.post( "http://healthkeeper.ci/login/register" );
+			$( "#login_form" ).bind( "submit", function() {
+				alert( "User clicked on 'foo.'" );
+			});
+
 		}
     </script>
 </head>

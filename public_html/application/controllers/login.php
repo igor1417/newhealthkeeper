@@ -92,37 +92,32 @@ class Login extends CI_Controller {
     }
     
     public function register() {
-		require_once('../engine/starter/config.php');
-echo 1; die;		
-		$username=trim($_POST["username"]);
-		$email=trim($_POST["email"]);
-		$password=$_POST["password"];
-		$gender=$_POST["gender"];
-		$token=$_POST["token"];
-		$_SESSION["token"]=$token;
-// 				
-// 		$res=$userClass->addNew($username,$email,$password,$gender);
-// 		
-// 		if(!$res["result"]){
-// 			if(isset($res["error"])){
-// 				if(isset($res["emailDup"])){
-// 					$_SESSION["emailDup"]=$email;
-// 					header("Location:".WEB_URL."login.php");
-// 					exit;
-// 				}else{
-// 					echo $res["error"];
-// 				}
-// 			}else{
-// 				echo "Something really strange happened. Please try again or contact us!";
-// 			}
-// 		}else{
-// 			header("Location:".WEB_URL."start.php");
-// 			exit;
-// 		}
-    
+	
+	$errorMsg = '';
+	
+	if(isset($_POST) && !empty($_POST)) {
+			require_once('../engine/starter/config.php');
+			require_once(ENGINE_PATH . 'class/user.class.php');
 
-    
-		$errorMsg = '';
+			$userClass = new User();
+			$username=trim($_POST["username"]);
+			$email=trim($_POST["email"]);
+			$password=$_POST["password"];
+			$gender=$_POST["gender"];
+	// 		$token=$_POST["token"];
+	// 		$_SESSION["token"]=$token;
+
+			$res=$userClass->addNew($username,$email,$password,$gender);
+	// 		print_r($res); die;
+			
+			if(isset($res["error"])) {
+				$errorMsg =  $res["error"];
+			}
+			elseif($res["result"]) {
+				header("Location:".WEB_URL."tab_community");
+			}
+	}    
+		
 		
 		$this->load->helper('form');
 		$this->load->helper('url');
