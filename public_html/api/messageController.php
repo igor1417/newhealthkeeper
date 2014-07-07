@@ -18,7 +18,7 @@ class messageController extends Mobile_api {
     }
     
     public function sendMessage() {
-        $message = $this->getReqParam('message', false);
+        $message = $this->getReqParam('message', false, "");
         $to_user_id = $this->getReqParam('to_user_id', true);
         
         $this->answer = $this->_post->addNewV2Post($message, 'image', $this->_message_topic, $to_user_id);
@@ -26,40 +26,6 @@ class messageController extends Mobile_api {
     
     public function getConversations() {
         $this->answer = $this->_post->getAllConversations($this->getReqParam('timestamp', true, 0));
-        $this->getDateAgoLastPost();
-    }
-
-    public function getConversationMessages() {
-        $to_user_id = $this->getReqParam('to_user_id', true);
-        $this->answer = $this->_post->getConvMessages($to_user_id, $this->getReqParam('timestamp', true, 0));
-        $this->afterMessageFind();
-    }
-
-    private function afterMessageFind() {
-        if (count($this->answer) > 0) {
-            foreach ($this->answer as $key=>$post) {
-                if ($key !== 'result') {
-                   $timestamp = strtotime($this->answer[$key]['date_post']);
-                    $this->answer[$key]['time_ago'] = $this->config->ago($timestamp);
-                }
-            }
-        }
-    }
-
-    private function afterConversationFind() {
-        if (count($this->answer) > 0) {
-            foreach ($this->answer as $key=>$post) {
-                if ($key !== 'result') {
-                    if (isset($this->answer[$key]['date_post'])) {
-                        $timestamp = strtotime($this->answer[$key]['date_post']);
-                        $this->answer[$key]['time_ago'] = $this->config->ago($timestamp);
-                    }
-                }
-            }
-        }
-    }
-
-    private function getDateAgoLastPost() {
         if (count($this->answer) > 0) {
             foreach ($this->answer as $key=>$post) {
                 if ($key !== 'result') {
@@ -71,18 +37,25 @@ class messageController extends Mobile_api {
                     } else {
                         unset($this->answer[$key]);
                     }
-//                    foreach ($last_post as $key2=>$lp) {
-//                        if($key2 !== 'result' ) {
-//                            $this->answer[$key]['date_post'] = $last_post[0]['date_post'];
-//                            $this->afterConversationFind();
-//                        }
-//                    }
                 }
 
-                /*if ($key !== 'result' && !isset($this->answer[$key]['date_post'])) {
-                    unset($this->answer[$key]);
-                }*/
             }
         }
     }
+
+    public function getConversationMessages() {
+        $to_user_id = $this->getReqParam('to_user_id', true);
+        $this->answer = $this->_post->getConvMessages($to_user_id, $this->getReqParam('timestamp', true, 0));
+
+        if (count($this->answer) > 0) {
+            foreach ($this->answer as $key=>$post) {
+                if ($key !== 'result') {
+                    $timestamp = strtotime($this->answer[$key]['date_post']);
+                    //$this->answer[$key]['time_ago'] = $this->config->ago($timestamp);
+                    $this->answer[$key]['time_ago'] = $this->config->ago($timestamp);
+                }
+            }
+        }
+    }
+
 }
