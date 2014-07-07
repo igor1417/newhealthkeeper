@@ -828,6 +828,50 @@ class Post extends Base {
         return $this->config_Class->query($sql,array(":id"=>$id));
     }
 
+    public function updateCommentModel($comment_id, $text = "", $img = "", $video_web_url = ""){
+        $text=$this->config_Class->escapeOddChars($text);
+        $text=$this->config_Class->processPostText($text);
+
+        $image="";
+        if($img!="" && isset($_FILES[$img])){
+            $imgPath=PUBLIC_HTML_PATH."img/post/";
+            $image=$this->config_Class->uploadImage($img, $imgPath);
+            if($image["image"]!=""){
+                $image=$image["image"];
+            }else{
+                $image="";
+            }
+        }
+
+        if($text!=""){
+            $sub_sql[0] = "text_pc=:text_comment";
+            $params[":text_comment"] = $text;
+        }
+
+        if($video_web_url!=""){
+            $sub_sql[1] = "video_url_pc=:video_web_url";
+            $params[":video_web_url"] = $video_web_url;
+        }
+
+        if($image!=""){
+            $sub_sql[2] = "image_pc=:image_comment";
+            $params[":image_comment"] = $image;
+        }
+
+        if (isset($params)) {
+            //$sub_sql = $text_sql." ".$video_web_url_sql." ".$image_sql;
+            //$sub_sql = substr($sub_sql, 0, -2);
+            $params[":comment_id"] = $comment_id;
+            $sql="update post_comment set ".implode(',', $sub_sql)."  where id_pc=:comment_id";
+            return array("result" => $this->config_Class->query($sql, $params));
+        } else {
+            return array("result" => false);
+        }
+
+
+
+    }
+
     public function addComment($id, $text, $img = "", $video_web_url = ""){
         $text=$this->config_Class->escapeOddChars($text);
         $text=$this->config_Class->processPostText($text);
@@ -1328,7 +1372,47 @@ class Post extends Base {
 
     }
 
-    public function addNewV2Post($text,$img="",$forceTopic=0,$asMessage=0){
+    public function updatePostModel($post_id, $text = "", $title = "", $img = "") {
+        $text = $this->config_Class->escapeOddChars($text);
+        $text = $this->config_Class->processPostText($text);
+        $title = $this->config_Class->escapeOddChars($title);
+        $title = $this->config_Class->processPostText($title);
+        $image="";
+        if($img!="" && isset($_FILES[$img])){
+            $imgPath=PUBLIC_HTML_PATH."img/post/";
+            $image=$this->config_Class->uploadImage($img, $imgPath);
+            if($image["image"]!=""){
+                $image=$image["image"];
+            }else{
+                $image="";
+            }
+        }
+
+        if($text!=""){
+            $sub_sql[0] = "text_post=:text_post,";
+            $params[":text_post"] = $text;
+        }
+
+        if($title!=""){
+            $sub_sql[1] = "title_post=:title_post,";
+            $params[":title_post"] = $title;
+        }
+
+        if($image!=""){
+            $sub_sql[2] = "image_post=:image_post, ";
+            $params[":image_post"] = $image;
+        }
+
+        if (isset($params)) {
+            $params[":id_post"] = $post_id;
+            $sql="update post set ".implode(',', $sub_sql)."  where id_post=:id_post";
+            return array("result" => $this->config_Class->query($sql, $params));
+        } else {
+            return array("result" => false);
+        }
+    }
+
+    public function addNewV2Post($text="",$img="",$forceTopic=0,$asMessage=0){
         $text=$this->config_Class->escapeOddChars($text);
         $text=$this->config_Class->processPostText($text);
 
@@ -1381,6 +1465,7 @@ class Post extends Base {
                         $image="";
                     }
                     $this->saveImage($image,$res[0]["id_post"]);
+                    $res[0]["image_post"] = $image;
                 }
                 return $res;
             }else{
@@ -1396,7 +1481,7 @@ class Post extends Base {
     public function getAllConversations() {
         $users = $this->getUsersID();
         if (!empty($users)) {
-        $sql = "SELECT * FROM profile WHERE id_profile IN (".implode(',', $this->getUsersID()).") LIMIT ".$this->getLimit();
+        $sql = "SELECT * FROM profile WHERE id_profile IN (".implode(',', $this->getUsersID()).")";
             return $this->config_Class->query($sql);
         } else {
             return array('result' => true);
@@ -1426,13 +1511,13 @@ class Post extends Base {
 
     public function getConvMessages($to_user_id, $timestamp) {
         $sql = "SELECT * FROM post LEFT JOIN profile ON post.id_profile_post=profile.id_profile
-                WHERE ".$this->getConditionSQL().$this->timePostSQL($timestamp, 'date_post')." ORDER BY date_post DESC LIMIT ".$this->getLimit();
+                WHERE (id_profile_post=:user_to AND share_with_post=:user_from) OR (id_profile_post=:user_from2 AND share_with_post=:user_to2)".$this->timePostSQL($timestamp, 'date_post')." ORDER BY date_post DESC LIMIT ".$this->getLimit();
         return $this->config_Class->query($sql, array(":user_from" => USER_ID, ":user_to" => $to_user_id,":user_from2" => USER_ID, ":user_to2" => $to_user_id));
     }
 
-    private function getConditionSQL() {
+/*    private function getConditionSQL() {
             return " (id_profile_post=:user_to AND share_with_post=:user_from) OR (id_profile_post=:user_from2 AND share_with_post=:user_to2) ";
-    }
+    }*/
 
     public function addNewV2SimplePost($title,$url,$text,$forceTopic=1){
 
