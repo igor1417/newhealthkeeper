@@ -635,9 +635,10 @@ class Post extends Base {
             unset($res['result']);
         }
         require_once(ENGINE_PATH.'class/topic.class.php');
+        $topicClass = new Topic();
         foreach ($res as $key => $val){
             if(is_array($res[$key])){
-                $res[$key]['full_url_topic'] = WEB_URL . Topic::PathSingular($res[$key]['type_topic']) . "/" . $res[$key]['url_topic'];
+                $res[$key]['full_url_topic'] = WEB_URL . $topicClass->PathSingular($res[$key]['type_topic']) . "/" . $res[$key]['url_topic'];
             }
         }
        return $res;
@@ -827,7 +828,7 @@ class Post extends Base {
         return $this->config_Class->query($sql,array(":id"=>$id));
     }
 
-    public function addComment($id, $text, $img = ""){
+    public function addComment($id, $text, $img = "", $video_web_url = ""){
         $text=$this->config_Class->escapeOddChars($text);
         $text=$this->config_Class->processPostText($text);
 
@@ -837,9 +838,9 @@ class Post extends Base {
             return false;
         }
 
-        $sql="insert into post_comment (id_post_pc,text_pc,id_profile_pc,date_pc)
-            VALUES (:id_post,:text,:id_profile, now())";
-        $res = $this->config_Class->query($sql,array(":id_post"=>$id,":text"=>$text,":id_profile"=>USER_ID));
+        $sql="insert into post_comment (id_post_pc,text_pc,id_profile_pc, video_url_pc,date_pc)
+            VALUES (:id_post,:text,:id_profile, :video_web_url, now())";
+        $res = $this->config_Class->query($sql,array(":id_post"=>$id,":text"=>$text,":id_profile"=>USER_ID, ":video_web_url"=>$video_web_url));
 
         $last_insert_comment_id = $this->getLastInsertID();
 

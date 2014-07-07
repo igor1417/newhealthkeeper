@@ -7,7 +7,7 @@
 class profileController extends Mobile_api {
 
     private $_profile;
-    private $_available_attr = array('username_profile', 'gender_profile', 'dob_profile', 'country_profile', 'zip_profile', 'job_profile', 'bio_profile');
+    private $_available_attr = array('name_profile', 'gender_profile', 'dob_profile', 'country_profile', 'zip_profile', 'job_profile', 'bio_profile');
 
     public function __construct($request = array()) {
         parent::__construct($request);

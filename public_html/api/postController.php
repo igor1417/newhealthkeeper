@@ -52,7 +52,8 @@ class postController extends Mobile_api {
     public function addComment() {
         $comment = $this->getReqParam('comment', false);
         $post_id = $this->getReqParam('post_id');
-        $this->answer = $this->_post->addComment($post_id, $comment, 'image');
+        $video_web_url = $this->getReqParam('video_web_url', false);
+        $this->answer = $this->_post->addComment($post_id, $comment, 'image', $video_web_url);
     }
     
     public function postLike() {
