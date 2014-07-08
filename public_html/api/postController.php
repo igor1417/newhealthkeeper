@@ -50,9 +50,9 @@ class postController extends Mobile_api {
     }
 
     public function updatePost() {
-        $post_id = $this->getReqParam('post_id', true);
-        $title = $this->getReqParam('title', false, "");
-        $content = $this->getReqParam('content', false, "");
+        $post_id = $this->getReq2Param('post_id');
+        $title = $this->getParam('title');
+        $content = $this->getParam('content');
 
         $this->answer = $this->_post->updatePostModel($post_id, $content, $title, 'image');
     }
@@ -65,9 +65,9 @@ class postController extends Mobile_api {
     }
 
     public function updateComment() {
-        $comment_id = $this->getReqParam('comment_id');
-        $comment = $this->getReqParam('comment', false, "");
-        $video_web_url = $this->getReqParam('video_url_pc', false, "");
+        $comment_id = $this->getReq2Param('comment_id');
+        $comment = $this->getParam('comment');
+        $video_web_url = $this->getParam('video_url_pc');
 
         $this->answer = $this->_post->updateCommentModel($comment_id, $comment, 'image', $video_web_url);
     }

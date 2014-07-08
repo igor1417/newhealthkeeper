@@ -58,4 +58,23 @@ class messageController extends Mobile_api {
         }
     }
 
+    public function sendIsReadMessage() {
+        $post_id = $this->getReq2Param('post_id');
+        $this->answer = $this->_post->sendIsReadMessageModel($post_id);
+    }
+
+    public function getIsReadMessage() {
+        $post_id = $this->getReq2Param('post_id');
+        $this->answer = $this->_post->getIsReadMessageModel($post_id);
+    }
+
+    public function getCountUnreadMessages() {
+        $this->answer = $this->_post->getCountUnreadMessagesModel();
+    }
+
+    public function setReadMessages() {
+        $to_user_id = $this->getReq2Param('to_user_id');
+        $this->answer = $this->_post->setReadMessagesModel($to_user_id);
+    }
+
 }

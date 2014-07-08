@@ -685,7 +685,7 @@ class Profile extends Base{
 
     public function updateUsername($username){
         $username = preg_replace("/[^a-zA-Z0-9\_\-]/", "", strtolower($username));
-        if(strlen($username)<5){
+        if(strlen($username)<1){
             return array("result"=>false,"error"=>"Username needs to have more than 5 characters");
         }
         $sql="update profile set username_profile=:uname where id_profile=:id";
@@ -753,7 +753,7 @@ class Profile extends Base{
 
     public function addNew($username, $gender) {
         $username = preg_replace("/[^a-zA-Z0-9\_\-]/", '', strtolower($username));
-        if (strlen($username) < 5) {
+        if (strlen($username) < 1) {
             return array('result'=>false, 'error'=>'Username needs to have more than 5 characters');
         }
 
