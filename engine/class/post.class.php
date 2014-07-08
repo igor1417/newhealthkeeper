@@ -828,6 +828,54 @@ class Post extends Base {
         return $this->config_Class->query($sql,array(":id"=>$id));
     }
 
+    public function updateCommentModel($comment_id, $text = null, $img = "", $video_web_url = null){
+        $image="";
+        if($img!="" && isset($_FILES[$img])){
+            $imgPath=PUBLIC_HTML_PATH."img/post/";
+            $image=$this->config_Class->uploadImage($img, $imgPath);
+            if($image["image"]!=""){
+                $image=$image["image"];
+            }else{
+                $image="";
+            }
+        }
+
+        if(!is_null($text)){
+            $text=$this->config_Class->escapeOddChars($text);
+            $text=$this->config_Class->processPostText($text);
+            $sub_sql[0] = "text_pc=:text_comment";
+            $params[":text_comment"] = $text;
+        }
+
+        if(!is_null($video_web_url)){
+            $sub_sql[1] = "video_url_pc=:video_web_url";
+            $params[":video_web_url"] = $video_web_url;
+        }
+
+        if($image!=""){
+            $sub_sql[2] = "image_pc=:image_comment";
+            $params[":image_comment"] = $image;
+        }
+
+        if (isset($params)) {
+            $params[":comment_id"] = $comment_id;
+            $sql="update post_comment set ".implode(',', $sub_sql)."  where id_pc=:comment_id";
+
+            if($this->config_Class->query($sql, $params) == true) {
+                $response_sql = "select * from post_comment where id_pc=:comment_id";
+                $result = $this->config_Class->query($response_sql, array(":comment_id"=>$comment_id));
+                return  $result;
+            } else {
+                return array("result" => false);
+            }
+        } else {
+            return array("result" => false);
+        }
+
+
+
+    }
+
     public function addComment($id, $text, $img = "", $video_web_url = ""){
         $text=$this->config_Class->escapeOddChars($text);
         $text=$this->config_Class->processPostText($text);
@@ -1169,7 +1217,7 @@ class Post extends Base {
     }
 
     public function getPostsByKeyword($keyword, $timestamp){   //API Request
-        $sql="select p.*, pro.*, IFNULL(pt.vote_pt, 0) as already_voted
+        $sql="select DISTINCT p.*, pro.*, IFNULL(pt.vote_pt, 0) as already_voted
             from post_relation as pr, profile as pro, post as p
             left join post_thumb as pt on p.id_post=pt.id_post_pt and pt.id_profile_pt='".USER_ID."'
             where p.id_post=pr.id_post_pr and pro.id_profile=p.id_profile_post and
@@ -1328,7 +1376,76 @@ class Post extends Base {
 
     }
 
-    public function addNewV2Post($text,$img="",$forceTopic=0,$asMessage=0){
+    public function updatePostModel($post_id, $text = null, $title = null, $img = "") {
+        $image="";
+        if($img!="" && isset($_FILES[$img])){
+            $imgPath=PUBLIC_HTML_PATH."img/post/";
+            $image=$this->config_Class->uploadImage($img, $imgPath);
+            if($image["image"]!=""){
+                $image=$image["image"];
+            }else{
+                $image="";
+            }
+        }
+
+        if(!is_null($text)){
+            $text = $this->config_Class->escapeOddChars($text);
+            $text = $this->config_Class->processPostText($text);
+            $sub_sql[0] = "text_post=:text_post";
+            $params[":text_post"] = $text;
+        }
+
+        if(!is_null($title)){
+            $title = $this->config_Class->escapeOddChars($title);
+            $title = $this->config_Class->processPostText($title);
+            $sub_sql[1] = "title_post=:title_post";
+            $params[":title_post"] = $title;
+        }
+
+        if($image!=""){
+            $sub_sql[2] = "image_post=:image_post";
+            $params[":image_post"] = $image;
+        }
+
+        if (isset($params)) {
+            $params[":id_post"] = $post_id;
+            $sql="update post set ".implode(',', $sub_sql)."  where id_post=:id_post";
+            if($this->config_Class->query($sql, $params) == true) {
+                $response_sql = "select * from post where id_post=:id_post";
+                $result = $this->config_Class->query($response_sql, array(":id_post"=>$post_id));
+                return  $result;
+            } else {
+                return array("result" => false);
+            }
+        } else {
+            return array("result" => false);
+        }
+    }
+
+    public function sendIsReadMessageModel($post_id){
+        $sql = "update post set read_post = 1  where id_post=:id_post";
+        $result = $this->config_Class->query($sql, array(":id_post"=>$post_id));
+        return array("result" => $result);
+    }
+
+    public function setReadMessagesModel($to_user_id){
+        $sql = "update post set read_post = 1  where id_profile_post=:to_user_id and share_with_post=:user_id";
+        $result = $this->config_Class->query($sql, array(":to_user_id"=>$to_user_id, ":user_id"=>USER_ID));
+        return array("result" => $result);
+    }
+
+    public function getIsReadMessageModel($post_id){
+        $sql = "select read_post from post where id_post=:id_post";
+        $result = $this->config_Class->query($sql, array(":id_post"=>$post_id));
+        if(isset($result[0]['read_post']) and $result[0]['read_post'] == 1){
+            return array("result" => true);
+        } else {
+            return array("result" => false);
+        }
+
+    }
+
+    public function addNewV2Post($text="",$img="",$forceTopic=0,$asMessage=0){
         $text=$this->config_Class->escapeOddChars($text);
         $text=$this->config_Class->processPostText($text);
 
@@ -1381,6 +1498,7 @@ class Post extends Base {
                         $image="";
                     }
                     $this->saveImage($image,$res[0]["id_post"]);
+                    $res[0]["image_post"] = $image;
                 }
                 return $res;
             }else{
@@ -1396,7 +1514,7 @@ class Post extends Base {
     public function getAllConversations() {
         $users = $this->getUsersID();
         if (!empty($users)) {
-        $sql = "SELECT * FROM profile WHERE id_profile IN (".implode(',', $this->getUsersID()).") LIMIT ".$this->getLimit();
+        $sql = "SELECT * FROM profile WHERE id_profile IN (".implode(',', $this->getUsersID()).")";
             return $this->config_Class->query($sql);
         } else {
             return array('result' => true);
@@ -1426,13 +1544,13 @@ class Post extends Base {
 
     public function getConvMessages($to_user_id, $timestamp) {
         $sql = "SELECT * FROM post LEFT JOIN profile ON post.id_profile_post=profile.id_profile
-                WHERE ".$this->getConditionSQL().$this->timePostSQL($timestamp, 'date_post')." ORDER BY date_post DESC LIMIT ".$this->getLimit();
+                WHERE (id_profile_post=:user_to AND share_with_post=:user_from) OR (id_profile_post=:user_from2 AND share_with_post=:user_to2)".$this->timePostSQL($timestamp, 'date_post')." ORDER BY date_post DESC LIMIT ".$this->getLimit();
         return $this->config_Class->query($sql, array(":user_from" => USER_ID, ":user_to" => $to_user_id,":user_from2" => USER_ID, ":user_to2" => $to_user_id));
     }
 
-    private function getConditionSQL() {
+/*    private function getConditionSQL() {
             return " (id_profile_post=:user_to AND share_with_post=:user_from) OR (id_profile_post=:user_from2 AND share_with_post=:user_to2) ";
-    }
+    }*/
 
     public function addNewV2SimplePost($title,$url,$text,$forceTopic=1){
 
@@ -1548,6 +1666,12 @@ class Post extends Base {
             return false;
         }
 
+    }
+
+    public function getCountUnreadMessagesModel(){
+        $sql="select count(share_with_post) as count_unread_messages from post where share_with_post=:user and read_post = 0";
+        $result = $this->config_Class->query($sql,array(":user"=>USER_ID));
+        return $result;
     }
 
 }

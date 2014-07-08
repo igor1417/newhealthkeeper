@@ -48,12 +48,28 @@ class postController extends Mobile_api {
 
         $this->answer = $this->_post->addNewNoTopic($content, $title, 'image');
     }
+
+    public function updatePost() {
+        $post_id = $this->getReq2Param('post_id');
+        $title = $this->getParam('title');
+        $content = $this->getParam('content');
+
+        $this->answer = $this->_post->updatePostModel($post_id, $content, $title, 'image');
+    }
     
     public function addComment() {
         $comment = $this->getReqParam('comment', false);
         $post_id = $this->getReqParam('post_id');
-        $video_web_url = $this->getReqParam('video_web_url', false);
+        $video_web_url = $this->getReqParam('video_url_pc', false, "");
         $this->answer = $this->_post->addComment($post_id, $comment, 'image', $video_web_url);
+    }
+
+    public function updateComment() {
+        $comment_id = $this->getReq2Param('comment_id');
+        $comment = $this->getParam('comment');
+        $video_web_url = $this->getParam('video_url_pc');
+
+        $this->answer = $this->_post->updateCommentModel($comment_id, $comment, 'image', $video_web_url);
     }
     
     public function postLike() {

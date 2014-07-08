@@ -58,9 +58,7 @@ class Mobile_api {
                     return $param;
                 }
             } else {
-                if (strlen($param) > 0) {
-                    return $param;
-                }
+                return $param;
             }
         } elseif (!is_null($default)) {
             if ($is_int) {
@@ -74,7 +72,33 @@ class Mobile_api {
         $this->answer['error'] = 'Parameter '.$param_name.' is'.$error_part.' requered';
         $this->jsonOut();
     }
-    
+
+    protected function getParam($param_name, $default = null) {
+        if (isset($this->request[$param_name]) && is_string($this->request[$param_name])) {
+            return  trim($this->request[$param_name]);
+        } else {
+            return $default;
+        }
+    }
+
+    protected function getReq2Param($param_name, $is_int = true) {
+        if (isset($this->request[$param_name]) && is_string($this->request[$param_name])) {
+            $param = trim($this->request[$param_name]);
+            if ($is_int) {
+                $param = (int)$param;
+                if ($param > 0) {
+                    return $param;
+                }
+            } else {
+                return $param;
+            }
+        }
+        $this->answer['result'] = Mobile_api::RESPONSE_STATUS_ERROR;
+        $error_part = $is_int ? ' integer and' : '';
+        $this->answer['error'] = 'Parameter '.$param_name.' is'.$error_part.' requered';
+        $this->jsonOut();
+    }
+
     protected function rangeValidator($name, $value) {
         $_model_property = '_'.$name;
         $range_array = $this->$_model_property;
