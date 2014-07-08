@@ -7,36 +7,6 @@
     <link rel="stylesheet" href="<?= base_url(); ?>resourses/css/styles.css">
     <script src="<?= base_url(); ?>resourses/js/jquery-2.1.0.js"></script>
     <script src="<?= base_url(); ?>resourses/js/bootstrap.js"></script>
-    <script>
-		function registerUser() {
-			var email = $('#email');
-			var username = $('#username');
-			var gender = $('#gender');
-			var token = $('#token');
-			username.removeClass('hidden');
-			gender.removeClass('hidden');
-			$('#submit').hide();
-			
-			$('#login_form').attr('action', '<?= base_url(); ?>login/register');
-			$( "form" ).bind( "submit", function(event) {
-
-				event.preventDefault();
-			});
-
-// 			$('#login_form').attr("onclick", "registerUser2()");
-		}
-		
-		function registerUser2() {
-			
-// 			alert(2);
-// 			$('#login_form').submit();
-// 			$.post( "http://healthkeeper.ci/login/register" );
-			$( "#login_form" ).bind( "submit", function() {
-				alert( "User clicked on 'foo.'" );
-			});
-
-		}
-    </script>
 </head>
 <body>
 <!-- ***************** HEADER ********************* -->
