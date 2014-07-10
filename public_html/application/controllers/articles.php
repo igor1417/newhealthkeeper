@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Tab_articles extends CI_Controller {
+class Articles extends CI_Controller {
 
     public function index() {
         require_once('../engine/starter/config.php');

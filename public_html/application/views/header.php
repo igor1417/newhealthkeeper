@@ -28,7 +28,7 @@
                 </li>
             </ul>
             <div class="alerts">
-                <a href="<?php echo WEB_URL ;?>/msg" class="mail">
+                <a href="<?php echo WEB_URL ;?>msg" class="mail">
                     <?php if (defined('PROFILE_MSGS') && PROFILE_MSGS > 0): ?><div class="circle red flex-center"><span id="topInboxCount"><?php echo PROFILE_MSGS; ?></span></div><?php endif; ?>
                 </a>
                 <a href="#" class="user"></a>
