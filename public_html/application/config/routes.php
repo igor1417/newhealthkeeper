@@ -38,6 +38,7 @@
 |
 */
 
+$route['post/(:num)'] = "posts/index/$1";
 $route['default_controller'] = 'tab_community';
 $route['404_override'] = '';
 
