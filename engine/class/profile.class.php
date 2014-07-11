@@ -140,11 +140,14 @@ class Profile extends Base{
         $sql = "update profile set";
         $first_attr = true;
         $params_array = array();
-        
+
         foreach ($attributes as $key => $attribute) {
-            if (in_array($key, array('zip_profile', 'country_profile')) && strlen(trim($attribute)) == 0) {} else {
+            if (in_array($key, array('zip_profile')) && strlen(trim($attribute)) == 0) {} else {
+                if ($key == 'country_profile' && strlen(trim($attribute)) == 0) {
+                    $attribute = NULL;
+                }
                 $params_array[":$key"] = $attribute;
-                if (!$first_attr) $sql.=",";            
+                if (!$first_attr) $sql.=",";
                 $sql.=" $key=:$key";
                 $first_attr = false;
             }

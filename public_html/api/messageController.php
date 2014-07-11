@@ -28,19 +28,21 @@ class messageController extends Mobile_api {
         $this->answer = $this->_post->getAllConversations($this->getReqParam('timestamp', true, 0));
         if (count($this->answer) > 0) {
             foreach ($this->answer as $key=>$post) {
+
                 if ($key !== 'result') {
                     $last_post = $this->_post->getConvMessages($this->answer[$key]['id_profile'], $this->getReqParam('timestamp', true, 0));
                     if (isset($last_post[0]['date_post'])) {
                         $this->answer[$key]['date_post'] = $last_post[0]['date_post'];
-//                        $this->afterConversationFind();
                         $this->answer[$key]['time_ago'] = $this->config->ago(strtotime($last_post[0]['date_post']));
+                        $this->answer[$key]['count_unread_messages'] = $this->_post->getCountUnreadMessagesInConversationModel($this->answer[$key]['id_profile']);
                     } else {
                         unset($this->answer[$key]);
                     }
                 }
-
             }
         }
+
+
     }
 
     public function getConversationMessages() {
