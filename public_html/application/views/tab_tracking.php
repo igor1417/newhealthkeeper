@@ -1,9 +1,9 @@
 <!-- ***************** TABS ********************* -->
 <div class="col-lg-10 col-md-10 col-sm-9 right-col">
     <ul id="three-tabs" class="nav nav-tabs">
-        <li class=""><a href="tab_community">Community</a></li>
-        <li class=""><a href="tab_articles">Articles</a></li>
-        <li class="active"><a href="tab_tracking">Tracking</a></li>
+        <li class=""><a href="<?php echo WEB_URL ;?>feed">Community</a></li>
+        <li class=""><a href="<?php echo WEB_URL ;?>articles">Articles</a></li>
+        <li class="active"><a href="<?php echo WEB_URL ;?>track">Tracking</a></li>
     </ul>
     <div id="three-tabsContent" class="tab-content">
         <!-- ***************** COMMUNITY ******************** -->
@@ -36,7 +36,7 @@
                                     </div>
                                 </li>
                             </ul>
-                            <div class="btn btn-default btn-discuss"><i class="ico-star">&#42;</i> Start a discussion</div>
+                            <a href="#"><div class="btn btn-default btn-discuss"><i class="ico-star">&#42;</i> Start a discussion</div></a>
                         </div>
                     </div>
                 </div>
