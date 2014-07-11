@@ -1674,4 +1674,10 @@ class Post extends Base {
         return $result;
     }
 
+    public function getCountUnreadMessagesInConversationModel($from_user){
+        $sql="select count(share_with_post) as count_unread_messages from post where share_with_post=:user and id_profile_post=:from_user and read_post = 0";
+        $result = $this->config_Class->query($sql,array(":from_user"=>$from_user, ":user"=>USER_ID));
+        return $result[0]['count_unread_messages'];
+    }
+
 }
