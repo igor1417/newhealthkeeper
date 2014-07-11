@@ -104,6 +104,14 @@ ul {
   float: right;
   padding: 10px 15px;
 }
+.ch-down {
+  display: block;
+  position: absolute;
+  top: 30px;
+  font-size: 10px;
+  left: 9px;
+  color: #91AEC5;
+}
 .circle {
   border-radius: 1000px;
   width: 20px;

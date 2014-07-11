@@ -34,7 +34,9 @@
                     <?php if (defined('PROFILE_MSGS') && PROFILE_MSGS > 0): ?><div class="circle red flex-center"><span id="topInboxCount"><?php echo PROFILE_MSGS; ?></span></div><?php endif; ?>
                 </a>
                <div id='topAccount' class='btn-group'>
-                   <a id='topAccountBtn' class="dropdown-toggle user" data-toggle='dropdown'></a>
+                   <a id='topAccountBtn' class="dropdown-toggle user" data-toggle='dropdown'>
+                       <i class="glyphicon glyphicon-chevron-down ch-down"></i>
+                   </a>
                     <ul class="dropdown-menu pull-right">
                             <li><a href="<?= WEB_URL; ?>account/details">Account Details</a></li>
                             <?php if(PROFILE_TYPE==1) : ?>
