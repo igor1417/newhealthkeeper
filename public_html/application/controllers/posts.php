@@ -30,11 +30,10 @@ class Posts extends CI_Controller {
             /************GETTING COMMENTS*************/
             $result['comments'] = $post->getAllPostComments($post_id, 0);
             if(isset($result['comments']['result']) && $result['comments']['result']>0){
+                unset($result['comments']['result']);
                 foreach($result['comments'] as $key => $comment){
-                    if(isset($comment['date_pc'])){
-                        $time=strtotime($comment['date_pc']);
-                        $result['comments'][$key]['timeAgo'] = Config::ago($time);
-                    }
+                    $time=strtotime($comment['date_pc']);
+                    $result['comments'][$key]['timeAgo'] = Config::ago($time);
                 }
             }else{
                 $result['comments'] = array();
