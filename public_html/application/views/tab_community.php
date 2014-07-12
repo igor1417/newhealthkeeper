@@ -49,7 +49,7 @@
                         <div class="row marg1">
                             <div class="col-lg-6">
                                 <div class="like">
-                                    <span><?php echo $item['social_rank_post']; ?></span>
+                                    <span><?php echo $item['thumb_up_post']; ?></span>
                                 </div>
                                 <span class="like-text">Like</span>
                             </div>

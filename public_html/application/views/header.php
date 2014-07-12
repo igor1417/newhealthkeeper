@@ -44,7 +44,7 @@
                             <?php endif ?>
                             <li><a href="<?= WEB_URL; ?>account/notifications">Email Settings</a></li>
                             <li><a href="<?= WEB_URL; ?>contact">Contact</a></li>
-                            <li><a href="<?= WEB_URL; ?>/login/logout">Logout</a></li>
+                            <li><a href="<?= WEB_URL; ?>login/logout">Logout</a></li>
                     </ul>   
                 </div>
             </div>
