@@ -48,10 +48,17 @@
                         </div>
                         <div class="row marg1">
                             <div class="col-lg-6">
-                                <div class="like">
-                                    <span><?php echo $item['thumb_up_post']; ?></span>
-                                </div>
-                                <span class="like-text">Like</span>
+                                <?php if($item['already_voted']) : ?>
+                                    <div class="like" onclick="javascript: removeVote(<?= $item["id_post"] ;?>)">
+                                        <span><?= $item['thumb_up_post']; ?></span>
+                                    </div>
+                                    <span class="like-text">Liked</span>
+                                <?php else : ?>
+                                    <div class="like" onClick="javascript: iVote(<?= $item['id_post'] ;?>)">
+                                        <span><?= $item['thumb_up_post']; ?></span>
+                                    </div>
+                                    <span class="like-text">Like</span>
+                                <?php endif ;?>
                             </div>
                             <div class="col-lg-6">
                                 <div class="comment">
