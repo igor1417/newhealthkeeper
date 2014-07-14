@@ -875,6 +875,16 @@ class Post extends Base {
 
 
     }
+    public function getOwnerPost($post_id = 0){
+        $sql = "select id_profile_post from post where id_post=:post_id";
+        $result = $this->config_Class->query($sql, array(":post_id"=>$post_id));
+        if (isset($result[0]['id_profile_post'])){
+            return $result[0]['id_profile_post'];
+        } else {
+            return 0;
+        }
+
+    }
 
     public function addComment($id, $text, $img = "", $video_web_url = ""){
         $text=$this->config_Class->escapeOddChars($text);

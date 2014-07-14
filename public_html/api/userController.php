@@ -82,11 +82,14 @@ class userController extends Mobile_api {
                 $this->newName($this->answer, $gender);
                 $this->newAvatar($this->answer, $gender);
             }
+
+            $user_id =$this->answer['user_id'];
             if (isset($this->answer['user_id']) && $this->answer['user_id'] > 0) {
                 $this->answer = $this->getProfileClass()->getById($this->answer['user_id']);
 
-                if ($this->answer['token'] != NULL and $this->answer['token'] != '') {
-                    $this->getProfileClass()->newDeviceToken($this->answer['token'], $this->answer['user_id']);
+                if ($this->getParam('token') != NULL and $this->getParam('token') != '') {
+                    $this->getProfileClass()->newDeviceToken($this->getParam('token'),  $user_id);
+                    $this->answer[0]['token_profile'] = $this->getParam('token');
                 }
             }
         }

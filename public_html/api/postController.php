@@ -65,6 +65,7 @@ class postController extends Mobile_api {
         $post_id = $this->getReqParam('post_id');
         $video_web_url = $this->getReqParam('video_url_pc', false, "");
         $this->answer = $this->_post->addComment($post_id, $comment, 'image', $video_web_url);
+        $ownerPost = $this->_post->getOwnerPost($this->answer[0]['id_post_pc']);
         $this->_notification->pushNotification($this->answer[0]['id_profile_pc'] ,3);
     }
 
