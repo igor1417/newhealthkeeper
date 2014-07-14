@@ -1216,13 +1216,28 @@ class Post extends Base {
         return $this->config_Class->query($sql,array(":id"=>$id));
     }
 
-    public function getPostsByKeyword($keyword, $timestamp){   //API Request
-        $sql="select DISTINCT p.*, pro.*, IFNULL(pt.vote_pt, 0) as already_voted
-            from post_relation as pr, profile as pro, post as p
-            left join post_thumb as pt on p.id_post=pt.id_post_pt and pt.id_profile_pt='".USER_ID."'
-            where p.id_post=pr.id_post_pr and pro.id_profile=p.id_profile_post and
-            ( text_post REGEXP '[[:<:]]".$keyword."[[:>:]]'OR title_post REGEXP '[[:<:]]".$keyword."[[:>:]]' )
-            and pro.type_profile<=2 and p.share_with_post is null ".$this->timePostSQL($timestamp, 'date_post')." order by date_post desc limit ".$this->getLimit();
+    public function searchPosts($keyword, $timestamp) {   //API Request
+        $sql = "SELECT DISTINCT
+            p.*
+          , pro.*
+          , IFNULL(pt.vote_pt, 0) as already_voted
+        FROM
+          post as p
+          INNER JOIN profile AS pro ON (p.id_profile_post=pro.id_profile)
+          LEFT JOIN post_relation AS pr ON (p.id_post=pr.id_post_pr)
+          LEFT JOIN topic AS t ON (pr.id_topic_pr=t.id_topic)
+          LEFT JOIN post_thumb AS pt ON (p.id_post=pt.id_post_pt and pt.id_profile_pt='".USER_ID."')
+        WHERE
+            pro.type_profile <= 2
+            AND p.share_with_post IS NULL "
+            .$this->timePostSQL($timestamp, 'p.date_post')."
+            AND (p.text_post LIKE '%".$keyword."%'
+                OR p.title_post LIKE '%".$keyword."%'
+                OR t.name_topic LIKE '%".$keyword."%'
+            )
+        ORDER BY
+            p.date_post DESC
+        LIMIT ".$this->getLimit();
         return $this->config_Class->query($sql);
     }
 
