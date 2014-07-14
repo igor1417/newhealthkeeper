@@ -1221,7 +1221,7 @@ class Post extends Base {
             from post_relation as pr, profile as pro, post as p
             left join post_thumb as pt on p.id_post=pt.id_post_pt and pt.id_profile_pt='".USER_ID."'
             where p.id_post=pr.id_post_pr and pro.id_profile=p.id_profile_post and
-            ( text_post REGEXP '[[:<:]]".$keyword."[[:>:]]'OR title_post REGEXP '[[:<:]]".$keyword."[[:>:]]' )
+            ( text_post REGEXP '[[:<:]]".$keyword."[[:>:]]' OR title_post REGEXP '[[:<:]]".$keyword."[[:>:]]')
             and pro.type_profile<=2 and p.share_with_post is null ".$this->timePostSQL($timestamp, 'date_post')." order by date_post desc limit ".$this->getLimit();
         return $this->config_Class->query($sql);
     }
