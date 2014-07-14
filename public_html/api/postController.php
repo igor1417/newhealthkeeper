@@ -15,6 +15,9 @@ class postController extends Mobile_api {
         
         require_once(ENGINE_PATH.'class/post.class.php');
         $this->_post = new Post();
+
+        require_once(ENGINE_PATH.'class/notification.php');
+        $this->_notification = new Notification();
     }
     
     public function allPosts() {
@@ -62,6 +65,7 @@ class postController extends Mobile_api {
         $post_id = $this->getReqParam('post_id');
         $video_web_url = $this->getReqParam('video_url_pc', false, "");
         $this->answer = $this->_post->addComment($post_id, $comment, 'image', $video_web_url);
+        $this->_notification->pushNotification($this->answer[0]['id_profile_pc'] ,3);
     }
 
     public function updateComment() {

@@ -26,7 +26,7 @@ class messageController extends Mobile_api {
         $to_user_id = $this->getReqParam('to_user_id', true);
         
         $this->answer = $this->_post->addNewV2Post($message, 'image', $this->_message_topic, $to_user_id);
-        $this->_notification->pushNotification('2fa889482a24b5cf4601b674c8eb9feb4eabab9f81b007fd0fda9be02d3dc6a4',1);
+        $this->_notification->pushNotification($to_user_id ,1);
     }
     
     public function getConversations() {

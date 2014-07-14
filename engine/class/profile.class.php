@@ -222,11 +222,11 @@ class Profile extends Base{
         return $res;
     }
 
-    public function newDeviceToken($token){
+    public function newDeviceToken($token, $user_id){
         $sql = 'update profile set token_profile=:token where id_profile=:id';
-        $res = $this->config_Class->query($sql, array(':token' => $token, ':id' => USER_ID));
+        $res = $this->config_Class->query($sql, array(':token' => $token, ':id' => $user_id));
         if ($res) {
-            $this->updateSearchTable('updateUser', USER_ID);
+            $this->updateSearchTable('updateUser', $user_id);
         }
         return $res;
     }

@@ -45,6 +45,9 @@ class userController extends Mobile_api {
         );
         $this->newName($this->answer, $gender);
         $this->newAvatar($this->answer, $gender);
+        if (isset($this->answer['user_id']) and $this->answer['user_id']>0) {
+            $this->getProfileClass()->newDeviceToken($this->getParam('token'), $this->answer['user_id']);
+        }
     }
     
     public function login() {
@@ -81,6 +84,10 @@ class userController extends Mobile_api {
             }
             if (isset($this->answer['user_id']) && $this->answer['user_id'] > 0) {
                 $this->answer = $this->getProfileClass()->getById($this->answer['user_id']);
+
+                if ($this->answer['token'] != NULL and $this->answer['token'] != '') {
+                    $this->getProfileClass()->newDeviceToken($this->answer['token'], $this->answer['user_id']);
+                }
             }
         }
         if (isset($this->answer['user_id']) && $this->answer['user_id'] > 0) {
