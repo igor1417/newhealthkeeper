@@ -212,9 +212,19 @@ class Profile extends Base{
         return $res;
     }
 
+
     public function newName($user_id, $name){
         $sql = 'update profile set name_profile=:name where id_profile=:id';
         $res = $this->config_Class->query($sql, array(':name' => $name, ':id' => $user_id));
+        if ($res) {
+            $this->updateSearchTable('updateUser', USER_ID);
+        }
+        return $res;
+    }
+
+    public function newDeviceToken($token){
+        $sql = 'update profile set token_profile=:token where id_profile=:id';
+        $res = $this->config_Class->query($sql, array(':token' => $token, ':id' => USER_ID));
         if ($res) {
             $this->updateSearchTable('updateUser', USER_ID);
         }

@@ -387,7 +387,7 @@ class User extends Base{
         }
     }
 
-    public function doLogin($email, $password) {
+    public function doLogin($email, $password, $token = NULL) {
 
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             return array('result'=>false, 'error'=>'Parameter email is not valid.');
@@ -404,6 +404,9 @@ class User extends Base{
         }
 
         $password = $this->doPassword($password);
+        if ($token != NULL) {
+            $this->getProfileClass()->newDeviceToken($token);
+        }
 
         $sql = 'select * from user where email_user=:email and password_user=:password limit 1';
         $res = $this->config_Class->query($sql, array(':email'=>$email, ':password'=>$password));

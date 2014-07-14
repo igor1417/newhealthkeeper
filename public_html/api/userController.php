@@ -48,7 +48,7 @@ class userController extends Mobile_api {
     }
     
     public function login() {
-        $this->answer = $this->_user->doLogin($this->getReqParam('email', false), $this->getReqParam('password', false));
+        $this->answer = $this->_user->doLogin($this->getReqParam('email', false), $this->getReqParam('password', false), $this->getParam('token'));
         if (isset($this->answer['user_id']) && $this->answer['user_id'] > 0) {
             $this->answer = $this->getProfileClass()->getById($this->answer['user_id']);
         }
