@@ -55,13 +55,13 @@ class Tab_community extends CI_Controller {
         } else {
             $result = array();
         }
+
         $data = array(
             'post' => $result
           , 'pageNum' => $pageNum
           , 'pageCount' => ceil($postCount / $limit)
           , 'pagerVisibleSigns' => 2
         );
-
         $this->load->view('header');
         $this->load->view('menu');
         $this->load->view('tab_community', $data);

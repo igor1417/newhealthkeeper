@@ -8,7 +8,7 @@ class Track extends CI_Controller {
         if(USER_ID == 0) {
 			header('Location:'.WEB_URL.'login');
         }
-        
+
         $this->load->view('header');
         $this->load->view('menu');
         $this->load->view('tab_tracking');
