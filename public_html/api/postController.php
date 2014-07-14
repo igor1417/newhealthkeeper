@@ -36,12 +36,7 @@ class postController extends Mobile_api {
         $this->answer = $this->_post->searchPosts($this->getReqParam('keyword', false), $this->getReqParam('timestamp', true, 0));
         $this->afterPostFind();        
     }
-    
-    public function keywordPosts() {
-        $this->answer = $this->_post->getPostsByKeyword($this->getReqParam('keyword', false), $this->getReqParam('timestamp', true, 0));
-        $this->afterPostFind();
-    }
-    
+
     public function getPostComments() {
         $this->answer = $this->_post->getAllPostComments($this->getReqParam('post_id'), $this->getReqParam('timestamp', true, 0));
         $this->afterCommentFind();        
