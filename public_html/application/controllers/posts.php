@@ -17,10 +17,13 @@ class Posts extends CI_Controller {
          /**********GETTING DATA****************/
         if (isset($result['result']) && $result['result'] > 0) {
             $result = $result[0];
-            
+            /**************GETTING timeAgo*************/
             $time=strtotime($result['date_post']);
             $result['timeAgo'] = Config::ago($time);
-            /************GETTING TOPICS*************/
+            /*************GETTING VOTING**************/
+            $result['already_voted']=$post->alreadyVoted($post_id);
+            $result['already_voted']=$result['already_voted']['result'];
+             /************GETTING TOPICS*************/
             $result['topics'] = $post->getPostTopics($post_id);
             if(isset($result['topics']['result']) && $result['topics']['result']>0){
                 unset($result['topics']['result']);
@@ -41,6 +44,11 @@ class Posts extends CI_Controller {
         }else{
             $result = false;
         }
+        
+        echo '<pre>';
+        print_r($result);
+        echo '</pre>';
+        
         $data = array(
             'post' => $result
         );
@@ -50,6 +58,4 @@ class Posts extends CI_Controller {
         $this->load->view('post', $data);
         $this->load->view('footer');
     }
-
 }
-
