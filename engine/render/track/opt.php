@@ -106,7 +106,7 @@ require_once(ENGINE_PATH.'render/base/top.php');
 			</div>
 			<div style="margin:50px auto;text-align:center;">
 				<button href="<?php echo WEB_URL; ?>track/start" id="yesBtn" class="btn btn-red" style="margin-right:60px !important;">yes</button>
-				<button href="<?php echo WEB_URL; ?>track/deactivate" id="noBtn" class="btn btn-blue;">no</button>
+				<button href="<?php echo WEB_URL; ?>track/deactivate" id="noBtn" class="btn btn-blue">no</button>
 			</div>
 			</div>
 			<?php

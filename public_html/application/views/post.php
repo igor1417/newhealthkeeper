@@ -45,7 +45,7 @@
                                     <span><?= count($post['comments']) ;?></span>
                                 </div>
                             </div>
-                            <div class="col-lg-6">
+                            <div class="col-lg-6" onClick="javascript: toVote(this,<?= $post['id_post'] ;?>)">
                                 <div class="like-title">Hugs</div>
                                 <div class="like marg4 fr">
                                     <span><?= $post['thumb_up_post'] ;?></span>
