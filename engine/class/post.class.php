@@ -1279,10 +1279,20 @@ class Post extends Base {
     public function getAllPosts($timestamp, $user_id = 0){   //API Request
         $sql="select p.*, pro.*, IFNULL(pt.vote_pt, 0) as already_voted
         from post as p inner join profile as pro
-        left join post_thumb as pt on pt.id_profile_pt=".USER_ID." and pt.id_post_pt=p.id_post  
+        left join post_thumb as pt on pt.id_profile_pt=".USER_ID." and pt.id_post_pt=p.id_post
         where pro.id_profile=p.id_profile_post and pro.type_profile<=2 and p.share_with_post is null ".
         $this->userSQL($user_id).$this->timePostSQL($timestamp, 'date_post')." order by date_post desc limit ".$this->getLimit();
         return $this->config_Class->query($sql);
+    }
+
+    public function getUserUnreadCommentsModel($user_id = 0){   //API Request
+        $sql="select sum(p.count_unread_comments_post) as count_unread_comments
+        from post as p inner join profile as pro
+        left join post_thumb as pt on pt.id_profile_pt=".$user_id." and pt.id_post_pt=p.id_post
+        where pro.id_profile=p.id_profile_post and pro.type_profile<=2 and p.share_with_post is null ".
+        $this->userSQL($user_id);
+        $result = $this->config_Class->query($sql);
+        return $result[0]["count_unread_comments"];
     }
 
     public function getAllPostsPaged($offset, $limit, $user_id = 0) {
@@ -1561,6 +1571,32 @@ class Post extends Base {
         }
     }
 
+    public function getCountUnreadMessagesForUser($to_user_id) {
+        $users = $this->getUsersID2($to_user_id);
+        if (!empty($users)) {
+            $sql = "SELECT id_profile FROM profile WHERE id_profile IN (".implode(',', $this->getUsersID2($to_user_id)).")";
+            $conversations = $this->config_Class->query($sql);
+        } else {
+            $conversations = array('result' => true);
+        }
+        $count_unread_user_messsages = 0;
+        if (count($conversations) > 0) {
+            foreach ($conversations as $key=>$post) {
+                if ($key !== 'result') {
+                    $post_messages = $this->getConvMessages2($to_user_id, $conversations[$key]['id_profile']);
+                        $count_unread_conv_messsages = 0;
+                        foreach($post_messages as $key2=>$message) {
+                            if ($post_messages[$key2]["read_post"] == 0 ) {
+                                ++$count_unread_conv_messsages;
+                            }
+                        }
+                        $count_unread_user_messsages = $count_unread_user_messsages + $count_unread_conv_messsages;
+                }
+            }
+        }
+        return $count_unread_user_messsages;
+    }
+
     private function getUsersID() {
             $sql = "SELECT id_profile_post AS user_id FROM post WHERE share_with_post=:id";
             $res1 = $this->config_Class->query($sql, array(":id" => USER_ID));
@@ -1569,6 +1605,16 @@ class Post extends Base {
             $res2 = $this->config_Class->query($sql, array(":id" => USER_ID));
             $this->addUsersIDs($res2);                
             return $this->user_id_array;
+    }
+
+    private function getUsersID2($user_id) {
+        $sql = "SELECT id_profile_post AS user_id FROM post WHERE share_with_post=:id";
+        $res1 = $this->config_Class->query($sql, array(":id" => $user_id));
+        $this->addUsersIDs($res1);
+        $sql = "SELECT share_with_post AS user_id FROM post WHERE share_with_post IS NOT NULL AND id_profile_post=:id";
+        $res2 = $this->config_Class->query($sql, array(":id" => $user_id));
+        $this->addUsersIDs($res2);
+        return $this->user_id_array;
     }
 
     private function addUsersIDs($ids) {
@@ -1586,6 +1632,12 @@ class Post extends Base {
         $sql = "SELECT * FROM post LEFT JOIN profile ON post.id_profile_post=profile.id_profile
                 WHERE (id_profile_post=:user_to AND share_with_post=:user_from) OR (id_profile_post=:user_from2 AND share_with_post=:user_to2)".$this->timePostSQL($timestamp, 'date_post')." ORDER BY date_post DESC LIMIT ".$this->getLimit();
         return $this->config_Class->query($sql, array(":user_from" => USER_ID, ":user_to" => $to_user_id,":user_from2" => USER_ID, ":user_to2" => $to_user_id));
+    }
+
+    public function getConvMessages2($user_id, $to_user_id) {
+        $sql = "SELECT * FROM post LEFT JOIN profile ON post.id_profile_post=profile.id_profile
+                WHERE (id_profile_post=:user_to AND share_with_post=:user_from) OR (id_profile_post=:user_from2 AND share_with_post=:user_to2) ORDER BY date_post DESC LIMIT ".$this->getLimit();
+        return $this->config_Class->query($sql, array(":user_from" => $user_id, ":user_to" => $to_user_id,":user_from2" => $user_id, ":user_to2" => $to_user_id));
     }
 
 /*    private function getConditionSQL() {

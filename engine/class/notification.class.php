@@ -8,13 +8,16 @@ class Notification extends Base {
     function __construct()
     {
         $this->config_Class=new Config();
-       /* $this->getReqParam('user_id');*/
+
 
         require_once(ENGINE_PATH.'class/post.class.php');
         $this->_post = new Post();
     }
-    public function getCountBadges($user_id) {
-        return 0;
+    public function getCountBadges($to_user_id) {
+        $count_unread_messages = $this->_post->getCountUnreadMessagesForUser($to_user_id);
+        $count_new_coments = $this->_post->getUserUnreadCommentsModel($to_user_id);
+        $count_bandages =  $count_unread_messages + $count_new_coments;
+        return $count_bandages;
     }
 
     public function pushNotification($to_user_id, $type_notification = 0, $count_badges = 0, $sound = true) {

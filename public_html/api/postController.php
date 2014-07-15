@@ -52,6 +52,11 @@ class postController extends Mobile_api {
         $this->answer = $this->_post->addNewNoTopic($content, $title, 'image');
     }
 
+    public function getUserUnreadComments() {
+        $to_user_id = $this->getReq2Param('to_user_id');
+        $this->answer = $this->_notification->getCountBadges($to_user_id);
+    }
+
     public function updatePost() {
         $post_id = $this->getReq2Param('post_id');
         $title = $this->getParam('title');
