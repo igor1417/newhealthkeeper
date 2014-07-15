@@ -883,7 +883,21 @@ class Post extends Base {
         } else {
             return 0;
         }
+    }
 
+    public function updateUnreadCommentsCounter($post_id){
+        $sql = "update post set count_unread_comments_post = count_unread_comments_post+1  where id_post=:post_id";
+        $result = $this->config_Class->query($sql, array(":post_id"=>$post_id));
+        return array("result"=>$result);
+    }
+
+    public function setReadCommentsModel($post_id){
+        $sql = "select count_unread_comments_post from post where id_post=:post_id";
+        $result = $this->config_Class->query($sql, array(":post_id"=>$post_id));
+
+        $sql = "update post set count_unread_comments_post = 0  where id_post=:post_id";
+        $this->config_Class->query($sql, array(":post_id"=>$post_id));
+        return array("result"=>$result);
     }
 
     public function addComment($id, $text, $img = "", $video_web_url = ""){

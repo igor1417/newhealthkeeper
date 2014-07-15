@@ -17,7 +17,7 @@ class messageController extends Mobile_api {
         require_once(ENGINE_PATH.'class/post.class.php');
         $this->_post = new Post();
 
-        require_once(ENGINE_PATH.'class/notification.php');
+        require_once(ENGINE_PATH.'class/notification.class.php');
         $this->_notification = new Notification();
     }
     
@@ -46,8 +46,6 @@ class messageController extends Mobile_api {
                 }
             }
         }
-
-
     }
 
     public function getConversationMessages() {
