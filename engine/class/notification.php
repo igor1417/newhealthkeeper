@@ -12,7 +12,13 @@ class Notification extends Base {
     }
 
     public function pushNotification($to_user_id, $type_notification = 0) {
-
+        if ($type_notification == 1){
+            $welcome_text = 'You have new message!';
+        } elseif ($type_notification == 3) {
+            $welcome_text = 'You have new post reply!';
+        } else {
+            $welcome_text = 'Hello!';    
+        }
         $sql = 'select token_profile from profile where id_profile =:to_user_id';
         $res = $this->config_Class->query($sql, array(':to_user_id' => $to_user_id));
         $device_token = $res[0]["token_profile"];
@@ -51,7 +57,7 @@ class Notification extends Base {
             //$message->setBadge(3);
 
             // Set a simple welcome text
-            $message->setText('You have new message!');
+            $message->setText($welcome_text);
 
             // Play the default sound
             $message->setSound();
