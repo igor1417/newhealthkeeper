@@ -22,7 +22,7 @@ function sendComment(id){
                         '</div>'+
                     '</div>'+
                 '</div>'+
-                '<div style="cursor: pointer;" class="col-lg-6">'+
+                '<div style="cursor: pointer;" class="col-lg-6" onClick="javascript: toVoteComment(this,'+ comment['id_pc'] +')">'+
                     '<div class="like-title">Hugs</div>'+
                     '<div class="like marg4 fr">'+
                         '<span>' + comment['thumb_up_pc'] + '</span>'+

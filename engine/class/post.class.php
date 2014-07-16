@@ -664,7 +664,7 @@ class Post extends Base {
     public function getAllPostComments($id, $timestamp){ 
         $sql="select p.*, pc.*, IFNULL(pct.vote_pct, 0) as already_voted from  profile as p, post_comment as pc
         left join post_comment_thumb as pct on pc.id_pc=pct.id_pc_pct and pct.id_profile_pct='".USER_ID."'
-        where pc.id_post_pc=:id and pc.id_profile_pc=p.id_profile ".$this->timePostSQL($timestamp, 'pc.date_pc')." order by pc.date_pc asc limit ".$this->getLimit();
+        where pc.id_post_pc=:id and pc.id_profile_pc=p.id_profile ".$this->timePostSQL($timestamp, 'pc.date_pc')." order by pc.date_pc";
         return $this->config_Class->query($sql,array(":id"=>$id));
     }
 
