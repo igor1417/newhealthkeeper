@@ -1572,11 +1572,11 @@ class Post extends Base {
     }
 
     public function getCountUnreadMessagesForUser($to_user_id) {
-        $users = $this->getUsersID2($to_user_id);
-        if (!empty($users)) {
-            $sql = "SELECT id_profile FROM profile WHERE id_profile IN (".implode(',', $this->getUsersID2($to_user_id)).")";
-            $conversations = $this->config_Class->query($sql);
-        } else {
+       /* $users = $this->getUsersID2($to_user_id);*/
+      /*  if (!empty($users)) {*/
+            $sql = "SELECT count(id_post) as coun_unread_mess FROM post WHERE share_with_post =:to_user_id AND read_post = 0";
+        $count_unread_user_messsages = $this->config_Class->query($sql, array(":to_user_id" => $to_user_id));
+        /*} else {
             $conversations = array('result' => true);
         }
         $count_unread_user_messsages = 0;
@@ -1593,8 +1593,8 @@ class Post extends Base {
                         $count_unread_user_messsages = $count_unread_user_messsages + $count_unread_conv_messsages;
                 }
             }
-        }
-        return $count_unread_user_messsages;
+        }*/
+        return $count_unread_user_messsages[0]["coun_unread_mess"];
     }
 
     private function getUsersID() {

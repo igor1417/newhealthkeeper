@@ -47,6 +47,7 @@ class userController extends Mobile_api {
         $this->newAvatar($this->answer, $gender);
         if (isset($this->answer['user_id']) and $this->answer['user_id']>0) {
             $this->getProfileClass()->newDeviceToken($this->getParam('token'), $this->answer['user_id']);
+            $this->answer = $this->getProfileClass()->getById($this->answer['user_id']);
         }
     }
     
@@ -157,5 +158,9 @@ class userController extends Mobile_api {
     
     public function deleteUser() {
         $this->answer = $this->_user->deleteUser($this->getReqParam('user_id'));
+    }
+
+    public function logout() {
+        $this->answer = $this->_user->logoutModel($this->getReqParam('user_id'));
     }
 }

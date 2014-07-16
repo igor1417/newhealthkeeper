@@ -8,6 +8,7 @@ class messageController extends Mobile_api {
 
     private $_post;
     private $_notification;
+    private $_mailer;
     private $_message_topic = 0;
 
     public function __construct($request = array()) {
@@ -19,6 +20,9 @@ class messageController extends Mobile_api {
 
         require_once(ENGINE_PATH.'class/notification.class.php');
         $this->_notification = new Notification();
+
+        require_once(ENGINE_PATH."starter/mail.php");
+        $this->_mailer = new PHPMailer();
     }
     
     public function sendMessage() {

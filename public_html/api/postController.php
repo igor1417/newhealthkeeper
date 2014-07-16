@@ -94,6 +94,7 @@ class postController extends Mobile_api {
 
     public function commentLike() {
         $this->answer = $this->_post->commentLike($this->getReqParam('comment_id'), $this->_default_vote);
+        //$this->_notification->pushNotification($ownerPost, 4, false, false, false);
     }
     
     private function afterPostFind() {
