@@ -6,10 +6,16 @@ function sendComment(id){
         data: {id: id, text: mess},
     }).success(function(msg){
         var comment = unserialize(msg);
+        var image_url;
+        if(comment['image_profile'] === ''){
+            image_url = '../inc/img/empty-avatar.png';
+        }else{
+            image_url = '../img/profile/tb/' + comment['image_profile'];
+        }
         msg = '<div class="row"><div class="col-lg-6">'+
                     '<div class="row">'+
                         '<div class="col-lg-12">'+
-                            '<img src="../img/profile/tb/' + comment['image_profile'] + '" class="img-rounded fl marg2" />'+
+                            '<img style="width: 50px; height: 50 px;" src="'+ image_url +'" class="img-rounded fl marg2" />'+
                             '<h2 class="title-avatar2">' + comment['username_profile'] +'</h2>'+
                             '<p class="p-avatar2">' + comment['timeAgo'] + '</p>'+                         
                         '</div>'+
@@ -33,6 +39,22 @@ $.ajax({
     type: 'GET',
     url: '../toVote',
     data: {post_id: id}
+}).success(function(msg){
+    var span = $(elem).children('div').eq(1).children('span');
+    var spanValue = parseInt(span.text());
+    if(msg){
+        spanValue += 1;
+    }else{
+        spanValue -= 1;
+    }
+    span.text(spanValue);
+    });
+}
+function toVoteComment(elem, id_pc){
+$.ajax({
+    type: 'GET',
+    url: '../toVoteComment',
+    data: {id_pc: id_pc}
 }).success(function(msg){
     var span = $(elem).children('div').eq(1).children('span');
     var spanValue = parseInt(span.text());

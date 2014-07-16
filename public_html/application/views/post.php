@@ -25,7 +25,7 @@
                         <h1 class="big-title"><?=$post['title_post'] ;?></h1>
                     </div>
                     <div class="col-lg-12 marg-b-15">
-                        <img src="<?=WEB_URL.'img/profile/tb/'.$post['image_profile'] ;?>" class="img-rounded fl marg2">        <!-- MAY BE WRONG -->
+                        <img style="width: 50px; height: 50px;" src="<?php echo !empty($post['image_profile']) ? WEB_URL.'img/profile/tb/'.$post['image_profile'] : WEB_URL.'inc/img/empty-avatar.png'; ?>" class="img-rounded fl marg2">
                         <h2 class="title-avatar2"><?= $post['username_profile'];?></h2>
                         <p class="p-avatar2"><?= $post['timeAgo'] ;?></p>
                     </div>
@@ -59,13 +59,13 @@
                                     <div class="col-lg-6">
                                         <div class="row">
                                             <div class="col-lg-12">
-                                                <img src="<?=WEB_URL.'img/profile/tb/'.$comment['image_profile'];?>" class="img-rounded fl marg2" /> <!-- MAY BE WRONG URL-->
+                                                <img style="width: 50px; height: 50px;" src="<?php echo !empty($post['image_profile']) ? WEB_URL.'img/profile/tb/'.$post['image_profile'] : WEB_URL.'inc/img/empty-avatar.png'; ?>" class="img-rounded fl marg2" />
                                                 <h2 class="title-avatar2"><?= $comment['username_profile'] ;?></h2>
                                                 <p class="p-avatar2"><?=$comment['timeAgo']?></p>                              
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-6">
+                                    <div class="col-lg-6" onClick="javascript: toVoteComment(this,<?= $comment['id_pc'] ;?>)">
                                         <div class="like-title">Hugs</div>
                                         <div class="like marg4 fr">
                                             <span><?= $comment['thumb_up_pc'];?></span>
@@ -80,7 +80,7 @@
                         <!---------SEND COMMENT FORM---------->
                         <div class="row marg1 ">
                             <div class="col-lg-1">
-                                <img src="<?=WEB_URL.'img/profile/tb/'.$post['image_profile'] ;?>" class="img-rounded fl marg2" /> <!-- MAY BE WRONG URL-->
+                                <img style="width: 50px; height: 50px;"  src="<?php echo !empty($post['image_profile']) ? WEB_URL.'img/profile/tb/'.$post['image_profile'] : WEB_URL.'inc/img/empty-avatar.png'; ?>" class="img-rounded fl marg2" /> <!-- MAY BE WRONG URL-->
                             </div>
                             <div class="col-lg-9">
                                 <div class="row">
