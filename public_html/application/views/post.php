@@ -43,7 +43,7 @@
                                     <span><?= count($post['comments']) ;?></span>
                                 </div>
                             </div>
-                            <div class="col-lg-6" onClick="javascript: toVote(this,<?= $post['id_post'] ;?>)">
+                            <div style="cursor: pointer;" class="col-lg-6" onClick="javascript: toVote(this,<?= $post['id_post'] ;?>)">
                                 <div class="like-title">Hugs</div>
                                 <div class="like marg4 fr">
                                     <span><?= $post['thumb_up_post'] ;?></span>
@@ -65,7 +65,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-6" onClick="javascript: toVoteComment(this,<?= $comment['id_pc'] ;?>)">
+                                    <div style="cursor: pointer;" class="col-lg-6" onClick="javascript: toVoteComment(this,<?= $comment['id_pc'] ;?>)">
                                         <div class="like-title">Hugs</div>
                                         <div class="like marg4 fr">
                                             <span><?= $comment['thumb_up_pc'];?></span>

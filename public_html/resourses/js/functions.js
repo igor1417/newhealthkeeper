@@ -1,9 +1,10 @@
 function sendComment(id){
-    var mess = document.getElementById('sendComment').value;
+    var mess = document.getElementById('sendComment');
+    var text = mess.value;
     $.ajax({
         type: 'POST',
         url: '../comment',
-        data: {id: id, text: mess},
+        data: {id: id, text: text},
     }).success(function(msg){
         var comment = unserialize(msg);
         var image_url;
@@ -21,7 +22,7 @@ function sendComment(id){
                         '</div>'+
                     '</div>'+
                 '</div>'+
-                '<div class="col-lg-6">'+
+                '<div style="cursor: pointer;" class="col-lg-6">'+
                     '<div class="like-title">Hugs</div>'+
                     '<div class="like marg4 fr">'+
                         '<span>' + comment['thumb_up_pc'] + '</span>'+
@@ -32,6 +33,7 @@ function sendComment(id){
                 '<div class="col-lg-12">' + comment['text_pc'] +'</div>'+
             '</div>';
         $('#postComments').append(msg);
+       mess.value = '';
     });
 }
 function toVote(elem, id){
