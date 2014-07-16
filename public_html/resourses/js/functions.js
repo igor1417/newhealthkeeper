@@ -1,7 +1,37 @@
+function sendComment(id){
+    var mess = document.getElementById('sendComment').value;
+    $.ajax({
+        type: 'POST',
+        url: '../comment',
+        data: {id: id, text: mess},
+    }).success(function(msg){
+        var comment = unserialize(msg);
+        msg = '<div class="row"><div class="col-lg-6">'+
+                    '<div class="row">'+
+                        '<div class="col-lg-12">'+
+                            '<img src="../img/profile/tb/' + comment['image_profile'] + '" class="img-rounded fl marg2" />'+
+                            '<h2 class="title-avatar2">' + comment['username_profile'] +'</h2>'+
+                            '<p class="p-avatar2">' + comment['timeAgo'] + '</p>'+                         
+                        '</div>'+
+                    '</div>'+
+                '</div>'+
+                '<div class="col-lg-6">'+
+                    '<div class="like-title">Hugs</div>'+
+                    '<div class="like marg4 fr">'+
+                        '<span>' + comment['thumb_up_pc'] + '</span>'+
+                    '</div>'+
+                '</div>'+
+            '</div>'+
+            '<div class="row c-blue-line">'+
+                '<div class="col-lg-12">' + comment['text_pc'] +'</div>'+
+            '</div>';
+        $('#postComments').append(msg);
+    });
+}
 function toVote(elem, id){
 $.ajax({
     type: 'GET',
-    url: 'http://newhealthkeep.dev/toVote',
+    url: '../toVote',
     data: {post_id: id}
 }).success(function(msg){
     var span = $(elem).children('div').eq(1).children('span');

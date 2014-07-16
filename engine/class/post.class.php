@@ -943,13 +943,7 @@ class Post extends Base {
             $this->updateSearchTable('newComment',$resComment);
 
         }
-
-        if (defined('MOBILE_REQUEST') && MOBILE_REQUEST) {
-            return $this->getCommentById($last_insert_comment_id);
-        }
-
-        return true;
-
+        return $this->getCommentById($last_insert_comment_id);
     }
 
     public function updateCommentCount($id){
@@ -1097,7 +1091,6 @@ class Post extends Base {
 
         }else if($vote<0){
             return false;
-            //return $this->updateVoteCountDown($id);
         }
     }
 
