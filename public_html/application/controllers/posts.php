@@ -95,4 +95,30 @@ class Posts extends CI_Controller {
             echo false;
         }
     }
+    
+    public function delPost(){
+        require_once('../engine/starter/config.php');
+ /*       if(USER_ID == 0) {
+            header('Location:'.WEB_URL.'login');
+        }*/
+        require_once(ENGINE_PATH.'class/post.class.php');
+        require_once(ENGINE_PATH.'class/config.class.php');
+        require_once(ENGINE_PATH.'class/profile.class.php');
+        if(!isset($_POST["id_post"])){
+            go404();
+        }
+        $id=(int)$_POST["id_post"];
+        if($id==0){
+            go404();
+        }
+        $postClass=new Post();
+        $profileClass=new Profile();
+        $res=$postClass->deletePost($id);
+        if($res){
+            $profileClass->updateBadge("sharing",USER_ID);
+            echo "ok";
+        }else{
+            echo "error";
+        }
+    }
 }

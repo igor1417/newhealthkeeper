@@ -20,14 +20,18 @@
             </div>
 
             <?php if ($post) :?>                        <!-- IF POST WITH SUCH ID EXISTS -->
-                <div class="col-lg-12">
+                <div id="iMPost_<?= $post['id_post'] ;?>" class="col-lg-12">
                     <div class="col-lg-12">
                         <h1 class="big-title"><?=$post['title_post'] ;?></h1>
                     </div>
                     <div class="col-lg-12 marg-b-15">
                         <img style="width: 50px; height: 50px;" src="<?php echo !empty($post['image_profile']) ? WEB_URL.'img/profile/tb/'.$post['image_profile'] : WEB_URL.'inc/img/empty-avatar.png'; ?>" class="img-rounded fl marg2">
                         <h2 class="title-avatar2"><?= $post['username_profile'];?></h2>
-                        <p class="p-avatar2"><?= $post['timeAgo'] ;?></p>
+                        <p class="p-avatar2"><?= $post['timeAgo'] ;?>
+                            <span class="iMPostDelete">
+                                <a href="#" onclick="return confirmDelPost('<?= $post["id_post"]; ?>');"><img src="<?= WEB_URL; ?>inc/img/v2/base/delete.png" alt="X" /></a>
+                            </span>
+                        </p>
                     </div>
                     <div class="col-lg-12">
                         <p><?= $post['text_post']?></p>
