@@ -9,16 +9,29 @@ class Notification extends Base {
     {
         $this->config_Class=new Config();
 
+
+        require_once(ENGINE_PATH.'class/post.class.php');
+        $this->_post = new Post();
+    }
+    public function getCountBadges($to_user_id) {
+        $count_unread_messages = $this->_post->getCountUnreadMessagesForUser($to_user_id);
+        $count_new_comments = $this->_post->getUserUnreadCommentsModel($to_user_id);
+        $count_bandages =  $count_unread_messages + $count_new_comments;
+        return $count_bandages;
     }
 
-    public function pushNotification($to_user_id, $type_notification = 0) {
+    public function pushNotification($to_user_id, $type_notification = 0, $is_badges = true, $is_sound = true, $is_text = true) {
         if ($type_notification == 1){
             $welcome_text = 'You have new message!';
         } elseif ($type_notification == 3) {
             $welcome_text = 'You have new post reply!';
         } else {
-            $welcome_text = 'Hello!';    
+            $welcome_text = 'Hello!';
         }
+        if($is_badges) {
+            $count_badges = $this->getCountBadges($to_user_id);
+        }
+
         $sql = 'select token_profile from profile where id_profile =:to_user_id';
         $res = $this->config_Class->query($sql, array(':to_user_id' => $to_user_id));
         $device_token = $res[0]["token_profile"];
@@ -53,14 +66,20 @@ class Notification extends Base {
             // over a ApnsPHP_Message object retrieved with the getErrors() message.
             //$message->setCustomIdentifier("Message-Badge-3");
 
-            // Set badge icon to "3"
-            //$message->setBadge(3);
+            if($is_badges) {
+                // Set badge icon to "3"
+                $message->setBadge($count_badges);
+            }
 
-            // Set a simple welcome text
-            $message->setText($welcome_text);
+            if($is_text) {
+                // Set a simple welcome text
+                $message->setText($welcome_text);
+            }
 
-            // Play the default sound
-            $message->setSound();
+            if ($is_sound) {
+                // Play the default sound
+                $message->setSound();
+            }
 
             // Set a custom property
             $message->setCustomProperty('type', $type_notification);

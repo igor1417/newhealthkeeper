@@ -16,7 +16,7 @@ class postController extends Mobile_api {
         require_once(ENGINE_PATH.'class/post.class.php');
         $this->_post = new Post();
 
-        require_once(ENGINE_PATH.'class/notification.php');
+        require_once(ENGINE_PATH.'class/notification.class.php');
         $this->_notification = new Notification();
     }
     
@@ -52,6 +52,11 @@ class postController extends Mobile_api {
         $this->answer = $this->_post->addNewNoTopic($content, $title, 'image');
     }
 
+    public function getUserUnreadComments() {
+        $to_user_id = $this->getReq2Param('to_user_id');
+        $this->answer = $this->_notification->getCountBadges($to_user_id);
+    }
+
     public function updatePost() {
         $post_id = $this->getReq2Param('post_id');
         $title = $this->getParam('title');
@@ -59,13 +64,19 @@ class postController extends Mobile_api {
 
         $this->answer = $this->_post->updatePostModel($post_id, $content, $title, 'image');
     }
-    
+    public function setReadComments() {
+        $post_id = $this->getReq2Param('post_id');
+        $this->answer = $this->_post->setReadCommentsModel($post_id);
+    }
     public function addComment() {
         $comment = $this->getReqParam('comment', false);
         $post_id = $this->getReqParam('post_id');
         $video_web_url = $this->getReqParam('video_url_pc', false, "");
         $this->answer = $this->_post->addComment($post_id, $comment, 'image', $video_web_url);
         $ownerPost = $this->_post->getOwnerPost($this->answer[0]['id_post_pc']);
+        if($this->answer[0]['id_profile_pc'] != $ownerPost) {
+            $this->_post->updateUnreadCommentsCounter($post_id);
+        }
         $this->_notification->pushNotification($ownerPost ,3);
     }
 
@@ -83,6 +94,7 @@ class postController extends Mobile_api {
 
     public function commentLike() {
         $this->answer = $this->_post->commentLike($this->getReqParam('comment_id'), $this->_default_vote);
+        //$this->_notification->pushNotification($ownerPost, 4, false, false, false);
     }
     
     private function afterPostFind() {

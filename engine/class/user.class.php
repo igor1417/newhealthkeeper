@@ -80,14 +80,11 @@ class User extends Base{
     }
 
     public function getTotalCount(){
-
         $sql="select count(id_user) as total from user";
         return $this->config_Class->query($sql,array());
-
     }
 
     public function getAll($real=false){
-
         if($real){
             $sql="select * from user,profile where id_user=id_profile and type_profile<3";
             return $this->config_Class->query($sql,array());
@@ -95,39 +92,30 @@ class User extends Base{
             $sql="select * from user,profile where id_user=id_profile";
             return $this->config_Class->query($sql,array());
         }
-
     }
 
     public function getById($id){
-
         $sql="select * from user where id_user=:id limit 1";
         return $this->config_Class->query($sql,array(":id"=>$id));
-
     }
 
     private function addCommonStart($email,$password){
-
         if(!filter_var( $email, FILTER_VALIDATE_EMAIL )){
             return array("result"=>false,"error"=>"Invalid email address");
         }
-
         if(strlen($password)<5){
             return array("result"=>false,"error"=>"Password needs to have more than 5 characters");
         }
-
         $res=$this->getByEmail($email);
-
         if($res["result"]){
             return array("result"=>false,"error"=>"Email adress already registered","emailDup"=>true);
         }
-
         return array("result"=>true);
 
     }
 
     public function updatePassword($id, $password){
         $res=$this->getById($id);
-
         if(!$res["result"]){
             return false;
         }
@@ -430,6 +418,12 @@ class User extends Base{
         $resUpdate=$this->config_Class->query($sql,
             array(":session"=>$session,":cookie"=>$cookie,":id"=>$id));
 
+    }
+
+    public function logoutModel($id){
+        $sql="update profile set token_profile = '' where id_profile=:id";
+        $result = $this->config_Class->query($sql, array(":id"=>$id));
+        return array("result" => $result);
     }
 
     private function getUserAgentDetails(){
