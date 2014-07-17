@@ -10,7 +10,7 @@ function confirmDelPost(id){
                     alert('Ops! We could not remove that post. Please try again later or contact us.');	
                     $('#iMPost_'+id).show();
                 }else{
-                    //перенаправить в feed
+                    window.location = "../feed";//перенаправить в feed
                 }
             });
 	}else

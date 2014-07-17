@@ -28,9 +28,11 @@
                         <img style="width: 50px; height: 50px;" src="<?php echo !empty($post['image_profile']) ? WEB_URL.'img/profile/tb/'.$post['image_profile'] : WEB_URL.'inc/img/empty-avatar.png'; ?>" class="img-rounded fl marg2">
                         <h2 class="title-avatar2"><?= $post['username_profile'];?></h2>
                         <p class="p-avatar2"><?= $post['timeAgo'] ;?>
+                            <?php if($post['id_profile_post'] == USER_ID): ?>
                             <span class="iMPostDelete">
                                 <a href="#" onclick="return confirmDelPost('<?= $post["id_post"]; ?>');"><img src="<?= WEB_URL; ?>inc/img/v2/base/delete.png" alt="X" /></a>
                             </span>
+                            <?php endif;?>
                         </p>
                     </div>
                     <div class="col-lg-12">
