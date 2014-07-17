@@ -1,3 +1,16 @@
+function confirmDelComment(id){
+	if(confirm('Are you sure you want to delete this post?')){
+            $('#comment_'+id).slideUp('fast');
+            $.ajax({
+                type: 'POST',
+                url: '../delPostComment',
+                data: {id_pc: id}
+            }).success(function(msg){
+                alert(msg);
+                $('#comment_'+id).show();
+            });
+    }
+}
 function confirmDelPost(id){
 	if(confirm('Are you sure you want to delete this post?')){
             $('#iMPost_'+id).slideUp('fast');
@@ -10,7 +23,7 @@ function confirmDelPost(id){
                     alert('Ops! We could not remove that post. Please try again later or contact us.');	
                     $('#iMPost_'+id).show();
                 }else{
-                    window.location = "../feed";//перенаправить в feed
+                    window.location = "../feed";
                 }
             });
 	}else
@@ -31,12 +44,17 @@ function sendComment(id){
         }else{
             image_url = '../img/profile/tb/' + comment['image_profile'];
         }
-        msg = '<div class="row"><div class="col-lg-6">'+
+        msg = '<div id="comment_'+ comment['id_pc'] +'"><div class="row"><div class="col-lg-6">'+
                     '<div class="row">'+
                         '<div class="col-lg-12">'+
                             '<img style="width: 50px; height: 50 px;" src="'+ image_url +'" class="img-rounded fl marg2" />'+
                             '<h2 class="title-avatar2">' + comment['username_profile'] +'</h2>'+
-                            '<p class="p-avatar2">' + comment['timeAgo'] + '</p>'+                         
+                            '<p class="p-avatar2">' + comment["timeAgo"] + 
+                                '<span class="iMPostDelete">' +
+                                   '<a href="#" onclick="return confirmDelComment('+ comment['id_pc'] +');">' +
+                                   '<img src="../inc/img/v2/base/delete.png" alt="X" /></a>' +
+                                '</span>' +
+                            '</p>'+                         
                         '</div>'+
                     '</div>'+
                 '</div>'+
@@ -49,6 +67,7 @@ function sendComment(id){
             '</div>'+
             '<div class="row c-blue-line">'+
                 '<div class="col-lg-12">' + comment['text_pc'] +'</div>'+
+            '</div>' +
             '</div>';
         $('#postComments').append(msg);
        mess.value = '';

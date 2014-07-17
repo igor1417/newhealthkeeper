@@ -61,25 +61,34 @@
                     <div class="col-lg-12 marg3">
                         <div id='postComments'>
                             <?php foreach($post['comments'] as $comment) : ?>
-                                <div class="row">
-                                    <div class="col-lg-6">
-                                        <div class="row">
-                                            <div class="col-lg-12">
-                                                <img style="width: 50px; height: 50px;" src="<?php echo !empty($post['image_profile']) ? WEB_URL.'img/profile/tb/'.$post['image_profile'] : WEB_URL.'inc/img/empty-avatar.png'; ?>" class="img-rounded fl marg2" />
-                                                <h2 class="title-avatar2"><?= $comment['username_profile'] ;?></h2>
-                                                <p class="p-avatar2"><?=$comment['timeAgo']?></p>                              
+                                <div id="comment_<?= $comment['id_pc'] ;?>">
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    <img style="width: 50px; height: 50px;" src="<?php echo !empty($post['image_profile']) ? WEB_URL.'img/profile/tb/'.$post['image_profile'] : WEB_URL.'inc/img/empty-avatar.png'; ?>" class="img-rounded fl marg2" />
+                                                    <h2 class="title-avatar2"><?= $comment['username_profile'] ;?></h2>
+                                                    <p class="p-avatar2">
+                                                        <?=$comment['timeAgo']?>
+                                                        <?php if($comment['id_profile_pc'] == USER_ID): ?>
+                                                        <span class="iMPostDelete">
+                                                            <a href="#" onclick="return confirmDelComment('<?= $comment["id_pc"]; ?>');"><img src="<?= WEB_URL; ?>inc/img/v2/base/delete.png" alt="X" /></a>
+                                                        </span>
+                                                        <?php endif;?>
+                                                    </p>                              
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div style="cursor: pointer;" class="col-lg-6" onClick="javascript: toVoteComment(this,<?= $comment['id_pc'] ;?>)">
+                                            <div class="like-title">Hugs</div>
+                                            <div class="like marg4 fr">
+                                                <span><?= $comment['thumb_up_pc'];?></span>
                                             </div>
                                         </div>
                                     </div>
-                                    <div style="cursor: pointer;" class="col-lg-6" onClick="javascript: toVoteComment(this,<?= $comment['id_pc'] ;?>)">
-                                        <div class="like-title">Hugs</div>
-                                        <div class="like marg4 fr">
-                                            <span><?= $comment['thumb_up_pc'];?></span>
-                                        </div>
+                                    <div class="row c-blue-line">
+                                        <div class="col-lg-12"><?= $comment['text_pc']?></div>
                                     </div>
-                                </div>
-                                <div class="row c-blue-line">
-                                    <div class="col-lg-12"><?= $comment['text_pc']?></div>
                                 </div>
                         <?php endforeach ;?>
                     </div>
