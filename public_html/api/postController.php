@@ -24,7 +24,17 @@ class postController extends Mobile_api {
         $this->answer = $this->_post->getAllPosts($this->getReqParam('timestamp', true, 0));
         $this->afterPostFind();
     }
-    
+
+    public function getPostById() {
+        $post_id = $this->getReq2Param('post_id');
+        $this->answer = $this->_post->getPostByIdModel($post_id);
+    }
+
+    public function getCommentById() {
+        $comment_id = $this->getReq2Param('comment_id');
+        $this->answer = $this->_post->getCommentByIdModel($comment_id);
+    }
+
     public function userPosts() {
         $this->answer = $this->_post->getAllPosts($this->getReqParam('timestamp', true, 0), $this->getReqParam('author_id'));
         $this->afterPostFind();        

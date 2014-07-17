@@ -1269,6 +1269,16 @@ class Post extends Base {
         return $this->config_Class->query($sql);
     }
 
+    public function getPostByIdModel($post_id){
+        $sql="select * from post where id_post=:post_id";
+        return $this->config_Class->query($sql,array(":post_id"=>$post_id));
+    }
+
+    public function getCommentByIdModel($comment_id){
+        $sql="select * from post_comment where id_pc=:comment_id";
+        return $this->config_Class->query($sql,array(":comment_id"=>$comment_id));
+    }
+
     public function getPostsByTopicId($id_topic, $timestamp){   //API Request
         $sql="select p.*, pro.*, IFNULL(pt.vote_pt, 0) as already_voted
         from post_relation as pr, profile as pro, post as p

@@ -2,7 +2,7 @@
 /**
  * Description of User
  *
- * @author Игорь
+ * @author Power (AppDragon)
  */
 class userController extends Mobile_api {
     
