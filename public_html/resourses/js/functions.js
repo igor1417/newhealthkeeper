@@ -1,33 +1,35 @@
 function confirmDelComment(id){
-	if(confirm('Are you sure you want to delete this post?')){
-            $('#comment_'+id).slideUp('fast');
-            $.ajax({
-                type: 'POST',
-                url: '../delPostComment',
-                data: {id_pc: id}
-            }).success(function(msg){
-                alert(msg);
+    if(confirm('Are you sure you want to delete this post?')){
+        $('#comment_'+id).slideUp('fast');
+        $.ajax({
+            type: 'POST',
+            url: '../delPostComment',
+            data: {id_pc: id}
+        }).success(function(msg){
+            if(msg != 'ok'){
+                alert('Ops! We could not remove that comment. Please try again later or contact us.');	
                 $('#comment_'+id).show();
-            });
+            }
+        });
     }
 }
 function confirmDelPost(id){
-	if(confirm('Are you sure you want to delete this post?')){
-            $('#iMPost_'+id).slideUp('fast');
-            $.ajax({
-                type: 'POST',
-                url: '../delPost',
-                data: {id_post: id}
-            }).success(function(msg){
-                if(msg != 'ok'){
-                    alert('Ops! We could not remove that post. Please try again later or contact us.');	
-                    $('#iMPost_'+id).show();
-                }else{
-                    window.location = "../feed";
-                }
-            });
-	}else
-	return false;
+    if(confirm('Are you sure you want to delete this post?')){
+        $('#iMPost_'+id).slideUp('fast');
+        $.ajax({
+            type: 'POST',
+            url: '../delPost',
+            data: {id_post: id}
+        }).success(function(msg){
+            if(msg != 'ok'){
+                alert('Ops! We could not remove that post. Please try again later or contact us.');	
+                $('#iMPost_'+id).show();
+            }else{
+                window.location = "../feed";
+            }
+        });
+    }else
+        return false;
 }
 function sendComment(id){
     var mess = document.getElementById('sendComment');

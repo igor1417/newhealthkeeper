@@ -131,12 +131,14 @@ class Posts extends CI_Controller {
         if($id==0){
             go404();
         }
-        $d = time() + 5;
-        while($d > time()){
-            
+        $postClass=new Post();
+        $profileClass=new Profile();
+        $res=$postClass->deleteComment($id);
+        $profileClass->updateBadge("helpful",USER_ID);
+        if($res){
+                echo "ok";
+        }else{
+                echo "error";
         }
-        echo $id;
-        //send date
-        //receive data
     }
 }
