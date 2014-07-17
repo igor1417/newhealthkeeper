@@ -1060,6 +1060,16 @@ class Post extends Base {
 
      }
 
+     public function getCommentOwner($comment_id){
+        $sql="select id_profile_pc as comment_owner_id from post_comment where id_pc=:comment_id";
+        return $this->config_Class->query($sql,array(":comment_id"=>$comment_id));
+     }
+
+     public function getPostOwner($post_id){
+        $sql="select id_profile_post as post_owner_id from post where id_post=:post_id";
+        return $this->config_Class->query($sql,array(":post_id"=>$post_id));
+     }
+
      public function updateCommentVoteCountUp($id){
         $sql="select count(id_pct) as total from post_comment_thumb where id_pc_pct=:id and vote_pct>0 group by id_pc_pct";
         $res = $this->config_Class->query($sql,array(":id"=>$id));

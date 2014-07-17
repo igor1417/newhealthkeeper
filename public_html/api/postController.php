@@ -90,11 +90,18 @@ class postController extends Mobile_api {
     
     public function postLike() {
         $this->answer = $this->_post->postLike($this->getReqParam('post_id'), $this->_default_vote);
+        $ownerPost = $this->_post->getPostOwner($this->getReqParam('post_id'));
+        if (isset($ownerPost[0]["post_owner_id"])) {
+            $this->_notification->pushNotification($ownerPost[0]["post_owner_id"], 5, false, false, false);
+        }
     }
 
     public function commentLike() {
         $this->answer = $this->_post->commentLike($this->getReqParam('comment_id'), $this->_default_vote);
-        //$this->_notification->pushNotification($ownerPost, 4, false, false, false);
+        $ownerComment = $this->_post->getCommentOwner($this->getReqParam('comment_id'));
+        if (isset($ownerComment[0]["comment_owner_id"])) {
+            $this->_notification->pushNotification($ownerComment[0]["comment_owner_id"], 4, false, false, false);
+        }
     }
     
     private function afterPostFind() {

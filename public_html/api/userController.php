@@ -61,7 +61,7 @@ class userController extends Mobile_api {
     public function socialAuth() {
         $social_id = $this->getReqParam('social_id', false);
         $social_type = $this->getReqParam('social_type');
-        if (strlen($social_id) < 10) {
+        if (strlen($social_id) < 5) {
             $this->answer['result'] = Mobile_api::RESPONSE_STATUS_ERROR;
             $this->answer['error'] = 'Wrong social_id parameter value.';
         } elseif (!$this->validateSocialType($social_type)) {
