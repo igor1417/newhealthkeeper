@@ -98,9 +98,6 @@ class Posts extends CI_Controller {
     
     public function delPost(){
         require_once('../engine/starter/config.php');
- /*       if(USER_ID == 0) {
-            header('Location:'.WEB_URL.'login');
-        }*/
         require_once(ENGINE_PATH.'class/post.class.php');
         require_once(ENGINE_PATH.'class/config.class.php');
         require_once(ENGINE_PATH.'class/profile.class.php');
@@ -119,6 +116,29 @@ class Posts extends CI_Controller {
             echo "ok";
         }else{
             echo "error";
+        }
+    }
+    
+    public function delPostComment(){
+        require_once('../engine/starter/config.php');
+        require_once(ENGINE_PATH.'class/post.class.php');
+        require_once(ENGINE_PATH.'class/config.class.php');
+        require_once(ENGINE_PATH.'class/profile.class.php');
+        if(!isset($_POST["id_pc"])){
+            go404();
+        }
+        $id=(int)$_POST["id_pc"];
+        if($id==0){
+            go404();
+        }
+        $postClass=new Post();
+        $profileClass=new Profile();
+        $res=$postClass->deleteComment($id);
+        $profileClass->updateBadge("helpful",USER_ID);
+        if($res){
+                echo "ok";
+        }else{
+                echo "error";
         }
     }
 }

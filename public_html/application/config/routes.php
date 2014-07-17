@@ -43,6 +43,7 @@ $route['toVote'] = "toVote/index";
 $route['toVoteComment'] = 'toVote/comment';
 $route['comment'] = "posts/addComment";
 $route['delPost'] = "posts/delPost";
+$route['delPostComment'] = "posts/delPostComment";
 $route['default_controller'] = 'tab_community';
 $route['404_override'] = '';
 
