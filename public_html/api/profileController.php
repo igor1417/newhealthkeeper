@@ -23,7 +23,13 @@ class profileController extends Mobile_api {
 
     public function updateProfile() {
         $attributes = $this->getProfileAttr();
-         if (count($attributes) === count($this->_available_attr) ) {
+        $should_show_location = $this->getParam('should_show_location');
+        if (isset($should_show_location)) {
+            $attributes['should_show_location'] =  $this->getParam('should_show_location');
+        }
+
+
+         if (count($attributes) >= count($this->_available_attr) ) {
             if (!isset($this->answer['error'])) {
                 $this->answer = $this->_profile->updateProfile($attributes, 'image');
             } else {
