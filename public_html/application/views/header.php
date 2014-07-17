@@ -11,6 +11,7 @@
     <script src="<?= WEB_URL; ?>resourses/js/bootstrap.js"></script>
     <script src="<?= WEB_URL; ?>resourses/js/bootstrap-dropdown.js"></script>
     <script src="<?= WEB_URL; ?>resourses/js/functions.js"></script>
+    <script src="<?= WEB_URL; ?>resourses/js/php.js"></script>
 </head>
 <body>
 <header class="navbar navbar-static-top bs-docs-nav" id="top" role="banner">

@@ -11,6 +11,15 @@ class toVote extends CI_Controller {
         $result = $res->postLike($post_id,$vote);
         echo $result['like'];
     }
+    public function comment() {
+        $id_pc = $_GET['id_pc'];    //to add some revision
+        $vote = 1;
+        require_once('../engine/starter/config.php');
+        require_once(ENGINE_PATH.'class/post.class.php');
+        $res= new Post;
+        $result = $res->commentLike($id_pc,$vote);
+        echo $result['like'];
+    }
     
    
 
