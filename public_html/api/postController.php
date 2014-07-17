@@ -77,7 +77,7 @@ class postController extends Mobile_api {
         if($this->answer[0]['id_profile_pc'] != $ownerPost) {
             $this->_post->updateUnreadCommentsCounter($post_id);
         }
-        $this->_notification->pushNotification($ownerPost ,3);
+        $this->_notification->pushNotification($ownerPost ,3, true, true, true, array("id" => $post_id));
     }
 
     public function updateComment() {
@@ -92,7 +92,7 @@ class postController extends Mobile_api {
         $this->answer = $this->_post->postLike($this->getReqParam('post_id'), $this->_default_vote);
         $ownerPost = $this->_post->getPostOwner($this->getReqParam('post_id'));
         if (isset($ownerPost[0]["post_owner_id"])) {
-            $this->_notification->pushNotification($ownerPost[0]["post_owner_id"], 5, false, false, false);
+            $this->_notification->pushNotification($ownerPost[0]["post_owner_id"], 5, false, false, false, array('id' => $this->getReqParam('post_id')) );
         }
     }
 
@@ -100,7 +100,7 @@ class postController extends Mobile_api {
         $this->answer = $this->_post->commentLike($this->getReqParam('comment_id'), $this->_default_vote);
         $ownerComment = $this->_post->getCommentOwner($this->getReqParam('comment_id'));
         if (isset($ownerComment[0]["comment_owner_id"])) {
-            $this->_notification->pushNotification($ownerComment[0]["comment_owner_id"], 4, false, false, false);
+            $this->_notification->pushNotification($ownerComment[0]["comment_owner_id"], 4, false, false, false, array('id' => $this->getReqParam('comment_id')) );
         }
     }
     

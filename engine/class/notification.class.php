@@ -20,7 +20,7 @@ class Notification extends Base {
         return $count_bandages;
     }
 
-    public function pushNotification($to_user_id, $type_notification = 0, $is_badges = true, $is_sound = true, $is_text = true) {
+    public function pushNotification($to_user_id, $type_notification = 0, $is_badges = true, $is_sound = true, $is_text = true, $params = array()) {
         if ($type_notification == 1){
             $welcome_text = 'You have new message!';
         } elseif ($type_notification == 3) {
@@ -84,6 +84,9 @@ class Notification extends Base {
             // Set a custom property
             $message->setCustomProperty('type', $type_notification);
 
+            foreach ($params as $param => $val) {
+                $message->setCustomProperty($param, $val);
+            }
             // Set another custom property
             //$message->setCustomProperty('acme3', array('bing', 'bong'));
 
