@@ -66,7 +66,10 @@ class postController extends Mobile_api {
         $to_user_id = $this->getReq2Param('to_user_id');
         $this->answer = $this->_notification->getCountBadges($to_user_id);
     }
-
+    public function getCountUnreadComments() {
+        $user_id = $this->getReq2Param('user_id');
+        $this->answer = $this->_post->getCountUserUnreadCommentsModel($user_id);
+    }
     public function updatePost() {
         $post_id = $this->getReq2Param('post_id');
         $title = $this->getParam('title');

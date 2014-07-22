@@ -1303,7 +1303,13 @@ class Post extends Base {
         $this->userSQL($user_id).$this->timePostSQL($timestamp, 'date_post')." order by date_post desc limit ".$this->getLimit();
         return $this->config_Class->query($sql);
     }
-
+    public function getCountUserUnreadCommentsModel($user_id = 0){   //API Request
+        $sql="select sum(count_unread_comments_post) as count_unread_comments
+              from post
+              where id_profile_post=:user_id";
+        $result = $this->config_Class->query($sql, array(":user_id" => $user_id));
+        return $result;
+    }
     public function getUserUnreadCommentsModel($user_id = 0){   //API Request
         $sql="select sum(p.count_unread_comments_post) as count_unread_comments
         from post as p inner join profile as pro
