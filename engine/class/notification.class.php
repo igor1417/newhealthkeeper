@@ -3,8 +3,6 @@ class Notification extends Base {
 
     private $config_Class;
 
-    private $user_id_array = array();
-
     function __construct()
     {
         $this->config_Class=new Config();
@@ -22,9 +20,9 @@ class Notification extends Base {
 
     public function pushNotification($to_user_id, $type_notification = 0, $is_badges = true, $is_sound = true, $is_text = true, $params = array()) {
         if ($type_notification == 1){
-            $welcome_text = 'You have new message!';
+            $welcome_text = 'You have a message from '.$params['user_name'].'!';
         } elseif ($type_notification == 3) {
-            $welcome_text = 'You have new post reply!';
+            $welcome_text = 'You have a reply to your request for help';
         } else {
             $welcome_text = 'Hello!';
         }

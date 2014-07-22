@@ -21,6 +21,9 @@ class messageController extends Mobile_api {
         require_once(ENGINE_PATH.'class/notification.class.php');
         $this->_notification = new Notification();
 
+        require_once(ENGINE_PATH.'class/profile.class.php');
+        $this->_profile = new Profile();
+
         require_once(ENGINE_PATH."starter/mail.php");
         $this->_mailer = new PHPMailer();
     }
@@ -30,7 +33,13 @@ class messageController extends Mobile_api {
         $to_user_id = $this->getReqParam('to_user_id', true);
 
         $this->answer = $this->_post->addNewV2Post($message, 'image', $this->_message_topic, $to_user_id);
-        $this->_notification->pushNotification($to_user_id ,1);
+        $profile = $this->_profile->getByIdWithTopics($this->getReqParam('user_id'));
+        if(isset($profile)){
+            $profile_name = $profile[0]["name_profile"];
+        } else {
+            $profile_name = "";
+        }
+        $this->_notification->pushNotification($to_user_id ,1, true, true, true, array("user_name" => $profile_name));
     }
 
     public function deleteMessage() {
