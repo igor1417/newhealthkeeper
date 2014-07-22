@@ -24,8 +24,12 @@ class profileController extends Mobile_api {
     public function updateProfile() {
         $attributes = $this->getProfileAttr();
         $should_show_location = $this->getParam('should_show_location');
+        $location_profile = $this->getParam('location_profile');
         if (isset($should_show_location)) {
             $attributes['should_show_location'] =  $this->getParam('should_show_location');
+        }
+        if (isset($location_profile)) {
+            $attributes['location_profile'] =  $this->getParam('location_profile');
         }
 
 

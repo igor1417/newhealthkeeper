@@ -42,6 +42,12 @@ class Post extends Base {
 
     }
 
+    public function deleteMessageModel($message_id){
+        $sql="delete from post where id_post=:message_id";
+        $result = $this->config_Class->query($sql,array(":message_id" => $message_id));
+        return array("result" => $result);
+    }
+
     public function deletePostsWith($title, $description){
         if($description!=""){
         $sql="select * from post, profile

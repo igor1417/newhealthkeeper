@@ -28,11 +28,16 @@ class messageController extends Mobile_api {
     public function sendMessage() {
         $message = $this->getReqParam('message', false, "");
         $to_user_id = $this->getReqParam('to_user_id', true);
-        
+
         $this->answer = $this->_post->addNewV2Post($message, 'image', $this->_message_topic, $to_user_id);
         $this->_notification->pushNotification($to_user_id ,1);
     }
-    
+
+    public function deleteMessage() {
+        $message_id = $this->getReq2Param('message_id');
+        $this->answer = $this->_post->deleteMessageModel($message_id);
+    }
+
     public function getConversations() {
         $this->answer = $this->_post->getAllConversations($this->getReqParam('timestamp', true, 0));
         if (count($this->answer) > 0) {
