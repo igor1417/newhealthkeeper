@@ -32,14 +32,22 @@ class messageController extends Mobile_api {
         $message = $this->getReqParam('message', false, "");
         $to_user_id = $this->getReqParam('to_user_id', true);
 
-        $this->answer = $this->_post->addNewV2Post($message, 'image', $this->_message_topic, $to_user_id);
-        $profile = $this->_profile->getByIdWithTopics($this->getReqParam('user_id'));
-        if(isset($profile)){
-            $profile_name = $profile[0]["name_profile"];
+        // check status conversation
+        $conv_blocked = $this->_post->isBlockConversation($to_user_id);
+        // if conversation not blocked -> send message
+        if(!isset($conv_blocked[0]["id_conv"])){
+            $this->answer = $this->_post->addNewV2Post($message, 'image', $this->_message_topic, $to_user_id);
+            $profile = $this->_profile->getByIdWithTopics($this->getReqParam('user_id'));
+            if(isset($profile)){
+                $profile_name = $profile[0]["name_profile"];
+            } else {
+                $profile_name = "";
+            }
+            $this->_notification->pushNotification($to_user_id ,1, true, true, true, array("user_name" => $profile_name));
         } else {
-            $profile_name = "";
+            $this->answer = "blocked";
         }
-        $this->_notification->pushNotification($to_user_id ,1, true, true, true, array("user_name" => $profile_name));
+
     }
 
     public function deleteMessage() {

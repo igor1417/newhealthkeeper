@@ -906,6 +906,22 @@ class Post extends Base {
         return array("result"=>$result);
     }
 
+    public function setBlockConversationModel($to_user_id){
+        // check exist conversation
+        $sql = "select id_conv from conversations where (user_id1_conv=:user_id and user_id2_conv=:to_user_id) or (user_id2_conv=:user_id2 and user_id1_conv=:to_user_id2)";
+        $conv = $this->config_Class->query($sql, array(":user_id"=>USER_ID, ":to_user_id"=>$to_user_id, ":user_id2"=>USER_ID, ":to_user_id2"=>$to_user_id));
+        if(isset($conv[0]["id_conv"])) {
+            // if exist conversation - update column status -> block
+            $sql = "update conversations set status_conv = 'block'  where id_conv=:id_conv";
+            $result = $this->config_Class->query($sql, array(":id_conv"=>$conv[0]["id_conv"]));
+        } else {
+            // if not exist conversation - create new conversation
+            $sql = "insert into conversations (user_id1_conv, user_id2_conv, status_conv) VALUES (:user_id, :to_user_id, :status)";
+            $result = $this->config_Class->query($sql, array(":user_id"=>USER_ID, ":to_user_id"=>$to_user_id, ":status"=>"block"));
+        }
+        return array("result"=>$result);
+    }
+
     public function addComment($id, $text, $img = "", $video_web_url = ""){
         $text=$this->config_Class->escapeOddChars($text);
         $text=$this->config_Class->processPostText($text);
@@ -1585,40 +1601,37 @@ class Post extends Base {
         }
 
     }
+    public function isBlockConversation($to_user_id) {
+        $sql = "select id_conv from conversations where (user_id1_conv=:user_id and user_id2_conv=:to_user_id and status_conv = 'block') or (user_id2_conv=:user_id2 and user_id1_conv=:to_user_id2 and status_conv = 'block')";
+        return $this->config_Class->query($sql, array(":user_id"=>USER_ID, ":to_user_id"=>$to_user_id, ":user_id2"=>USER_ID, ":to_user_id2"=>$to_user_id));
+    }
 
     public function getAllConversations() {
+        $conversations = array();
         $users = $this->getUsersID();
         if (!empty($users)) {
         $sql = "SELECT * FROM profile WHERE id_profile IN (".implode(',', $this->getUsersID()).")";
-            return $this->config_Class->query($sql);
+            $conversations = $this->config_Class->query($sql);
+            foreach ($conversations as $key => $value) {
+                $conv_to_user_id = $conversations[$key]["id_profile"];
+                $conv = $this->isBlockConversation($conv_to_user_id);
+                error_reporting(E_ALL ^ E_WARNING);
+                $conversations[$key]["blocked"] = array();
+                if(isset($conv[0]["id_conv"])) {
+                    $conversations[$key]["blocked"] = "true";
+                } else {
+                    $conversations[$key]["blocked"] = "false";
+                }
+            }
+            return  $conversations;
         } else {
             return array('result' => true);
         }
     }
 
     public function getCountUnreadMessagesForUser($to_user_id) {
-       /* $users = $this->getUsersID2($to_user_id);*/
-      /*  if (!empty($users)) {*/
-            $sql = "SELECT count(id_post) as coun_unread_mess FROM post WHERE share_with_post =:to_user_id AND read_post = 0";
+        $sql = "SELECT count(id_post) as coun_unread_mess FROM post WHERE share_with_post =:to_user_id AND read_post = 0";
         $count_unread_user_messsages = $this->config_Class->query($sql, array(":to_user_id" => $to_user_id));
-        /*} else {
-            $conversations = array('result' => true);
-        }
-        $count_unread_user_messsages = 0;
-        if (count($conversations) > 0) {
-            foreach ($conversations as $key=>$post) {
-                if ($key !== 'result') {
-                    $post_messages = $this->getConvMessages2($to_user_id, $conversations[$key]['id_profile']);
-                        $count_unread_conv_messsages = 0;
-                        foreach($post_messages as $key2=>$message) {
-                            if ($post_messages[$key2]["read_post"] == 0 ) {
-                                ++$count_unread_conv_messsages;
-                            }
-                        }
-                        $count_unread_user_messsages = $count_unread_user_messsages + $count_unread_conv_messsages;
-                }
-            }
-        }*/
         return $count_unread_user_messsages[0]["coun_unread_mess"];
     }
 
