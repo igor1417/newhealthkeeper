@@ -33,7 +33,7 @@ class messageController extends Mobile_api {
         $to_user_id = $this->getReqParam('to_user_id', true);
 
         // check if conversation hide -> show
-        if ($this->_post->isHideConversationModel($to_user_id)) {
+        if ($this->_post->isHideConversationOtherUserModel($to_user_id)) {
             $this->_post->showConversationModel($to_user_id);
         }
         // check status conversation
@@ -66,11 +66,12 @@ class messageController extends Mobile_api {
 
     public function getConversations() {
         $this->answer = $this->_post->getAllConversations($this->getReqParam('timestamp', true, 0));
+        //var_dump($this->answer);
         if (count($this->answer) > 0) {
             foreach ($this->answer as $key=>$post) {
                 if ($key !== 'result') {
                     // check if conversation hide then delete
-                    if ($this->_post->isHideConversationModel($this->answer[$key]['id_profile'])) {
+                    if ($this->_post->isHideConversationModel($this->answer[$key]['id_profile']) == true) {
                         unset($this->answer[$key]);
                     } else {
                         // add date_post, time_ago, count_unread_messages if conversation not hide

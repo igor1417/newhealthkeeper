@@ -1540,8 +1540,13 @@ class Post extends Base {
         $result = $this->config_Class->query($sql, array(":user_id"=>USER_ID, ":to_user_id"=>$to_user_id, ":user_id2"=>USER_ID, ":to_user_id2"=>$to_user_id));
         return $result["result"];
     }
+    public function isHideConversationOtherUserModel($to_user_id) {
+        $sql = "select user_id1_conv, user_id2_conv from conversations where (user_id1_conv=:user_id and user_id2_conv=:to_user_id and (hide_messages_u1 = 1 or hide_messages_u2 = 1)) or (user_id1_conv=:to_user_id2 and user_id2_conv=:user_id2 and (hide_messages_u1 = 1 or hide_messages_u2 = 1))";
+        $result = $this->config_Class->query($sql, array(":user_id"=>USER_ID, ":to_user_id"=>$to_user_id, ":user_id2"=>USER_ID, ":to_user_id2"=>$to_user_id));
+        return $result["result"];
+    }
     public function isHideConversationModel($to_user_id) {
-        $sql = "select user_id1_conv, user_id2_conv from conversations where (user_id1_conv=:user_id and user_id2_conv=:to_user_id) or (user_id1_conv=:to_user_id2 and user_id2_conv=:user_id2)";
+        $sql = "select user_id1_conv, user_id2_conv from conversations where (user_id1_conv=:user_id and user_id2_conv=:to_user_id and hide_messages_u1 = 1) or (user_id1_conv=:to_user_id2 and user_id2_conv=:user_id2 and hide_messages_u2 = 1)";
         $result = $this->config_Class->query($sql, array(":user_id"=>USER_ID, ":to_user_id"=>$to_user_id, ":user_id2"=>USER_ID, ":to_user_id2"=>$to_user_id));
         return $result["result"];
     }
