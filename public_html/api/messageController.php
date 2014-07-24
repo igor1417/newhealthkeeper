@@ -32,6 +32,10 @@ class messageController extends Mobile_api {
         $message = $this->getReqParam('message', false, "");
         $to_user_id = $this->getReqParam('to_user_id', true);
 
+        // check if conversation hide -> show
+        if ($this->_post->isHideConversationModel($to_user_id)) {
+            $this->_post->showConversationModel($to_user_id);
+        }
         // check status conversation
         $conv_blocked = $this->_post->isBlockConversation($to_user_id);
         // if conversation not blocked -> send message
@@ -45,9 +49,14 @@ class messageController extends Mobile_api {
             }
             $this->_notification->pushNotification($to_user_id ,1, true, true, true, array("user_name" => $profile_name));
         } else {
-            $this->answer = "blocked";
+            $this->answer["blocked"] = true;
+            $this->answer["result"] = true;
         }
+    }
 
+    public function hideConversation() {
+        $to_user_id = $this->getReq2Param('to_user_id');
+        $this->answer = $this->_post->hideConversationModel($to_user_id);
     }
 
     public function deleteMessage() {
@@ -59,16 +68,22 @@ class messageController extends Mobile_api {
         $this->answer = $this->_post->getAllConversations($this->getReqParam('timestamp', true, 0));
         if (count($this->answer) > 0) {
             foreach ($this->answer as $key=>$post) {
-
                 if ($key !== 'result') {
-                    $last_post = $this->_post->getConvMessages($this->answer[$key]['id_profile'], $this->getReqParam('timestamp', true, 0));
-                    if (isset($last_post[0]['date_post'])) {
-                        $this->answer[$key]['date_post'] = $last_post[0]['date_post'];
-                        $this->answer[$key]['time_ago'] = $this->config->ago(strtotime($last_post[0]['date_post']));
-                        $this->answer[$key]['count_unread_messages'] = $this->_post->getCountUnreadMessagesInConversationModel($this->answer[$key]['id_profile']);
-                    } else {
+                    // check if conversation hide then delete
+                    if ($this->_post->isHideConversationModel($this->answer[$key]['id_profile'])) {
                         unset($this->answer[$key]);
+                    } else {
+                        // add date_post, time_ago, count_unread_messages if conversation not hide
+                        $last_post = $this->_post->getConvMessages($this->answer[$key]['id_profile'], $this->getReqParam('timestamp', true, 0));
+                        if (isset($last_post[0]['date_post'])) {
+                            $this->answer[$key]['date_post'] = $last_post[0]['date_post'];
+                            $this->answer[$key]['time_ago'] = $this->config->ago(strtotime($last_post[0]['date_post']));
+                            $this->answer[$key]['count_unread_messages'] = $this->_post->getCountUnreadMessagesInConversationModel($this->answer[$key]['id_profile']);
+                        } else {
+                            unset($this->answer[$key]);
+                        }
                     }
+
                 }
             }
         }

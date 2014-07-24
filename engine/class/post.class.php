@@ -1535,6 +1535,39 @@ class Post extends Base {
         }
 
     }
+    public function showConversationModel($to_user_id) {
+        $sql = "update conversations set hide_messages_u1 = 0, hide_messages_u2 = 0  where (user_id1_conv=:user_id and user_id2_conv=:to_user_id) or (user_id1_conv=:to_user_id2 and user_id2_conv=:user_id2)";
+        $result = $this->config_Class->query($sql, array(":user_id"=>USER_ID, ":to_user_id"=>$to_user_id, ":user_id2"=>USER_ID, ":to_user_id2"=>$to_user_id));
+        return $result["result"];
+    }
+    public function isHideConversationModel($to_user_id) {
+        $sql = "select user_id1_conv, user_id2_conv from conversations where (user_id1_conv=:user_id and user_id2_conv=:to_user_id) or (user_id1_conv=:to_user_id2 and user_id2_conv=:user_id2)";
+        $result = $this->config_Class->query($sql, array(":user_id"=>USER_ID, ":to_user_id"=>$to_user_id, ":user_id2"=>USER_ID, ":to_user_id2"=>$to_user_id));
+        return $result["result"];
+    }
+    public function hideConversationModel($to_user_id) {
+        $sql = "select user_id1_conv, user_id2_conv from conversations where (user_id1_conv=:user_id and user_id2_conv=:to_user_id) or (user_id1_conv=:to_user_id2 and user_id2_conv=:user_id2)";
+        $conv = $this->config_Class->query($sql, array(":user_id"=>USER_ID, ":to_user_id"=>$to_user_id, ":user_id2"=>USER_ID, ":to_user_id2"=>$to_user_id));
+        // Check current user id1 or id in conversation
+        if (isset($conv[0]["user_id1_conv"])) {
+            // if conversation exist
+            if ($conv[0]["user_id1_conv"] == USER_ID) {
+                $sql = "update conversations set hide_messages_u1 = 1";
+            } else {
+                $sql = "update conversations set hide_messages_u2 = 1";
+            }
+            $result = $this->config_Class->query($sql);
+        } else {
+            // if conversation not exist
+            $sql = "insert into conversations (user_id1_conv, user_id2_conv, hide_messages_u1) values (:user_id, :to_user_id, 1)";
+            $result = $this->config_Class->query($sql, array(":user_id"=>USER_ID, ":to_user_id"=>$to_user_id));
+        }
+        if ($result) {
+           return array("result" => true);
+        } else {
+           return array("result" => false);
+        }
+    }
 
     public function addNewV2Post($text="",$img="",$forceTopic=0,$asMessage=0){
         $text=$this->config_Class->escapeOddChars($text);
