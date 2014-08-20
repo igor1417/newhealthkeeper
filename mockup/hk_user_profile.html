@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Healthkeep - Main</title>
+    <meta name="viewport" content="initial-scale = 1, user-scalable = no">
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="js/jquery-2.1.0.js"></script>
+    <script src="js/bootstrap.js"></script>
+</head>
+<body>
+<header class="navbar navbar-static-top bs-docs-nav" id="top" role="banner">
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand">
+                <div class="logo">
+                    <img src="img/logo.png">
+                    <p>Health<span>Keep</span></p>
+                </div>
+            </a>
+        </div>
+        <nav class="navbar-collapse bs-navbar-collapse collapse" role="navigation" style="height: 1px;">
+            <div class="alerts">
+                <a href="#" class="mail">
+                    <div class="circle red flex-center"><span>3</span></div>
+                </a>
+                <a href="#" class="user">
+                </a>
+                <a href="#" class="settings">
+                </a>
+            </div>
+            <ul class="nav navbar-nav pull-right">
+                <li class="search inp-group">
+                    <input type="text" class="" placeholder="Search"><span><i class="glyphicon glyphicon-search"></i></span>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<div class="container page-container">
+    <div class="row">
+        <!-- ***************** MAIN MENU ********************* -->
+        <div class="col-lg-2 col-md-2 col-sm-3 left-col pos-none">
+            <ul class="side-bar hidden-xs">
+                <li class="sb-item">
+                    <a href="#">My profile</a>
+                </li>
+                <li class="sb-item">
+                    <a href="#">My Journal</a>
+                </li>
+                <li class="sb-item">
+                    <a href="#">Community</a>
+                </li>
+                <li class="sb-item">
+                    <a href="#">Search</a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- ***************** TABS ********************* -->
+        <div class="col-lg-10 col-md-10 col-sm-9 right-col">
+            <ul id="three-tabs" class="nav nav-tabs">
+                <li class="active"><a href="#community" data-toggle="tab">Community</a></li>
+                <li class=""><a href="#articles" data-toggle="tab">Articles</a></li>
+                <!--<li class=""><a href="#tracking" data-toggle="tab">Tracking</a></li>-->
+            </ul>
+            <div class="row marg-30">
+                <div class="col-md-8 flex-box padding-left-30">
+                    <div class="btn btn-default btn-discuss"><i class="settings-glypth"></i> Start a discussion</div>
+                    <div class="btn btn-default btn-inbox"><i class="settings-glypth"></i> Inbox</div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 divider">
+                    <div class="hr marg-b-15"></div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-8 profile-main">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="profile-base-info flex-box-around">
+                                <img class="img-responsive img-rounded profile-ava" src="img/member.jpg">
+                                <ul>
+                                    <li class="profile-head">Profile : User12345</li>
+                                    <li class="age profile-text">Male, 30-40 years old</li>
+                                    <li class="job profile-text">Teacher, New Jersey</li>
+                                    <li>
+                                        <a class="edit" href="">Edit personal information</a>
+                                    </li>
+                                    <li class="p-body profile-text"><strong>Weight: </strong>180 lb ,<strong>Height: </strong>5'11"</li>
+                                    <li>
+                                        <a class="edit" href="">Edit health</a>
+                                    </li>
+                                    <li class="last-login profile-text"><strong>Last login: </strong>Just now</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <ul class="flex-box">
+                                <li class="flex-column-center">
+                                    <div class="p-share"></div>
+                                    <span class="count profile-text">231</span>
+                                </li>
+                                <li class="flex-column-center">
+                                    <div class="p-like"></div>
+                                    <span class="count profile-text">231</span>
+                                </li>
+                                <li class="flex-column-center">
+                                    <div class="p-comment"></div>
+                                    <span class="count profile-text">231</span>
+                                </li>
+                                <li class="flex-column-center">
+                                    <div class="p-star"></div>
+                                    <span class="count profile-text">231</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <p class="profile-head">Biography</p>
+                            <p class="profile-text">
+                                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmodtem por incididunt ut labore et dolore magna aliqua. Ut enim admin
+                                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmodtem por incididunt ut labore et dolore magna aliqua. Ut enim admin
+                                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmodtem por incididunt ut labore et dolore magna aliqua. Ut enim admin
+                                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmodtem por incididunt ut labore et dolore magna aliqua. Ut enim admin
+                            </p>
+                            <a href="" class="edit">Edit biography</a>
+                        </div>
+                    </div>
+                    <div class="row marg-t-15">
+                        <div class="col-md-12">
+                            <p class="profile-head">Community</p>
+                            <a href="" class="edit">Followers : 20</a>
+                            <a href="" class="edit">Following : 320</a>
+                        </div>
+                    </div>
+                    <div class="row marg-t-15">
+                        <div class="col-md-12">
+                            <p class="profile-head">Health Goals</p>
+                            <ul>
+                                <li>
+                                    <span class="profile-text">Lorem ipsum</span>
+                                    <a href="" class="edit">Delete</a>
+                                </li>
+                                <li>
+                                    <span class="profile-text">Lorem ipsum</span>
+                                    <a href="" class="edit">Delete</a>
+                                </li>
+                            </ul>
+                            <a href="" class="edit">Add a health goal</a>
+                        </div>
+                    </div>
+                    <div class="row marg-t-15">
+                        <div class="col-md-12">
+                            <p class="profile-head">Providers</p>
+                            <ul>
+                                <li>
+                                    <span class="profile-text">Lorem ipsum</span>
+                                    <a href="" class="edit">Delete</a>
+                                </li>
+                                <li>
+                                    <span class="profile-text">Lorem ipsum</span>
+                                    <a href="" class="edit">Delete</a>
+                                </li>
+                            </ul>
+                            <a href="" class="edit">Add a provider</a>
+                        </div>
+                    </div>
+                    <div class="row marg-t-15">
+                        <div class="col-md-12">
+                            <p class="journal-discuss">Journal &amp; Discussion</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="flex-box">
+                                <input type="text" class="journal-title common-border common-padding" placeholder="Journal title">
+                                <div class="btn btn-default btn-attach common-border flex-center"><i class="attach"></i></div>
+                            </div>
+                            <textarea rows="4" class="common-padding common-border journal-entry marg5" placeholder="Write a journal entry"></textarea>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="btn btn-default btn-common-style btn-share-journal pull-right">Share</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <ul class="comments-list">
+                                <li class="comment-item">
+                                    <div class="flex-box comment-head">
+                                        <div>
+                                            <img class="img-responsive img-rounded comment-ava pull-left" src="img/member.jpg">
+                                            <div class="pull-left comment-info">
+                                                <p class="profile-head">User1234</p>
+                                                <a href="" class="edit">Edit comment</a>
+                                                <a href="" class="edit">Delete comment</a>
+                                                <p class="p-avatar2">1 hour ago</p>
+                                            </div>
+                                        </div>
+                                        <ul class="hugs">
+                                            <li class="pull-left">
+                                                <div class="p-like flex-inline ">
+                                                    <span class="inner-digit">2</span>
+                                                </div>
+                                                <span class="hugs-text">hugs</span>
+                                            </li>
+                                            <li class="pull-left">
+                                                <div class="p-comment flex-inline">
+                                                    <span class="inner-digit">2</span>
+                                                </div>
+                                                <span class="comments-text">comments</span>
+                                            </li>
+                                            <li class="pull-left">
+                                                <div class="p-alert flex-inline">
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="comment-body">
+                                        <h5 class="profile-head">Title of comment</h5>
+                                        <p class="profile-text">
+                                            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmodtem por incididunt ut labore et dolore magna aliqua. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officidese runt mollit excepteur sint occaecat cupidatat non proident occaecat cupidatat non proident, sunt in culpa qui officidese runt proident mollit ...
+                                        </p>
+                                        <span class="trigger">Trigger Condition 1</span>
+                                        <span class="trigger">Trigger Condition 2</span>
+                                        <div>
+                                            <div class="pull-left btn btn-default btn-comment-reply">Reply</div>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 profile-meds">
+                    <div class="meds-group">
+                        <h5 class="med-head">Medications</h5>
+                        <ul class="meds-list">
+                            <li class="flex-box marg5">
+                                <span class="profile-text">Lorem ipsum dolor </span>
+                                <a class="edit" href="">Delete</a>
+                            </li>
+                            <li class="flex-box marg5">
+                                <span class="profile-text">Lorem ipsum dolor </span>
+                                <a class="edit" href="">Delete</a>
+                            </li>
+                            <li class="flex-box marg5">
+                                <span class="profile-text">Lorem ipsum dolor </span>
+                                <a class="edit" href="">Delete</a>
+                            </li>
+                            <li class="flex-box marg-b-10">
+                                <span class="profile-text">Lorem ipsum dolor </span>
+                                <a class="edit" href="">Delete</a>
+                            </li>
+                            <li class="flex-box marg-b-10">
+                                <input type="text" class="common-border common-padding meds-input" placeholder="Add a new medication">
+                                <div class="btn btn-default btn-common-style common-padding">Add</div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="meds-group">
+                        <h5 class="med-head">Procedres</h5>
+                        <ul class="meds-list">
+                            <li class="flex-box marg5">
+                                <span class="profile-text">Lorem ipsum dolor </span>
+                                <a class="edit" href="">Delete</a>
+                            </li>
+                            <li class="flex-box marg-b-10">
+                                <input type="text" class="common-border common-padding meds-input" placeholder="Add a new procedure">
+                                <div class="btn btn-default btn-common-style common-padding">Add</div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="meds-group">
+                        <h5 class="med-head">Conditions</h5>
+                        <ul class="meds-list">
+                            <li class="flex-box marg5">
+                                <span class="profile-text">Lorem ipsum dolor </span>
+                                <a class="edit" href="">Delete</a>
+                            </li>
+                            <li class="flex-box marg5">
+                                <span class="profile-text">Lorem ipsum dolor </span>
+                                <a class="edit" href="">Delete</a>
+                            </li>
+                            <li class="flex-box marg5">
+                                <span class="profile-text">Lorem ipsum dolor </span>
+                                <a class="edit" href="">Delete</a>
+                            </li>
+                            <li class="flex-box marg5">
+                                <span class="profile-text">Lorem ipsum dolor </span>
+                                <a class="edit" href="">Delete</a>
+                            </li>
+                            <li class="flex-box marg5">
+                                <span class="profile-text">Lorem ipsum dolor </span>
+                                <a class="edit" href="">Delete</a>
+                            </li>
+                            <li class="flex-box marg5">
+                                <span class="profile-text">Lorem ipsum dolor </span>
+                                <a class="edit" href="">Delete</a>
+                            </li>
+                            <li class="flex-box marg-b-10">
+                                <input type="text" class="common-border common-padding meds-input" placeholder="Add a new condition">
+                                <div class="btn btn-default btn-common-style common-padding">Add</div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="meds-group">
+                        <h5 class="med-head">Symptoms</h5>
+                        <ul class="meds-list">
+                            <li class="flex-box marg5">
+                                <span class="profile-text">Lorem ipsum dolor </span>
+                                <a class="edit" href="">Delete</a>
+                            </li>
+                            <li class="flex-box marg5">
+                                <span class="profile-text">Lorem ipsum dolor </span>
+                                <a class="edit" href="">Delete</a>
+                            </li>
+                            <li class="flex-box marg5">
+                                <span class="profile-text">Lorem ipsum dolor </span>
+                                <a class="edit" href="">Delete</a>
+                            </li>
+                            <li class="flex-box marg5">
+                                <span class="profile-text">Lorem ipsum dolor </span>
+                                <a class="edit" href="">Delete</a>
+                            </li>
+                            <li class="flex-box marg5">
+                                <span class="profile-text">Lorem ipsum dolor </span>
+                                <a class="edit" href="">Delete</a>
+                            </li>
+                            <li class="flex-box marg-b-10">
+                                <input type="text" class="common-border common-padding meds-input" placeholder="Add a new symptom">
+                                <div class="btn btn-default btn-common-style common-padding">Add</div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- PAGINATION -->
+            <ul class="paginator">
+                <li><a href="#">Back</a></li>
+                <li class="selected"><a href="#">1</a></li>
+                <li><a href="#">2</a></li>
+                <li><a href="#">3</a></li>
+                <li class="pag-space"><a href="#">...</a></li>
+                <li><a href="#">15</a></li>
+                <li><a href="#">Next</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<footer><span>&copy; 2014 HealthKeep. All rights reserved.</span></footer>
+</body>
+</html>

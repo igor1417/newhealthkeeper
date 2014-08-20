@@ -22,6 +22,10 @@ header .navbar-brand {
   margin-top: 15px;
   margin-bottom: 15px;
 }
+.marg-30 {
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
 .marg2 {
   margin-right: 10px;
 }
@@ -31,8 +35,17 @@ header .navbar-brand {
 .marg4 {
   margin-top: 4px;
 }
+.marg5{
+  margin: 5px 0;
+}
 .marg-b-15{
   margin-bottom: 15px;
+}
+.marg-b-10 {
+  margin-bottom: 10px;
+}
+.marg-t-15 {
+  margin-top: 15px;
 }
 .width-100{
   width: 100%;
@@ -61,6 +74,11 @@ header .navbar-brand {
   border: 1px solid #c0d6eb;
   padding-right: 25px;
 }
+.common-border{
+  border-radius: 5px;
+  border: 1px solid #c0d6eb;
+}
+
 .inp-group i {
   display: inline-block;
   margin-left: -25px;
@@ -83,21 +101,33 @@ ul {
 }
 .mail {
   position: relative;
-  background: url('../img/sprites.png') left top no-repeat;
-  width: 28px;
+  background: url('../img/sprites_hd.png') left top no-repeat;
+  background-size: 400px 26px;
+  width: 34px;
   height: 28px;
-  background-position: -28px 0px;
+  background-position: -129px 0px;
   float: left;
 }
-.user {
+.user , .settings{
   position: relative;
-  background: url('../img/sprites.png') left top no-repeat;
-  width: 28px;
+  background: url('../img/sprites_hd.png') left top no-repeat;
+  background-size: 400px 26px; //half sprite size
+  width: 30px;
   height: 28px;
-  background-position: -28px 0px;
   float: left;
-  background-position: 0px 0px;
+  background-position: -167px 0px;
   margin-left: 15px;
+}
+.settings-glypth{
+  background: url('../img/sprites_hd.png') left top no-repeat;
+  background-size:200px 14px; //half sprite size
+  width: 14px;
+  height: 14px;
+  background-position: -147px 0px;
+  display: inline-block;
+}
+.settings{
+  background-position: -200px 0px;
 }
 .alerts {
   display: inline-block;
@@ -130,8 +160,17 @@ ul {
 }
 .flex-center {
   display: flex;
+  display: -ms-flexbox;
   justify-content: center;
+  -ms-flex-pack: center;
   align-items: center;
+}
+.flex-column-center{
+  display: flex;
+  display: -ms-flexbox;
+  flex-direction: column;
+  align-items: center;
+  -ms-flex-align: center;
 }
 .sb-item {
   display: block;
@@ -168,8 +207,11 @@ ul {
 }
 .iconed a {
   display: flex;
+  display: -ms-flexbox;
   align-items: center;
   justify-content: flex-start;
+  -ms-flex-pack: start;
+  -ms-flex-align: center;
 }
 .iconed a p {
   margin: 0 0 0 10px;
@@ -178,7 +220,7 @@ ul {
   background-color: #4e84c4;
 }
 #three-tabs li {
-  width: 33.333333333333333333%;
+  width: 50%;
   border: none;
   text-align: center;
   text-transform: uppercase;
@@ -204,7 +246,9 @@ ul {
 .filter {
   overflow: hidden;
   display: flex;
+  display: -ms-flexbox;
   align-items: center;
+  -ms-flex-pack: start;
   margin: 0;
 }
 .fi-item {
@@ -223,37 +267,55 @@ ul {
 .fi-item .active {
   color: #306099;
 }
-.btn-discuss {
+.btn-discuss, .btn-inbox {
   background-color: #306099;
   color: #ffffff;
   font-size: 16px;
   text-transform: uppercase;
   display: inline-block;
   position: relative;
-  padding-left: 40px;
+  box-shadow: lightgray 2px 2px 2px 0px
 }
 .btn-discuss:hover {
   background-color: #3c78c0;
+}
+.btn-inbox{
+  background-color: #de4b65;
+  &:hover{
+    background-color: lighten(#de4b65, 10%);
+  }
 }
 .btn-discuss:hover .ico-star {
   color: #000000;
 }
 .side-bar {
-  min-height: 100%;
   background-color: #5f91cc;
+  /*min-height: 100%;
   margin: 0;
   position: absolute;
   top: 0px;
   left: -15px;
   bottom: 0px;
   padding-top: 115px;
-  width: 17.977%;
+  width: 17.977%;*/
 }
 .flex-box {
   display: flex;
+  display: -ms-flexbox;
   justify-content: space-between;
+  -ms-flex-pack: justify;
+  -ms-flex-align: center;
   align-items: center;
-  border-bottom: 1px solid #dfe9f5;
+ // border-bottom: 1px solid #dfe9f5;
+}
+.flex-box-around {
+  display: flex;
+  display: -ms-flexbox;
+  justify-content: space-around;
+  align-items: center;
+  -ms-flex-pack: distribute;
+  -ms-flex-align: center;
+  // border-bottom: 1px solid #dfe9f5;
 }
 h1 {
   color: #000000;
@@ -316,14 +378,53 @@ h2 {
 }
 .flex-vertical {
   display: flex;
+  display: -ms-flexbox;
   align-items: center;
+  -ms-flex-align: center;
+}
+.p-like,.p-comment, .p-share, .p-star, .p-alert {
+  background: url('../img/sprites_hd.png') left top no-repeat;
+  background-size: 400px 26px; //half sprite size
+  width: 30px;
+  height: 27px;
+  font-size: 13px;
+  font-family: Arial;
+  color: #ffffff;
+}
+.p-like{
+  background-position: -30px 0;
+}
+.p-comment{
+  background-position: -65px 0;
+}
+.p-share{
+  background-position: 3px 0;
+}
+.p-star{
+  background-position: -98px 0;
+}
+.p-alert{
+  background-position: -260px 0;
+}
+.flex-inline{
+  justify-content: center;
+  align-items: center;
+  -ms-flex-pack: center;
+  -ms-flex-align: center;
+  display: inline-flex;
+  display: -ms-inline-flexbox;
+}
+.flex-box-start{
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+  -ms-flex-align: center;
+  align-items: center;
+  display: flex;
+  display: -ms-flexbox;
 }
 .like,
 .comment {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  display: inline-flex;
+  .flex-inline;
   background: url('../img/sprites.png');
   width: 28px;
   height: 28px;
@@ -715,4 +816,123 @@ h5 {
 .forgot-pass-link{
   text-decoration: none;
   color: #5d82b1;
+}
+//profile-styles//
+.profile-main{
+  padding: 0 15px 0 30px;
+}
+.padding-left-30{
+  padding-left: 30px;
+}
+.profile-head{
+  color: #5f91cc;
+  font-size: 18px;
+  font-weight: bold;
+  margin: 0;
+}
+.edit{
+  color: #5f91cc;
+  font-size: 16px;
+  text-decoration: underline;
+}
+.profile-text{
+  font-size: 16px;
+  color: #6f6f71;
+}
+.journal-discuss{
+  color: #316098;
+  background-color: #dfe9f5;
+  font-size: 20px;
+  font-weight: bold;
+  padding: 0px 10px;
+}
+.journal-title{
+  padding: 6px 12px;
+  width: 90%;
+}
+.btn-attach{
+  padding: 2px 0;
+  width: 8%;
+}
+.common-padding{
+  padding: 5px 10px;
+}
+.meds-input{
+  width: 75%;
+}
+.meds-group{
+  background-color: #f5f8fd;
+}
+.meds-list{
+  padding: 0 20px 0 20px;
+}
+.med-head{
+  background-color: #316098;
+  color: white;
+  font-size: 18px;
+  font-weight: bold;
+  margin: 0;
+  padding: 5px 20px;
+}
+.btn-common-style{
+  background-color: #5f91cc;
+  color: #ffffff;
+  &:hover{
+    background-color: darken(#5f91cc , 15%);
+  }
+}
+.journal-entry{
+  resize: none;
+  width: 100%;
+}
+.attach{
+  background: url('../img/sprites_hd.png') left top no-repeat;
+  background-size: 400px 26px;
+  width: 30px;
+  height: 26px;
+  background-position: -230px 0px;
+  display: inline-block;
+}
+.btn-share-journal{
+  padding: 5px 25px;
+}
+.profile-ava{
+  max-width: 140px;
+  max-height: 140px;
+}
+.comment-ava{
+  max-width: 50px;
+  max-height: 50px;
+}
+.hugs{
+  li{
+    margin: 0 10px;
+    display: block;
+  }
+}
+.comment-info{
+  margin-left: 15px;
+}
+.trigger{
+  display: inline-block;
+  margin-right: 15px;
+  color: #5f91cc;
+}
+.comment-body{
+  padding-left: 65px;
+}
+.btn-comment-reply{
+  padding: 5px 50px;
+  background-color: #dfe9f5;
+  color: #83a7db;
+  font-size: 14px;
+  font-weight: bold;
+  border: none;
+  margin-top: 10px;
+}
+.divider{
+  padding: 0 30px;
+}
+.hr{
+  border-bottom: 1px solid #eff4fa;
 }
