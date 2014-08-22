@@ -268,7 +268,7 @@ ul {
   color: #306099;
 }
 .btn-discuss,
-.btn-inbox {
+.btn-inbox, .btn-follow {
   background-color: #306099;
   color: #ffffff;
   font-size: 16px;
@@ -280,14 +280,33 @@ ul {
 .btn-discuss:hover {
   background-color: #3c78c0;
 }
-.btn-inbox {
+.btn-inbox, .btn-follow {
   background-color: #de4b65;
 }
-.btn-inbox:hover {
+.btn-inbox:hover, .btn-follow:hover {
   background-color: #e6768a;
 }
 .btn-discuss:hover .ico-star {
   color: #000000;
+}
+.btn-comment-reply, .btn-send-message {
+  padding: 5px 50px;
+  background-color: #dfe9f5;
+  color: #83a7db;
+  font-size: 14px;
+  font-weight: bold;
+  border: none;
+  margin-top: 10px;
+}
+.btn-follow{
+    font-size: 13px;
+    text-transform: none;
+    padding: 2px 22px;    
+}
+.btn-send-message{
+    margin: 0 0 0 10px;
+    padding: 2px 16px;
+    font-weight: normal;    
 }
 .side-bar {
   background-color: #5f91cc;
@@ -939,18 +958,14 @@ h5 {
 .comment-body {
   padding-left: 65px;
 }
-.btn-comment-reply {
-  padding: 5px 50px;
-  background-color: #dfe9f5;
-  color: #83a7db;
-  font-size: 14px;
-  font-weight: bold;
-  border: none;
-  margin-top: 10px;
-}
+
 .divider {
   padding: 0 30px;
 }
 .hr {
   border-bottom: 1px solid #eff4fa;
+}
+.comment-item
+{
+ margin-bottom: 20px;
 }
