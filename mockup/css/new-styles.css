@@ -1,0 +1,14 @@
+.logo {
+    display: inline-block;
+    text-decoration: none;
+    cursor: pointer;
+}
+.logo p {
+    color: #5e92cc;
+    display: inline-block;
+    font-size: 25px;
+    vertical-align: sub;
+}
+.logo p span {
+    color: #e65d71;
+}
